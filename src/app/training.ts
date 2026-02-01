@@ -1,15 +1,15 @@
 // 3. Создать функцию, которая принимает 2 числа и возвращает их сумму. Полностью типизировать параметры, значение, возвращаемое функцией.
 
-function sumNumbers(a: number, b: number): number {
+function getSumNumbers(a: number, b: number): number {
   return a + b;
 }
 
-sumNumbers(2, 3);
+getSumNumbers(2, 3);
 
 // 4. Создать переменную status, которая может быть только: "loading", "success", "error".
 
 type Status = 'loading' | 'success' | 'error';
-const statuss: Status = 'error';
+const uploadStatus: Status = 'error';
 
 // 5. Создать переменную textFormat, которая может быть только: 'uppercase', 'lowercase', 'capitalize'".
 
@@ -42,7 +42,7 @@ interface IStudent extends IUser {
 
 // 8. Создать функцию, которая принимает строку и вариант,  как именно форматировать строку (задание №5) и на основе этого возвращает форматированную строку.
 
-function formatString(text: string, format: TextFormat): string {
+function getFormatString(text: string, format: TextFormat): string {
   switch (format) {
     case 'uppercase':
       return text.toUpperCase();
@@ -54,18 +54,18 @@ function formatString(text: string, format: TextFormat): string {
   }
 }
 
-console.log(formatString('hello world', 'uppercase'));
-console.log(formatString('hello world', 'lowercase'));
-console.log(formatString('hello world', 'capitalize'));
+console.log(getFormatString('hello world', 'uppercase'));
+console.log(getFormatString('hello world', 'lowercase'));
+console.log(getFormatString('hello world', 'capitalize'));
 
 // 9. Создать функцию, которая принимает строку и символ, возвращает строку без переданного символа.
 
-function removeChar(text: string, char: string): string {
+function getString(text: string, char: string): string {
   return text.split(char).join('');
 }
 
-console.log(removeChar('banana', 'a'));
-console.log(removeChar('test', 'a'));
+console.log(getString('banana', 'a'));
+console.log(getString('test', 'a'));
 
 // 10. Создать массив объектов на основе интерфейса с задания №6. Отфильтровать его по одному из параметров.
 
@@ -93,4 +93,4 @@ const users: IUser[] = [
   },
 ];
 
-const filteredByEmail = users.filter((user) => user.email.includes('gmail.ru'));
+const filteredByEmail: IUser[] = users.filter((user) => user.email.includes('gmail.ru'));
