@@ -16,18 +16,18 @@ export class AppComponent {
   }
 
   constructor() {
-    this.getLastVisitDate();
-    this.getVisitCount();
+    this.setLastVisitDate();
+    this.setVisitCount();
   }
 
-  getLastVisitDate() {
+  setLastVisitDate() {
     const currentDate = new Date();
     const dateString = currentDate.toISOString();
-    window.localStorage.setItem('lastVisitDate', dateString);
+    localStorage.setItem('lastVisitDate', dateString);
     console.log('Дата последнего захода на страницу:', dateString);
   }
 
-  getVisitCount() {
+  setVisitCount() {
     const currentCount = localStorage.getItem('visitCount');
     let visitCount = currentCount ? parseInt(currentCount, 10) : 0;
     visitCount++;
