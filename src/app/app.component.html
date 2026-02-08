@@ -1,43 +1,66 @@
-<div class="container">
-  <header class="header">
-    <div class="header-logo">
-      <img src="/images/mountain-icon.svg" alt="mountain" />
-      <span class="company-name">{{ companyName }}</span>
+<div class="main-container">
+  <!-- Первый блок -->
+  <div class="header-block">
+    <header class="header">
+      <div class="header-logo">
+        <img src="/images/mountain-icon.svg" alt="mountain" />
+        <span class="company-name">{{ companyName }}</span>
+      </div>
+      <nav class="header-nav">
+        <ul class="header-nav-list">
+          <li>
+            <a href="#">Главная</a>
+          </li>
+          <li>
+            <a href="#">Про гида</a>
+          </li>
+          <li>
+            <a href="#">Программа тура</a>
+          </li>
+          <li>
+            <a href="#">Стоимость</a>
+          </li>
+          <li>
+            <a href="#">Блог</a>
+          </li>
+          <li>
+            <a href="#">Контакты</a>
+          </li>
+          <button class="consult-btn">Консультация</button>
+        </ul>
+      </nav>
+    </header>
+    <h1 class="main-title">Насладись прогулкой в горах с командой единомышленников</h1>
+    <div class="search-block">
+      <form class="search-form">
+        <div class="input-block">
+          <select class="input-field">
+            <option disabled selected>Локация для тура</option>
+          </select>
+          <span class="hint">выберите из списка</span>
+        </div>
+        <div class="input-block">
+          <select class="input-field">
+            <option disabled selected>Дата похода</option>
+          </select>
+          <span class="hint">укажите дату</span>
+        </div>
+        <div class="input-block">
+          <select class="input-field">
+            <option disabled selected>Участники</option>
+          </select>
+          <span class="hint">выберите из списка</span>
+        </div>
+        <button class="search-form-btn">Найти программу</button>
+      </form>
     </div>
-    <nav class="header-nav">
-      <ul class="header-nav-list">
-        <li><a href="#">Главная</a></li>
-        <li><a href="#">Про гида</a></li>
-        <li><a href="#">Программа тура</a></li>
-        <li><a href="#">Стоимость</a></li>
-        <li><a href="#">Блог</a></li>
-        <li><a href="#">Контакты</a></li>
-        <button class="consult-btn">Консультация</button>
-      </ul>
-    </nav>
-  </header>
-  <h1 class="main-title">Насладись прогулкой в горах с командой единомышленников</h1>
-  <div class="search-block">
-    <form class="search-form">
-      <div class="input-block">
-        <select class="input-field">
-          <option disabled selected>Локация для тура</option>
-        </select>
-        <span class="hint">выберите из списка</span>
+  </div>
+  <!-- Второй блок -->
+  <div class="programs-block">
+    <div class="programs-tour-block">
+      <div class="mountain-tour">
+        <img src="/public/images/mountain-program-tour.jpg" alt="mountain-tour" />
       </div>
-      <div class="input-block">
-        <select class="input-field">
-          <option disabled selected>Дата похода</option>
-        </select>
-        <span class="hint">укажите дату</span>
-      </div>
-      <div class="input-block">
-        <select class="input-field">
-          <option disabled selected>Участники</option>
-        </select>
-        <span class="hint">выберите из списка</span>
-      </div>
-      <button class="search-form-btn">Найти программу</button>
-    </form>
+    </div>
   </div>
 </div>

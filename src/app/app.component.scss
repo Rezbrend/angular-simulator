@@ -1,6 +1,9 @@
-.container {
+.main-container {
   display: block;
   width: 1920px;
+}
+
+.header-block {
   background-image: url('/images/bg-main.png');
   background-repeat: no-repeat;
   width: 1920px;
@@ -8,7 +11,7 @@
   color: var(--white-color);
 }
 
-.company-name{
+.company-name {
   letter-spacing: 6px;
   margin-left: 8px;
 }
@@ -123,4 +126,22 @@ a {
   height: 52px;
   border-radius: 4px;
   border: none;
+}
+
+.programs-block {
+  height: 726px;
+}
+
+.programs-tour-block {
+  background-color: rgb(83, 163, 131);
+  width: 1180px;
+  height: 526px;
+  margin-top: 100px;
+  margin-left: 370px;
+}
+
+.mountain-tour {
+  width: 350;
+  height: 400;
+  border-radius: 24px;
 }

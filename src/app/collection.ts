@@ -26,15 +26,5 @@ export class Collection<T> {
   }
 }
 
-const fruitsCollection = new Collection<string>(['яблоко', 'банан', 'апельсин', 'груша']);
-const gradesCollection = new Collection<number>([4, 5, 3, 5, 4, 2]);
-
-console.log('Получаем все фрукты:', fruitsCollection.getAllItemsCollection());
-console.log('Получаем апельсин:', fruitsCollection.getSpecificItemCollection(2));
-console.log('Очистка оценок', gradesCollection.clearCollection());
-
-fruitsCollection.deleteSpecificItemCollection(0);
-console.log('Удалил яблоко:', fruitsCollection.getAllItemsCollection());
-
-gradesCollection.replaceSpecificItemCollection(2, 5);
-console.log('После замены:', gradesCollection.getAllItemsCollection());
+const fruitsCollection: Collection<string> = new Collection<string>(['яблоко', 'банан', 'апельсин', 'груша']);
+const gradesCollection: Collection<number> = new Collection<number>([4, 5, 3, 5, 4, 2]);
