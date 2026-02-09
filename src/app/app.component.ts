@@ -10,6 +10,7 @@ import { Color } from '../enums/Color';
 })
 export class AppComponent {
   companyName: string = 'РУМТИБЕТ';
+
   isPrimaryColor(color: Color): boolean {
     const primaryColors: Color[] = [Color.RED, Color.GREEN, Color.BLUE];
     return primaryColors.includes(color);
@@ -20,16 +21,16 @@ export class AppComponent {
     this.setVisitCount();
   }
 
-  setLastVisitDate() {
-    const currentDate = new Date();
-    const dateString = currentDate.toISOString();
+  setLastVisitDate(): void {
+    const currentDate: Date = new Date();
+    const dateString: string = currentDate.toISOString();
     localStorage.setItem('lastVisitDate', dateString);
     console.log('Дата последнего захода на страницу:', dateString);
   }
 
-  setVisitCount() {
-    const currentCount = localStorage.getItem('visitCount');
-    let visitCount = currentCount ? parseInt(currentCount, 10) : 0;
+  setVisitCount(): void {
+    const currentCount: string | null = localStorage.getItem('visitCount');
+    let visitCount: number = currentCount ? parseInt(currentCount, 10) : 0;
     visitCount++;
     localStorage.setItem('visitCount', visitCount.toString());
     console.log('Количество заходов:', visitCount);
