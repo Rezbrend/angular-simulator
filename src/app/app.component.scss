@@ -1,0 +1,147 @@
+.main-container {
+  display: block;
+  width: 1920px;
+}
+
+.header-block {
+  background-image: url('/images/bg-main.png');
+  background-repeat: no-repeat;
+  width: 1920px;
+  height: 985px;
+  color: var(--white-color);
+}
+
+.company-name {
+  letter-spacing: 6px;
+  margin-left: 8px;
+}
+
+.header {
+  width: 1180px;
+  height: 72px;
+  padding-top: 16px;
+  padding-left: 370px;
+  gap: 212px;
+  display: flex;
+}
+
+.header-nav-list {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  padding-top: 23px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 18px;
+  white-space: nowrap;
+  font-weight: 600;
+  font-style: SemiBold;
+  color: var(--white-color);
+}
+
+.consult-btn {
+  margin-left: 49px;
+  color: var(--white-color);
+  background-color: #1a3e3e;
+  border: none;
+  width: 157px;
+  height: 44px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.company-name {
+  width: 130px;
+  height: 11px;
+  margin-top: 8.79px;
+  margin-left: 3.09px;
+}
+
+.main-title {
+  width: 1080px;
+  height: 150px;
+  margin-top: 463px;
+  margin-left: 370px;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 50px;
+  line-height: 150%;
+  letter-spacing: 2%;
+  text-transform: uppercase;
+}
+
+.search-block {
+  width: 1180px;
+  height: 161px;
+  margin-top: 41px;
+  margin-left: 370px;
+  border-radius: 10px;
+  background-color: #ffffff33;
+  backdrop-filter: blur(6px);
+}
+
+.search-form {
+  width: 1095px;
+  height: 81px;
+  padding-top: 40px;
+  padding-left: 43px;
+  gap: 24px;
+  color: var(--white-color);
+  display: flex;
+}
+
+.input-field {
+  width: 270px;
+  height: 52px;
+  padding-left: 16px;
+  border: 1px solid #fdfdfd;
+  border-radius: 8px;
+  background-color: transparent;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--white-color);
+}
+
+.hint {
+  display: block;
+  margin-top: 8px;
+  margin-left: 8px;
+  color: var(--white-color);
+  font-size: 14px;
+  font-weight: 400;
+  font-style: Regular;
+  line-height: 150%;
+}
+
+.search-form-btn {
+  color: #1a3e3e;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  width: 213px;
+  height: 52px;
+  border-radius: 4px;
+  border: none;
+}
+
+.programs-block {
+  height: 726px;
+}
+
+.programs-tour-block {
+  background-color: rgb(83, 163, 131);
+  width: 1180px;
+  height: 526px;
+  margin-top: 100px;
+  margin-left: 370px;
+}
+
+.mountain-tour {
+  width: 350;
+  height: 400;
+  border-radius: 24px;
+}

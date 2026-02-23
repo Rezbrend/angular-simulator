@@ -1,0 +1,14 @@
+@use './fonts';
+@use './normalize';
+
+* {
+  font-family: 'Nunito Sans', sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+
+:root {
+  --primary-color: #18121E;
+  --secondary-color: #F2BE22;
+  --white-color: #FDFDFD;
+}
