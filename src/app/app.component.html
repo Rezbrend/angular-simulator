@@ -1,66 +1,149 @@
-<div class="main-container">
-  <!-- Первый блок -->
-  <div class="header-block">
-    <header class="header">
-      <div class="header-logo">
-        <img src="/images/mountain-icon.svg" alt="mountain" />
-        <span class="company-name">{{ companyName }}</span>
-      </div>
-      <nav class="header-nav">
-        <ul class="header-nav-list">
-          <li>
-            <a href="#">Главная</a>
-          </li>
-          <li>
-            <a href="#">Про гида</a>
-          </li>
-          <li>
-            <a href="#">Программа тура</a>
-          </li>
-          <li>
-            <a href="#">Стоимость</a>
-          </li>
-          <li>
-            <a href="#">Блог</a>
-          </li>
-          <li>
-            <a href="#">Контакты</a>
-          </li>
-          <button class="consult-btn">Консультация</button>
-        </ul>
-      </nav>
-    </header>
-    <h1 class="main-title">Насладись прогулкой в горах с командой единомышленников</h1>
-    <div class="search-block">
-      <form class="search-form">
-        <div class="input-block">
-          <select class="input-field">
-            <option disabled selected>Локация для тура</option>
-          </select>
-          <span class="hint">выберите из списка</span>
-        </div>
-        <div class="input-block">
-          <select class="input-field">
-            <option disabled selected>Дата похода</option>
-          </select>
-          <span class="hint">укажите дату</span>
-        </div>
-        <div class="input-block">
-          <select class="input-field">
-            <option disabled selected>Участники</option>
-          </select>
-          <span class="hint">выберите из списка</span>
-        </div>
-        <button class="search-form-btn">Найти программу</button>
-      </form>
-    </div>
+<div *ngIf="isLoading" class="loader-overlay">
+  <div class="loader-spinner">
+    <img class="loader-icon" src="/images/loading-page-icon.svg">
   </div>
-  <!-- Второй блок -->
-  <div class="programs-block">
-    <div class="programs-tour-block">
-      <div class="mountain-tour">
-        <img src="/public/images/mountain-tour.png" alt="mountain-tour" />
+  <p>Загрузка...</p>
+</div>
+
+<div *ngIf="!isLoading">
+  <header class="header">
+    <div class="header-container">
+      <div class="container main-header">
+        <div class="header-logo">
+          <img src="/images/mountain-icon.svg" alt="mountain" class="logo" />
+          <span class="company-name">{{ companyName }}</span>
+        </div>
+        <nav class="header-nav">
+          <a href="#">Главная</a>
+          <a href="#">Про гида</a>
+          <a href="#">Программа тура</a>
+          <a href="#">Стоимость</a>
+          <a href="#">Блог</a>
+          <a href="#">Контакты</a>
+          <button id="consult-btn">Консультация</button>
+        </nav>
+      </div>
+      <div class="header-date">
+        <div *ngIf="showDate">
+          <span class="mr-50">{{ currentDate }}</span>
+        </div>
+        <div *ngIf="showClicker" class="mr-50">
+          <button class="count-btns" (click)="decrement()" [disabled]="clickCount === 0">-</button>
+          <span class="count">{{ clickCount }}</span>
+          <button class="count-btns" (click)="increment()">+</button>
+        </div>
+        <button (click)="toggleDisplay()" class="show-date-btn">{{ buttonText }}</button>
       </div>
     </div>
-  </div>
+  </header>
+  <section class="main-info">
+    <div class="banner"></div>
+    <div class="main-info-title">
+      <h1 class="title">Насладись прогулкой в горах с командой единомышленников</h1>
+      <div class="search-block">
+        <form class="search-form">
+          <div class="input-block">
+            <select
+              (change)="onLocationChange()"
+              [(ngModel)]="location"
+              id="location"
+              name="location"
+              class="input-field"
+            >
+              <option disabled value="">Локация для тура</option>
+              <option value="alps">Альпы</option>
+            </select>
+            <span class="hint">выберите из списка</span>
+          </div>
+          <div class="input-block">
+            <div class="input-date">
+              <input
+                (ngModelChange)="onDateChange()"
+                [(ngModel)]="date"
+                type="date"
+                id="date"
+                name="date"
+                placeholder="Дата похода"
+                class="date-input"
+              />
+            </div>
+            <p class="hint">укажите дату</p>
+          </div>
+          <div class="input-block">
+            <select
+              (change)="onParticipantsChange()"
+              [(ngModel)]="participants"
+              class="input-field"
+              id="participants"
+              name="participants"
+            >
+              <option disabled value="">Участники</option>
+              <option value="2">2 человека</option>
+            </select>
+            <span class="hint">выберите из списка</span>
+          </div>
+          <button id="find-program-btn" type="submit" [disabled]="!isButtonEnabled">Найти программу</button>
+        </form>
+      </div>
+      <div class="live-input-container">
+        <input class="live-input" type="text" (input)="onInput()" [(ngModel)]="inputValue" />
+        <span class="entered-text">{{ displayedText }}</span>
+      </div>
+    </div>
+  </section>
+  <section class="programs-tour">
+    <div class="container programs-block">
+      <div class="programs-block-tour-images">
+        <img src="/images/mountain-tour.png" alt="Фон" />
+        <img src="/images/house-tour.png" alt="Наложение" class="overlay" />
+        <div class="play-btn-block">
+          <button class="play-btn">
+            <img src="/images/play-btn.svg" alt="play-btn" />
+          </button>
+        </div>
+      </div>
+      <div class="programs-block-tour-info">
+        <span class="subtitle">о нашем походе</span>
+        <h2 class="title">Исследуйте все горные массивы мира вместе с нами</h2>
+        <p class="description">Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur"и занялся его поисками в классической латинской литературе.</p>
+        <button id="programs-tour-btn">Программа тура</button>
+      </div>
+    </div>
+  </section>
+  <section class="service">
+    <div class="service-info">
+      <div class="service-title">
+        <span class="subtitle">наше предложение</span>
+        <h2 class="title">Лучшие программы для тебя</h2>
+      </div>
+      <p class="description">Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа.</p>
+      <div class="service-list">
+        @for (service of services; track service.id) {
+          <div class="service-list-block">
+            <div class="service-list-icon">
+              <img
+                src="/images/{{ service.icon }}.svg"
+                alt="icon"
+                alt="icon"
+                width="36px"
+                height="33px"
+                class="service-icon"
+              />
+            </div>
+            <div class="service-list-info">
+              <span class="program-features-title">{{ service.title }}</span>
+              <p class="program-features-description">{{ service.description }}</p>
+            </div>
+          </div>
+        }
+      </div>
+      <button id="service-price-btn">Стоимость программ</button>
+    </div>
+    <div class="service-images">
+      <img src="/images/programs-tour-image-one.png" />
+      <img src="/images/programs-tour-image-two.png" />
+      <img src="/images/programs-tour-image-three.png" />
+      <img src="/images/programs-tour-image-four.png" />
+    </div>
+  </section>
 </div>
