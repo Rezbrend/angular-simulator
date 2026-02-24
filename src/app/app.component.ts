@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Color } from '../enums/Color';
-import { IPrograms } from '../interfaces/IService.js';
+import { IPrograms } from '../interfaces/IPrograms.js';
 import './training.ts';
 
 @Component({
@@ -27,7 +27,7 @@ export class AppComponent {
   participants: string = '';
   isButtonEnabled: boolean = false;
   readonly companyName: string = 'РУМТИБЕТ';
-  
+
   programs: IPrograms[] = [
     {
       id: 1,
@@ -55,12 +55,12 @@ export class AppComponent {
   constructor() {
     this.setLastVisitDate();
     this.setVisitCount();
-    
-        setInterval(() => {
+
+    setInterval(() => {
       this.currentDate = new Date().toLocaleString();
     }, 1000);
-    
-        setTimeout(() => {
+
+    setTimeout(() => {
       this.isLoading = false;
     }, 2000);
   }
