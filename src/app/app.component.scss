@@ -275,7 +275,7 @@
 }
 
 #programs-tour-btn,
-#service-price-btn {
+#programs-price-btn {
   color: var(--white-color);
   background-color: var(--green-color);
   border: none;
@@ -287,7 +287,7 @@
   cursor: pointer;
 }
 
-.service {
+.programs {
   height: 771px;
   background-color: var(--light-gray-color);
   display: flex;
@@ -295,29 +295,29 @@
   align-items: center;
 }
 
-.service-icon {
+.programs-icon {
   background-color: #e5eeeb;
 }
 
-.service-list-block {
+.programs-list-block {
   display: flex;
   margin-top: 40px;
   height: 64px;
   cursor: pointer;
 }
 
-.service-list-block:hover {
+.programs-list-block:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: #d3e34b;
 }
 
-.service-info {
+.programs-info {
   width: 580px;
   height: 591px;
 }
 
-.service-list-icon {
+.programs-list-icon {
   width: 66px;
   height: 64px;
   align-items: center;
@@ -325,12 +325,12 @@
   display: flex;
 }
 
-.service-list-info {
+.programs-list-info {
   width: 514px;
   max-height: 64px;
 }
 
-.service-images {
+.programs-images {
   width: 510px;
   height: 510px;
   margin-left: 90px;
