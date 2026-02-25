@@ -11,7 +11,9 @@ import './training.ts';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
+
 export class AppComponent {
+  
   count: number = 0;
   isClicker: boolean = false;
   isLoading: boolean = true;
@@ -87,10 +89,6 @@ export class AppComponent {
     visitCount++;
     localStorage.setItem('visitCount', visitCount.toString());
     console.log('Количество заходов:', visitCount);
-  }
-
-  toggleDisplay() {
-    this.isClicker = !this.isClicker;
   }
 
   onInput() {
