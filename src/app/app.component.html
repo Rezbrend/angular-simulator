@@ -13,12 +13,12 @@
           <span class="company-name">{{ companyName }}</span>
         </div>
         <nav class="header-nav">
-          <a href="#" id="home">Главная</a>
-          <a href="#" id="about-guide">Про гида</a>
-          <a href="#" id="tour-program">Программа тура</a>
-          <a href="#" id="cost">Стоимость</a>
-          <a href="#" id="blog">Блог</a>
-          <a href="#" id="contacts">Контакты</a>
+          <a href="#" id="link-home">Главная</a>
+          <a href="#" id="link-about-guide">Про гида</a>
+          <a href="#" id="link-tour-program">Программа тура</a>
+          <a href="#" id="link-cost">Стоимость</a>
+          <a href="#" id="link-blog">Блог</a>
+          <a href="#" id="link-contacts">Контакты</a>
           <button id="consult-btn">Консультация</button>
         </nav>
       </div>
@@ -31,7 +31,7 @@
           <span class="count">{{ count }}</span>
           <button id="increment-btn" class="count-btns" (click)="count += 1">+</button>
         </div>
-        <button (click)="toggleDisplay()" id="show-date-btn" class="show-date-btn">
+        <button (click)="isClicker = !isClicker" id="show-date-btn" class="show-date-btn">
           {{ isClicker ? 'Показать дату' : 'Показать кликер' }}
         </button>
       </div>
@@ -106,7 +106,7 @@
         <img src="/images/mountain-tour.png" alt="Фон" />
         <img src="/images/house-tour.png" alt="Наложение" class="overlay" />
         <div class="play-btn-block">
-          <button id="play-btn" class="play-btn">
+          <button id="video-player-play-btn" class="play-btn">
             <img src="/images/green-play-btn-icon.svg" alt="play-btn-icon" />
           </button>
         </div>

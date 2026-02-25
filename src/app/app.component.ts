@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Color } from '../enums/Color';
-import { IPrograms } from '../interfaces/IPrograms.js';
+import { IProgram } from '../interfaces/IProgram.js';
 import './training.ts';
 
 @Component({
@@ -28,7 +28,7 @@ export class AppComponent {
   isButtonEnabled: boolean = false;
   readonly companyName: string = 'РУМТИБЕТ';
 
-  programs: IPrograms[] = [
+  programs: IProgram[] = [
     {
       id: 1,
       title: 'Опытный гид',
