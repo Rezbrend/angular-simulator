@@ -18,16 +18,11 @@ export class AppComponent {
   isClicker: boolean = false;
   isLoading: boolean = true;
   inputValue: string = '';
-  displayedText: string = '';
-  clickCount: number = 0;
-  buttonText: string = '';
-  showDate: boolean = true;
-  showClicker: boolean = false;
+  widget: string = 'date';
   currentDate: string = '';
   location: string = '';
   date: string = '';
   participants: string = '';
-  isButtonEnabled: boolean = false;
   readonly companyName: string = 'РУМТИБЕТ';
 
   programs: IProgram[] = [
@@ -67,10 +62,6 @@ export class AppComponent {
     }, 2000);
   }
 
-  checkFormValidity(): void {
-    this.isButtonEnabled = this.location !== '' && this.date !== '' && this.participants !== '';
-  }
-
   isPrimaryColor(color: Color): boolean {
     const primaryColors: Color[] = [Color.RED, Color.GREEN, Color.BLUE];
     return primaryColors.includes(color);
@@ -90,8 +81,8 @@ export class AppComponent {
     localStorage.setItem('visitCount', visitCount.toString());
     console.log('Количество заходов:', visitCount);
   }
-
-  onInput() {
-    this.displayedText = this.inputValue;
+  
+  toggleWidget(): void {
+    this.widget = this.widget === 'date' ? 'clicker' : 'date';
   }
 }

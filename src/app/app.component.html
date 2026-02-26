@@ -23,15 +23,15 @@
         </nav>
       </div>
       <div class="header-date">
-        <div *ngIf="!isClicker">
+        <div *ngIf="widget === 'date'">
           <span class="mr-50">{{ currentDate }}</span>
         </div>
-        <div *ngIf="isClicker" class="mr-50">
+        <div *ngIf="widget === 'clicker'" class="mr-50">
           <button id="decrement-btn" class="count-btns" (click)="count -= 1" [disabled]="count <= 0">-</button>
           <span class="count">{{ count }}</span>
           <button id="increment-btn" class="count-btns" (click)="count += 1">+</button>
         </div>
-        <button (click)="isClicker = !isClicker" id="show-date-btn" class="show-date-btn">
+        <button (click)="toggleWidget()" id="show-date-btn" class="show-date-btn">
           {{ isClicker ? 'Показать дату' : 'Показать кликер' }}
         </button>
       </div>
@@ -45,7 +45,6 @@
         <form class="search-form">
           <div class="input-block">
             <select
-              (change)="checkFormValidity()"
               [(ngModel)]="location"
               id="location"
               name="location"
@@ -59,7 +58,6 @@
           <div class="input-block">
             <div class="input-date">
               <input
-                (ngModelChange)="checkFormValidity()"
                 [(ngModel)]="date"
                 type="date"
                 id="date"
@@ -72,7 +70,6 @@
           </div>
           <div class="input-block">
             <select
-              (change)="checkFormValidity()"
               [(ngModel)]="participants"
               class="input-field"
               id="participants"
@@ -83,7 +80,7 @@
             </select>
             <span class="hint">выберите из списка</span>
           </div>
-          <button id="find-program-btn" type="submit" [disabled]="!isButtonEnabled">
+          <button id="find-program-btn" type="submit" [disabled]="!location.trim() || !date.trim() || !participants.trim()">
             Найти программу
           </button>
         </form>
@@ -93,10 +90,9 @@
           id="live-input"
           class="live-input"
           type="text"
-          (input)="onInput()"
           [(ngModel)]="inputValue"
         />
-        <span class="entered-text">{{ displayedText }}</span>
+        <span class="entered-text">{{ inputValue }}</span>
       </div>
     </div>
   </section>
