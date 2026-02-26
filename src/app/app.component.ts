@@ -85,4 +85,5 @@ export class AppComponent {
   toggleWidget(): void {
     this.widget = this.widget === 'date' ? 'clicker' : 'date';
   }
+  
 }
