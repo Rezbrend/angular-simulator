@@ -32,7 +32,7 @@
           <button id="increment-btn" class="count-btns" (click)="count += 1">+</button>
         </div>
         <button (click)="toggleWidget()" id="show-date-btn" class="show-date-btn">
-          {{ isClicker ? 'Показать дату' : 'Показать кликер' }}
+          {{ widget === 'clicker' ? 'Показать дату' : 'Показать кликер' }}
         </button>
       </div>
     </div>
