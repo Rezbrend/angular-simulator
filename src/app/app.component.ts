@@ -1,24 +1,70 @@
 import { Component } from '@angular/core';
-import './training.ts';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { Color } from '../enums/Color';
+import { IProgram } from '../interfaces/IProgram.js';
+import './training.ts';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  companyName: string = 'РУМТИБЕТ';
 
-  isPrimaryColor(color: Color): boolean {
-    const primaryColors: Color[] = [Color.RED, Color.GREEN, Color.BLUE];
-    return primaryColors.includes(color);
-  }
+export class AppComponent {
+  
+  count: number = 0;
+  isClicker: boolean = false;
+  isLoading: boolean = true;
+  inputValue: string = '';
+  widget: string = 'date';
+  currentDate: string = '';
+  location: string = '';
+  date: string = '';
+  participants: string = '';
+  readonly companyName: string = 'РУМТИБЕТ';
+
+  programs: IProgram[] = [
+    {
+      id: 1,
+      title: 'Опытный гид',
+      description:
+        'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
+      icon: 'green-people-icon',
+    },
+    {
+      id: 2,
+      title: 'Безопасный поход',
+      description:
+        'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
+      icon: 'blue-shield-icon',
+    },
+    {
+      id: 3,
+      title: 'Лояльные цены',
+      description:
+        'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
+      icon: 'yellow-label-icon',
+    },
+  ];
 
   constructor() {
     this.setLastVisitDate();
     this.setVisitCount();
+
+    setInterval(() => {
+      this.currentDate = new Date().toLocaleString();
+    }, 1000);
+
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2000);
+  }
+
+  isPrimaryColor(color: Color): boolean {
+    const primaryColors: Color[] = [Color.RED, Color.GREEN, Color.BLUE];
+    return primaryColors.includes(color);
   }
 
   setLastVisitDate(): void {
@@ -35,4 +81,9 @@ export class AppComponent {
     localStorage.setItem('visitCount', visitCount.toString());
     console.log('Количество заходов:', visitCount);
   }
+  
+  toggleWidget(): void {
+    this.widget = this.widget === 'date' ? 'clicker' : 'date';
+  }
+  
 }

@@ -2,13 +2,65 @@
 @use './normalize';
 
 * {
-  font-family: 'Nunito Sans', sans-serif;
+  font-family: 'Nunito-sans', sans-serif;
   margin: 0px;
   padding: 0px;
+  box-sizing: border-box;
+}
+
+.container {
+  display: block;
+  width: 1180px;
 }
 
 :root {
-  --primary-color: #18121E;
-  --secondary-color: #F2BE22;
-  --white-color: #FDFDFD;
+  --primary-color: #18121e;
+  --secondary-color: #f2be22;
+  --white-color: #fdfdfd;
+  --super-white-color: #ffffff;
+  --light-gray-color: #f3f5f4;
+  --green-color: #1a3e3e;
+}
+
+.title {
+  font-weight: 800;
+  font-style: ExtraBold;
+  font-size: 32px;
+  line-height: 120%;
+  color: var(--primary-color);
+  margin-top: 8px;
+}
+
+.subtitle {
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 24px;
+  line-height: 20px;
+  color: var(--secondary-color);
+}
+
+.description {
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 18px;
+  line-height: 150%;
+  color: var(--primary-color);
+  margin-top: 40px;
+}
+
+.program-features-title {
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 18px;
+  line-height: 20px;
+  letter-spacing: 1.2%;
+}
+
+.program-features-description {
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 14px;
+  line-height: 20px;
+  width: 514px;
+  margin-top: 4px;
 }
