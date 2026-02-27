@@ -3,6 +3,9 @@
   justify-content: center;
   position: fixed;
   width: 100%;
+  height: 156px;
+  background-color: #18121E80;
+  box-shadow: 0px 2px 4px 0px #00000040;
 }
 
 .header-container {
@@ -30,27 +33,30 @@
 }
 
 .show-date-btn,
-#consult-btn,
-#find-program-btn:enabled {
-  color: var(--white-color);
-  background-color: var(--green-color);
+#consult-btn {
+  color: var(--green-color);
+  background-color: var(--white-color);
   border: none;
   font-size: 16px;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: 700;
 }
 
 #find-program-btn:enabled {
-  color: var(--green-color);
-  background-color: var(--white-color);
+  color: var(--white-color);
+  background-color: var(--green-color);
   width: 213px;
   height: 52px;
   font-weight: 700;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .show-date-btn,
 #consult-btn {
-  width: 157px;
+  width: 158px;
   height: 44px;
 }
 
@@ -200,7 +206,6 @@
 }
 
 .search-form {
-  width: 1095px;
   height: 81px;
   padding-top: 40px;
   padding-left: 43px;
