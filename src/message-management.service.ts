@@ -18,7 +18,7 @@ export class MessageManagementService {
     }, 5000);
   }
   
-  closeMessage(messageId: string | number): void {
+  closeMessage(messageId: number): void {
     this.messages = this.messages.filter((message: IMessage) => message.id !== messageId);
   }
   
