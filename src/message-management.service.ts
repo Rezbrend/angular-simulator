@@ -11,31 +11,31 @@ export class MessageManagementService {
 
   addMessage(text: string, type: MessageType, id: number): void {
     const message: IMessage = {id, text, type,};
-    this.messages.unshift(message);
+    this.messages = [message, ...this.messages];
 
     setTimeout(() => {
-      this.closeMessage(message);
+      this.closeMessage(message.id);
     }, 5000);
   }
   
-  closeMessage(message: IMessage): void {
-    this.messages = this.messages.filter((m: IMessage) => m !== message);
+  closeMessage(messageId: string | number): void {
+    this.messages = this.messages.filter((message: IMessage) => message.id !== messageId);
   }
   
   addInfoMessage(): void {
-    this.addMessage('Стоимость отправлена на почту', MessageType.INFO, 1);
+    this.addMessage('Стоимость отправлена на почту', MessageType.INFO, new Date().getTime());
   }
 
   addSuccessMessage(): void {
-    this.addMessage('Направления получены',  MessageType.SUCCESS, 2);
+    this.addMessage('Направления получены',  MessageType.SUCCESS, new Date().getTime());
   }
 
   addWarningMessage(): void {
-    this.addMessage('Программа недоступна', MessageType.WARN, 3);
+    this.addMessage('Программа недоступна', MessageType.WARN, new Date().getTime());
   }
 
   addErrorMessage(): void {
-    this.addMessage('Материалы недоступны', MessageType.ERROR, 4);
+    this.addMessage('Материалы недоступны', MessageType.ERROR, new Date().getTime());
   }
   
 }

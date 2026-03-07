@@ -16,11 +16,10 @@ import './training.ts';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-
 export class AppComponent {
-  
-  messageManagementService: MessageManagementService = inject(MessageManagementService)
-  
+  messageManagementService: MessageManagementService = inject(MessageManagementService);
+  localStorageService: LocalStorageService = inject(LocalStorageService);
+
   count: number = 0;
   isClicker: boolean = false;
   isLoading: boolean = true;
@@ -55,7 +54,7 @@ export class AppComponent {
       icon: 'yellow-label-icon',
     },
   ];
-  
+
   cards: ICard[] = [
     {
       id: 1,
@@ -63,7 +62,7 @@ export class AppComponent {
       subtitle: 'романтическое приключение',
       image: 'lake-near-the-mountains',
       rating: 4.9,
-      price: 480
+      price: 480,
     },
     {
       id: 2,
@@ -71,7 +70,7 @@ export class AppComponent {
       subtitle: 'в компании друзей',
       image: 'night-in-the-mountains',
       rating: 4.5,
-      price: 500
+      price: 500,
     },
     {
       id: 3,
@@ -79,21 +78,23 @@ export class AppComponent {
       subtitle: 'для тех, кто заботится о себе',
       image: 'stretching-in-the-mountains',
       rating: 5.0,
-      price: 230
-    }
+      price: 230,
+    },
   ];
-  
+
   blogCards: IBlogCard[] = [
     {
       id: 1,
       title: 'Красивая Италия, какая она в реальности?',
-      description: 'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
+      description:
+        'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
       image: 'italy-travel',
     },
     {
       id: 2,
       title: 'Долой сомнения! Весь мир открыт для вас!',
-      description: 'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации ... независимые способы реализации соответствующих...',
+      description:
+        'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации ... независимые способы реализации соответствующих...',
       image: 'travel-flight',
     },
     {
@@ -110,34 +111,34 @@ export class AppComponent {
     },
   ];
 
-    photoCards: IPhotoCard[] = [
-      {
-        id: 1,
-        image: 'cappadocia_balloons',
-      },
-      {
-        id: 2,
-        image: 'camera_map_notebook',
-      },
-      {
-        id: 3,
-        image: 'burj_al_arab_dubai',
-      },
-      {
-        id: 4,
-        image: 'beach_with_boats',
-      },
-          {
-        id: 5,
-        image: 'grand_canyon_view',
-      },
-      {
-        id: 6,
-        image: 'old_map_camera',
-      },
+  photoCards: IPhotoCard[] = [
+    {
+      id: 1,
+      image: 'cappadocia_balloons',
+    },
+    {
+      id: 2,
+      image: 'camera_map_notebook',
+    },
+    {
+      id: 3,
+      image: 'burj_al_arab_dubai',
+    },
+    {
+      id: 4,
+      image: 'beach_with_boats',
+    },
+    {
+      id: 5,
+      image: 'grand_canyon_view',
+    },
+    {
+      id: 6,
+      image: 'old_map_camera',
+    },
   ];
 
-  constructor(private localStorageService: LocalStorageService) {
+  constructor() {
     this.setLastVisitDate();
     this.setVisitCount();
 
@@ -158,20 +159,35 @@ export class AppComponent {
   setLastVisitDate(): void {
     const currentDate: Date = new Date();
     const dateString: string = currentDate.toISOString();
-    this.localStorageService.setItem('lastVisitDate', dateString);
+    this.localStorageService.setItem<string>('lastVisitDate', dateString);
     console.log('Дата последнего захода на страницу:', dateString);
   }
 
   setVisitCount(): void {
-    const currentCount: string | null = this.localStorageService.getItem('visitCount');
-    let visitCount: number = currentCount ? parseInt(currentCount, 10) : 0;
+    const currentCount = this.localStorageService.getItem<number>('visitCount');
+    let visitCount: number = currentCount ?? 0;
     visitCount++;
-    this.localStorageService.setItem('visitCount', visitCount.toString());
+    this.localStorageService.setItem<number>('visitCount', visitCount);
     console.log('Количество заходов:', visitCount);
   }
-  
+
   toggleWidget(): void {
     this.widget = this.widget === 'date' ? 'clicker' : 'date';
   }
-  
+
+  handleWarningClick(): void {
+    this.messageManagementService.addWarningMessage();
+  }
+
+  handleInfoClick(): void {
+    this.messageManagementService.addInfoMessage();
+  }
+
+  handleErrorClick(): void {
+    this.messageManagementService.addErrorMessage();
+  }
+
+  handleSuccessClick(): void {
+    this.messageManagementService.addSuccessMessage();
+  }
 }

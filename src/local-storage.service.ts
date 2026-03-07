@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class LocalStorageService {
-
   setItem<T>(key: string, value: T): void {
     localStorage.setItem(key, JSON.stringify(value));
   }
@@ -14,7 +13,13 @@ export class LocalStorageService {
     if (data === null) {
       return null;
     }
-    return JSON.parse(data) as T;
+    try {
+      const parsedData = JSON.parse(data);
+      return parsedData;
+    } catch (error) {
+      console.error('Ошибка парсинга данных из localStorage:', error);
+      return null;
+    }
   }
 
   removeItem(key: string): void {
@@ -24,5 +29,4 @@ export class LocalStorageService {
   clear(): void {
     localStorage.clear();
   }
-  
 }

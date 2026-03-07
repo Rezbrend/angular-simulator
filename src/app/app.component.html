@@ -121,7 +121,7 @@
           Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur"и занялся его
           поисками в классической латинской литературе.
         </p>
-        <button (click)="messageManagementService.addWarningMessage()" id="programs-tour-btn">Программа тура</button>
+        <button (click)="handleWarningClick()" id="programs-tour-btn">Программа тура</button>
       </div>
     </div>
   </section>
@@ -154,7 +154,7 @@
           </div>
         }
       </div>
-      <button (click)="messageManagementService.addInfoMessage()" id="programs-price-btn">Стоимость программ</button>
+      <button (click)="handleInfoClick()" id="programs-price-btn">Стоимость программ</button>
     </div>
     <div class="programs-images">
       <img src="/images/glass-of-coffee-against-sea.png" />
@@ -186,7 +186,7 @@
           </div>
         }
       </div>
-      <button (click)="messageManagementService.addSuccessMessage()" id="rating-directions-btn">Рейтинг направлений</button>
+      <button (click)="handleSuccessClick()" id="rating-directions-btn">Рейтинг направлений</button>
     </div>
   </section>
   <section class="travel-blog-section">
@@ -201,8 +201,8 @@
             <div class="blog-card-info">
               <img src="/images/{{ blogCard.image }}.png" width="230px" height="280px">
               <div class="blog-card-info-text">
-                <span class="blog-card-info-title">{{blogCard.title}}</span>
-                <p class="blog-card-info-description">{{blogCard.description}}</p>
+                <span class="blog-card-info-title">{{ blogCard.title }}</span>
+                <p class="blog-card-info-description">{{ blogCard.description }}</p>
                 <div class="action-block">
                   <span class="action-block-date">01/04/2023</span>
                   <button id="action-block-btn" class="btn">читать статью</button>
@@ -212,7 +212,7 @@
           </div>
         }
       </div>
-      <button (click)="messageManagementService.addErrorMessage()" id="travel-blog-btn" class="btn">Другие материалы</button>
+      <button (click)="handleErrorClick()" id="travel-blog-btn" class="btn">Другие материалы</button>
     </div>
   </section>
   <section class="photo-report-section">
@@ -236,20 +236,20 @@
 }
 
 <div class="notice-block">
-  @for (msg of messageManagementService.messages; track msg) {
-    <ng-container [ngTemplateOutlet]="messageTemplate" [ngTemplateOutletContext]="{ msg }"/>
+  @for (msg of messageManagementService.messages; track msg.id) {
+    <ng-container [ngTemplateOutlet]="messageTemplate" [ngTemplateOutletContext]="{ id: msg.id, type: msg.type, text: msg.text }"/>
   }
 </div>
-<ng-template #messageTemplate let-type="type" let-text="text" let-msg="msg">
+<ng-template #messageTemplate let-type="type" let-text="text" let-msgId="id">
     <div class="notice">
         <div class="notice-icon">
             <img src="/images/message-icon.svg" alt="message-icon" width="40px" height="40px" />
         </div>
         <div class="notice-info">
-            <div class="notice-title">{{ msg.type }}</div>
-            <div class="notice-text">{{ msg.text }}</div>
+            <div class="notice-title">{{ type }}</div>
+            <div class="notice-text">{{ text }}</div>
         </div>
-        <button (click)="messageManagementService.closeMessage(msg)" id="notice-close-btn" type="button">
+        <button (click)="messageManagementService.closeMessage(msgId)" id="notice-close-btn" type="button">
           <img src="/images/notice-close-icon.svg" alt="notice-close-icon" width="20px" height="20px" />
         </button>
     </div>
