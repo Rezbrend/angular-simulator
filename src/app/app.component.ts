@@ -17,6 +17,7 @@ import './training.ts';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  
   messageManagementService: MessageManagementService = inject(MessageManagementService);
   localStorageService: LocalStorageService = inject(LocalStorageService);
 
@@ -111,31 +112,13 @@ export class AppComponent {
     },
   ];
 
-  photoCards: IPhotoCard[] = [
-    {
-      id: 1,
-      image: 'cappadocia_balloons',
-    },
-    {
-      id: 2,
-      image: 'camera_map_notebook',
-    },
-    {
-      id: 3,
-      image: 'burj_al_arab_dubai',
-    },
-    {
-      id: 4,
-      image: 'beach_with_boats',
-    },
-    {
-      id: 5,
-      image: 'grand_canyon_view',
-    },
-    {
-      id: 6,
-      image: 'old_map_camera',
-    },
+  photoCards: string[] = [
+    'cappadocia_balloons',
+    'camera_map_notebook',
+    'burj_al_arab_dubai',
+    'beach_with_boats',
+    'grand_canyon_view',
+    'old_map_camera'
   ];
 
   constructor() {
@@ -160,7 +143,6 @@ export class AppComponent {
     const currentDate: Date = new Date();
     const dateString: string = currentDate.toISOString();
     this.localStorageService.setItem<string>('lastVisitDate', dateString);
-    console.log('Дата последнего захода на страницу:', dateString);
   }
 
   setVisitCount(): void {
@@ -168,26 +150,10 @@ export class AppComponent {
     let visitCount: number = currentCount ?? 0;
     visitCount++;
     this.localStorageService.setItem<number>('visitCount', visitCount);
-    console.log('Количество заходов:', visitCount);
   }
 
   toggleWidget(): void {
     this.widget = this.widget === 'date' ? 'clicker' : 'date';
   }
 
-  handleWarningClick(): void {
-    this.messageManagementService.addWarningMessage();
-  }
-
-  handleInfoClick(): void {
-    this.messageManagementService.addInfoMessage();
-  }
-
-  handleErrorClick(): void {
-    this.messageManagementService.addErrorMessage();
-  }
-
-  handleSuccessClick(): void {
-    this.messageManagementService.addSuccessMessage();
-  }
 }

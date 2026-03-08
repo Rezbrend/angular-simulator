@@ -121,7 +121,7 @@
           Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur"и занялся его
           поисками в классической латинской литературе.
         </p>
-        <button (click)="handleWarningClick()" id="programs-tour-btn">Программа тура</button>
+        <button (click)="messageManagementService.addWarningMessage('Программа недоступна')" id="programs-tour-btn">Программа тура</button>
       </div>
     </div>
   </section>
@@ -154,7 +154,7 @@
           </div>
         }
       </div>
-      <button (click)="handleInfoClick()" id="programs-price-btn">Стоимость программ</button>
+      <button (click)="messageManagementService.addInfoMessage('Стоимость отправлена на почту')" id="programs-price-btn">Стоимость программ</button>
     </div>
     <div class="programs-images">
       <img src="/images/glass-of-coffee-against-sea.png" />
@@ -186,7 +186,7 @@
           </div>
         }
       </div>
-      <button (click)="handleSuccessClick()" id="rating-directions-btn">Рейтинг направлений</button>
+      <button (click)="messageManagementService.addSuccessMessage('Направления получены')" id="rating-directions-btn">Рейтинг направлений</button>
     </div>
   </section>
   <section class="travel-blog-section">
@@ -212,7 +212,7 @@
           </div>
         }
       </div>
-      <button (click)="handleErrorClick()" id="travel-blog-btn" class="btn">Другие материалы</button>
+      <button (click)="messageManagementService.addErrorMessage('Материалы недоступны')" id="travel-blog-btn" class="btn">Другие материалы</button>
     </div>
   </section>
   <section class="photo-report-section">
@@ -222,16 +222,12 @@
         <h2 class="title">Делимся впечатлениями</h2>
       </div>
       <div class="photo-report-cards">
-        @for (photoCard of photoCards; track photoCard.id) {
-          <img src="/images/{{ photoCard.image }}.png">
+        @for (photoCard of photoCards; track $index) {
+          <img src="/images/{{ photoCard }}.png">
         }
       </div>
       <button id="pinterest-btn" class="btn">Наш pinterest</button>
     </div>
-  </section>
-  <section class="footer-section">
-    <footer class="footer">
-    </footer>
   </section>
 }
 
