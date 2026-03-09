@@ -171,7 +171,7 @@
       </div>
       <div class="directions-cards">
         @for (card of cards; track card.id) {
-          <div class="card" style="background-image: url('/images/{{card.image}}.png');">
+          <div class="card" [style.background-image]="'url(/images/' + card.image + '.png)'">
             <div class="rating-container">
               <img src="/images/yellow-star-icon.svg">
               <span class="card-rating">{{ card.rating }}</span>
