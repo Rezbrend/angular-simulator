@@ -140,7 +140,7 @@
           <div class="programs-list-block">
             <div class="programs-list-icon">
               <img
-                [src]="'/images/' + program.icon + '.svg'"
+                [src]="`/images/${ program.icon }.svg`"
                 alt="icon"
                 width="36px"
                 height="33px"
@@ -171,7 +171,7 @@
       </div>
       <div class="directions-cards">
         @for (card of cards; track card.id) {
-          <div class="card" [style.background-image]="'url(/images/' + card.image + '.png)'">
+          <div class="card" [style.background-image]="`url(/images/${card.image}.png)`">
             <div class="rating-container">
               <img src="/images/yellow-star-icon.svg">
               <span class="card-rating">{{ card.rating }}</span>
@@ -199,7 +199,7 @@
         @for (blogCard of blogCards; track blogCard.id) {
           <div class="blog-card">
             <div class="blog-card-info">
-              <img [src]="'/images/' + blogCard.image + '.png'" width="230px" height="280px">
+              <img [src]="`/images/${ blogCard.image }.png`" width="230px" height="280px">
               <div class="blog-card-info-text">
                 <span class="blog-card-info-title">{{ blogCard.title }}</span>
                 <p class="blog-card-info-description">{{ blogCard.description }}</p>
@@ -223,7 +223,7 @@
       </div>
       <div class="photo-report-cards">
         @for (photoCard of photoCards; track $index) {
-          <img [src]="'/images/' + photoCard + '.png'">
+          <img [src]="`/images/${ photoCard }.png`">
         }
       </div>
       <button id="pinterest-btn" class="btn">Наш pinterest</button>
