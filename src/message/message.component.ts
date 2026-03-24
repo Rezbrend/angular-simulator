@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
   imports: [ FormsModule, CommonModule],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss',
+  standalone: true
 })
 export class MessageComponent {
 

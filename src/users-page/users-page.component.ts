@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './users-page.component.html',
   styleUrl: './users-page.component.scss',
+  standalone: true
 })
 export class UsersPageComponent {
 

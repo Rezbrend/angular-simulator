@@ -11,6 +11,7 @@ import { MessageManagementService } from '../message-management.service';
   imports: [FormsModule, CommonModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
+  standalone: true
 })
 export class HomePageComponent {
   

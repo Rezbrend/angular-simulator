@@ -14,6 +14,7 @@ import './training.ts';
   imports: [FormsModule, CommonModule, RouterOutlet, HeaderComponent, FooterComponent, MessageComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  standalone: true
 })
 export class AppComponent {
   
