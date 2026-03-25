@@ -132,18 +132,18 @@
   height: 200px;
 }
 
-.footer-services nav,
-.travel-tips nav {
+.footer-services ul,
+.travel-tips ul {
   list-style-type: none;
 }
 
-.footer-services a,
-.travel-tips a {
+.footer-services li,
+.travel-tips li {
   margin-bottom: 16px;
 }
 
-.travel-tips a::before,
-.footer-services a::before {
+.travel-tips li::before,
+.footer-services li::before {
   content: '>';
   margin-right: 8px;
 }

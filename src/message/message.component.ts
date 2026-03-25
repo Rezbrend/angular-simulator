@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-message',
-  imports: [ FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss',
   standalone: true

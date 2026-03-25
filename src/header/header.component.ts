@@ -1,21 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
-
-interface NavigationItem {
-  label: string;
-  link: string;
-}
+import { INavigationItem } from '../interfaces/INavigationItem';
 
 @Component({
   selector: 'app-header',
-  imports: [ RouterLink, RouterLinkActive ],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   standalone: true
 })
 export class HeaderComponent {
   
-  navigation: NavigationItem[] = [
+  navigation: INavigationItem[] = [
     { label: 'Главная', link: '/' },
     { label: 'Пользователи', link: '/users' }
   ];
