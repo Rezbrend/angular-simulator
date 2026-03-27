@@ -8,5 +8,7 @@ import { Component } from '@angular/core';
   standalone: true
 })
 export class FooterComponent {
+  
+  readonly companyName: string = 'РУМТИБЕТ';
 
 }
