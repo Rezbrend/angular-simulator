@@ -1,0 +1,19 @@
+  <div class="notice-block">
+  @for (msg of messageManagementService.messages; track msg.id) {
+    <ng-container [ngTemplateOutlet]="messageTemplate" [ngTemplateOutletContext]="{ id: msg.id, type: msg.type, text: msg.text }"/>
+  }
+</div>
+<ng-template #messageTemplate let-type="type" let-text="text" let-msgId="id">
+  <div class="notice">
+    <div class="notice-icon">
+      <img src="/images/icons/message-icon.svg" alt="message-icon" width="40px" height="40px" />
+    </div>
+    <div class="notice-info">
+      <div class="notice-title">{{ type }}</div>
+      <div class="notice-text">{{ text }}</div>
+    </div>
+    <button (click)="messageManagementService.closeMessage(msgId)" id="notice-close-btn" class="notice-close-btn" type="button">
+      <img src="/images/icons/notice-close-icon.svg" alt="notice-close-icon" width="20px" height="20px" />
+    </button>
+  </div>
+</ng-template>

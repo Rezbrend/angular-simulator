@@ -1,0 +1,176 @@
+  <section class="main-info">
+    <div class="banner"></div>
+    <div class="main-info-title">
+      <h1 class="title">Насладись прогулкой в горах с командой единомышленников</h1>
+      <div class="search-block">
+        <form class="search-form">
+          <div class="input-block">
+            <select
+              [(ngModel)]="location"
+              id="location"
+              name="location"
+              class="input-field"
+            >
+              <option disabled value="">Локация для тура</option>
+              <option value="alps">Альпы</option>
+            </select>
+            <span class="hint">выберите из списка</span>
+          </div>
+          <div class="input-block">
+            <div class="input-date">
+              <input
+                [(ngModel)]="date"
+                type="date"
+                id="date"
+                name="date"
+                placeholder="Дата похода"
+                class="date-input"
+              />
+            </div>
+            <p class="hint">укажите дату</p>
+          </div>
+          <div class="input-block">
+            <select
+              [(ngModel)]="participants"
+              class="input-field"
+              id="participants"
+              name="participants"
+            >
+              <option disabled value="">Участники</option>
+              <option value="2">2 человека</option>
+            </select>
+            <span class="hint">выберите из списка</span>
+          </div>
+          <button id="find-program-btn" class="find-program-btn" type="submit" [disabled]="!location.trim() || !date.trim() || !participants.trim()">Найти программу</button>
+        </form>
+      </div>
+      <div class="live-input-container">
+        <input
+          id="live-input"
+          class="live-input"
+          type="text"
+          [(ngModel)]="inputValue"
+        />
+        <span class="entered-text">{{ inputValue }}</span>
+      </div>
+    </div>
+  </section>
+  <section class="programs-tour">
+    <div class="container programs-block">
+      <div class="programs-block-tour-images">
+        <img src="/images/mountain-tour.png" alt="mountain-background" />
+        <img src="/images/house-tour.png" alt="cabin-foreground" class="cabin-foreground" />
+        <div class="play-btn-block">
+          <button id="video-player-btn" class="video-player-btn">
+            <img src="/images/icons/green-play-btn-icon.svg" alt="play-btn-icon" />
+          </button>
+        </div>
+      </div>
+      <div class="programs-block-tour-info">
+        <span class="subtitle">о нашем походе</span>
+        <h2 class="title">Исследуйте все горные массивы мира вместе с нами</h2>
+        <p class="description">
+          Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух
+          тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа Hampden-Sydney, штат
+          Вирджиния, взял одно из самых странных слов в Lorem Ipsum, "consectetur"и занялся его
+          поисками в классической латинской литературе.
+        </p>
+        <button (click)="messageManagementService.showWarn('Программа недоступна')" id="programs-tour-btn" class="programs-tour-btn">Программа тура</button>
+      </div>
+    </div>
+  </section>
+  <section class="programs">
+    <div class="programs-info">
+      <div class="programs-title">
+        <span class="subtitle">наше предложение</span>
+        <h2 class="title">Лучшие программы для тебя</h2>
+      </div>
+      <p class="description">Его корни уходят в один фрагмент классической латыни 45 года н.э., то есть более двух тысячелетий назад. Ричард МакКлинток, профессор латыни из колледжа.</p>
+      <div class="programs-list">
+        @for (program of programs; track program.id) {
+          <div class="programs-list-block">
+            <div class="programs-list-icon">
+              <img [src]="`/images/icons/${ program.icon }.svg`" alt="icon" width="36px" height="33px" class="programs-icon"/>
+            </div>
+            <div class="programs-list-info">
+              <span class="program-features-title">{{ program.title }}</span>
+              <p class="program-features-description">{{ program.description }}</p>
+            </div>
+          </div>
+        }
+      </div>
+      <button (click)="messageManagementService.showInfo('Стоимость отправлена на почту')" id="programs-price-btn" class="programs-price-btn">Стоимость программ</button>
+    </div>
+    <div class="programs-images">
+      <img src="/images/glass-of-coffee-against-sea.png" />
+      <img src="/images/man-in-stone-mountain.png" />
+      <img src="/images/man-on-snowmobile.png" />
+      <img src="/images/green-mountain.png" />
+    </div>
+  </section>
+  <section class="directions">
+    <div class="container directions-info">
+      <div class="directions-info-title">
+        <span class="subtitle">по версии отдыхающих</span>
+        <h2 class="title">Популярные направления</h2>
+      </div>
+      <div class="directions-cards">
+        @for (card of cards; track card.id) {
+          <div class="card" [style.background-image]="`url(/images/${card.image}.png)`">
+            <div class="rating-container">
+              <img src="/images/icons/yellow-star-icon.svg">
+              <span class="card-rating">{{ card.rating }}</span>
+            </div>
+            <div class="card-content">
+              <div>
+                <h2 class="card-content-title">{{ card.title }}</h2>
+                <p class="card-content-subtitle">{{ card.subtitle }}</p>
+              </div>
+              <div class="card-content-price">{{ card.price }} $</div>
+            </div>
+          </div>
+        }
+      </div>
+      <button (click)="messageManagementService.showSuccess('Направления получены')" id="rating-directions-btn" class="rating-directions-btn">Рейтинг направлений</button>
+    </div>
+  </section>
+  <section class="travel-blog-section">
+    <div class="container travel-blog-info">
+      <div class="travel-blog-info-title">
+        <span class="subtitle">делимся впечатлениями</span>
+        <h2 class="title">Блог о путешествиях</h2>
+      </div>
+      <div class="travel-blog-cards">
+        @for (blogCard of blogCards; track blogCard.id) {
+          <div class="blog-card">
+            <div class="blog-card-info">
+              <img [src]="`/images/${ blogCard.image }.png`" width="230px" height="280px">
+              <div class="blog-card-info-text">
+                <span class="blog-card-info-title">{{ blogCard.title }}</span>
+                <p class="blog-card-info-description">{{ blogCard.description }}</p>
+                <div class="action-block">
+                  <span class="action-block-date">01/04/2023</span>
+                  <button id="action-block-btn" class="action-block-btn">читать статью</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+      <button (click)="messageManagementService.showError('Материалы недоступны')" id="travel-blog-btn" class="travel-blog-btn">Другие материалы</button>
+    </div>
+  </section>
+  <section class="photo-report-section">
+    <div class="container photo-report-info">
+      <div class="photo-report-info-title">
+        <span class="subtitle">фото-отчет</span>
+        <h2 class="title">Делимся впечатлениями</h2>
+      </div>
+      <div class="photo-report-cards">
+        @for (photoCard of photoCards; track $index) {
+          <img [src]="`/images/${ photoCard }.png`">
+        }
+      </div>
+      <button id="pinterest-btn" class="pinterest-btn">Наш pinterest</button>
+    </div>
+  </section>
