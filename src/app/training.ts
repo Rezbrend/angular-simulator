@@ -19,6 +19,7 @@ const textFormat: TextFormat = 'uppercase';
 // 6. Создать интерфейс, который описывает юзера. Поля на ваш выбор. Одно поле должно быть опциональным.
 
 interface IUser {
+[x: string]: any;
   id: number;
   firstName: string;
   lastName: string;

@@ -7,11 +7,11 @@ import { RouterOutlet } from "@angular/router";
 import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from '../footer/footer.component';
 import { MessageComponent } from '../message/message.component';
-import './training.ts';
+import { LoaderComponent } from '../loader/loader.component';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, CommonModule, RouterOutlet, HeaderComponent, FooterComponent, MessageComponent],
+  imports: [FormsModule, CommonModule, RouterOutlet, HeaderComponent, FooterComponent, MessageComponent, LoaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   standalone: true
@@ -19,14 +19,6 @@ import './training.ts';
 export class AppComponent {
   
   localStorageService: LocalStorageService = inject(LocalStorageService);
-
-  isLoading: boolean = true;
-
-  constructor() {
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 2000);
-  }
 
   isPrimaryColor(color: Color): boolean {
     const primaryColors: Color[] = [Color.RED, Color.GREEN, Color.BLUE];
