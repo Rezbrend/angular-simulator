@@ -1,5 +1,5 @@
 <div class="notice-block">
-  @for (msg of messageManagementService.messages$ | async; track msg.id) {
+  @for (msg of messages$ | async; track msg.id) {
     <ng-container [ngTemplateOutlet]="messageTemplate" [ngTemplateOutletContext]="{ id: msg.id, type: msg.type, text: msg.text }"/>
   }
 </div>
