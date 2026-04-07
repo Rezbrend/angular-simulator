@@ -8,7 +8,7 @@ import { IMessage } from './interfaces/IMessage';
 })
 export class MessageManagementService {
   
-  private messagesSubject = new BehaviorSubject<IMessage[]>([]);
+  private messagesSubject: BehaviorSubject<IMessage[]> = new BehaviorSubject<IMessage[]>([]);
   messages$: Observable<IMessage[]> = this.messagesSubject.asObservable();
 
   closeMessage(messageId: number): void {

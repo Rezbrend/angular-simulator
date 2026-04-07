@@ -21,7 +21,9 @@ export class UsersPageComponent {
     this.users$ = this.userService
       .loadUsers()
       .pipe(
-        tap((users: IUser[]) => {this.userService.setUsers(users)}),
+        tap((users: IUser[]) => {
+          this.userService.setUsers(users);
+        }),
       );
   }
   

@@ -10,12 +10,12 @@ import { UsersApiService } from './user-api.service';
 })
 export class UserService {
   
-  private usersSubject = new BehaviorSubject<IUser[]>([]);
-  users$: Observable<IUser[]> = this.usersSubject.asObservable();
-
   loaderService: LoaderService = inject(LoaderService);
   userApiService: UsersApiService = inject(UsersApiService);
   messageService: MessageManagementService = inject(MessageManagementService);
+
+  private usersSubject: BehaviorSubject<IUser[]> = new BehaviorSubject<IUser[]>([]);
+  users$: Observable<IUser[]> = this.usersSubject.asObservable();
 
   setUsers(users: IUser[]): void {
     this.usersSubject.next(users);
