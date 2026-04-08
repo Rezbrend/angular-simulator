@@ -27,13 +27,12 @@ export class UserService {
 
   loadUsers(): Observable<IUser[]> {
     this.loaderService.showLoader();
-    return this.userApiService.getUsers().pipe(
-      finalize(() => {
-        setTimeout(() => this.loaderService.hideLoader(), 1000);
-      }),
-      catchError(() => {
-        this.messageService.showError('Ошибка');
-        return of<IUser[]>([]);
+    return this.userApiService.getUsers()
+    .pipe(
+      finalize(() => this.loaderService.hideLoader()),
+      catchError((error: string) => {
+        this.messageService.showError(`Произошла ошибка при загрузке пользователей: ${error}`);
+        return of([]);
       }),
     );
   }
