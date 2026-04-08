@@ -19,13 +19,12 @@ export class UsersPageComponent {
 
   constructor() {
     this.users$ = this.userService.users$
-    this.userService
-    .loadUsers()
-    .pipe(
-      tap((users: IUser[]) => {
-        this.userService.setUsers(users);
-      }),
-    );
+    this.userService.loadUsers()
+      .pipe(
+        tap((users: IUser[]) => {
+          this.userService.setUsers(users);
+        }),
+      );
   }
   
 }
