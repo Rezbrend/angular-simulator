@@ -14,17 +14,13 @@ import { IUser } from '../interfaces/IUser';
 export class UsersPageComponent {
   
   userService: UserService = inject(UserService);
-  
-  users$: Observable<IUser[]>;
+  users$: Observable<IUser[]> = this.userService.users$
 
   constructor() {
-    this.users$ = this.userService.users$
     this.userService.loadUsers()
       .pipe(
-        tap((users: IUser[]) => {
-          this.userService.setUsers(users);
-        }),
-      );
+        tap((users: IUser[]) => this.userService.setUsers(users)),
+      ).subscribe();
   }
   
 }
