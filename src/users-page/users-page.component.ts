@@ -14,7 +14,7 @@ import { IUser } from '../interfaces/IUser';
 export class UsersPageComponent {
   
   userService: UserService = inject(UserService);
-  users$: Observable<IUser[]> = this.userService.users$
+  users$: Observable<IUser[]> = this.userService.users$;
 
   constructor() {
     this.userService.loadUsers()
