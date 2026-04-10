@@ -3,30 +3,30 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Color } from '../enums/Color';
 import { LocalStorageService } from '../local-storage.service';
-import { RouterOutlet } from "@angular/router";
-import { HeaderComponent } from "../header/header.component";
+import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { MessageComponent } from '../message/message.component';
-import './training.ts';
+import { LoaderComponent } from '../loader/loader.component';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, CommonModule, RouterOutlet, HeaderComponent, FooterComponent, MessageComponent],
+  imports: [
+    FormsModule,
+    CommonModule,
+    RouterOutlet,
+    HeaderComponent,
+    FooterComponent,
+    MessageComponent,
+    LoaderComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  standalone: true
+  standalone: true,
 })
 export class AppComponent {
   
   localStorageService: LocalStorageService = inject(LocalStorageService);
-
-  isLoading: boolean = true;
-
-  constructor() {
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 2000);
-  }
 
   isPrimaryColor(color: Color): boolean {
     const primaryColors: Color[] = [Color.RED, Color.GREEN, Color.BLUE];
@@ -45,5 +45,5 @@ export class AppComponent {
     visitCount++;
     this.localStorageService.setItem<number>('visitCount', visitCount);
   }
-
+  
 }

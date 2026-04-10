@@ -1,13 +1,5 @@
-@if (isLoading) {
-  <div class="loader-overlay">
-    <div class="loader-spinner">
-      <img src="/images/icons/loading-page-icon.svg" />
-    </div>
-    <p>Загрузка...</p>
-  </div>
-} @else {
-  <app-header></app-header>
-  <router-outlet></router-outlet>
-  <app-footer></app-footer>
-  <app-message></app-message>
-}
+<app-header></app-header>
+<router-outlet></router-outlet>
+<app-footer></app-footer>
+<app-message></app-message>
+<app-loader></app-loader>
