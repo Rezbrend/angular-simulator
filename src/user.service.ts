@@ -42,22 +42,15 @@ export class UserService {
   }
 
   loadUsers(): Observable<IUser[]> {
-    this.loaderService.showLoader();
     const usersFromStorage: IUser[] | null = this.localStorageService.getItem<IUser[]>('users');
     if (usersFromStorage) {
       this.usersSubject.next(usersFromStorage);
-      this.loaderService.hideLoader();
       return of(usersFromStorage);
     }
     return this.userApiService.getUsers().pipe(
       tap(users => {
         this.localStorageService.setItem('users', users);
         this.usersSubject.next(users);
-      }),
-      finalize(() => this.loaderService.hideLoader()),
-      catchError((error: string) => {
-        this.messageService.showError(`Произошла ошибка при загрузке пользователей: ${error}`);
-        return of([]);
       })
     );
   }
