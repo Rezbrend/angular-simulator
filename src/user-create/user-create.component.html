@@ -1,0 +1,75 @@
+<div class="user-form">
+  <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <div class="form-field">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" formControlName="name" />
+      </div>
+      <div class="form-field">
+        <label for="username">Username:</label>
+        <input type="text" id="username" formControlName="username" />
+      </div>
+      <div class="form-field">
+        <label for="email">Email:</label>
+        <input type="email" id="email" formControlName="email" />
+      </div>
+      <div class="form-field">
+        <label for="phone">Телефон:</label>
+        <input type="tel" id="phone" formControlName="phone" />
+      </div>
+      <div class="form-field">
+        <label for="website">Вебсайт:</label>
+        <input type="url" id="website" formControlName="website" />
+      </div>
+    </div>
+    <div formGroupName="address">
+      <div class="form-group">
+        <div class="form-field">
+          <label for="street">Улица:</label>
+          <input type="text" id="street" formControlName="street" />
+        </div>
+        <div class="form-field">
+          <label for="suite">Квартира/Офис:</label>
+          <input type="text" id="suite" formControlName="suite" />
+        </div>
+        <div class="form-field">
+          <label for="city">Город:</label>
+          <input type="text" id="city" formControlName="city" />
+        </div>
+        <div class="form-field">
+          <label for="zipcode">Почтовый индекс:</label>
+          <input type="text" id="zipcode" formControlName="zipcode" />
+        </div>
+      </div>
+      <div formGroupName="geo">
+        <div class="form-group">
+          <div class="form-field">
+            <label for="lat">Широта (lat):</label>
+            <input type="number" step="any" id="lat" formControlName="lat" />
+          </div>
+          <div class="form-field">
+            <label for="lng">Долгота (lng):</label>
+            <input type="number" step="any" id="lng" formControlName="lng" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div formGroupName="company">
+      <div class="form-group">
+        <div class="form-field">
+          <label for="company-name">Название компании:</label>
+          <input type="text" id="company-name" formControlName="name" />
+        </div>
+        <div class="form-field">
+          <label for="catch-phrase">Слоган:</label>
+          <input type="text" id="catch-phrase" formControlName="catchPhrase" />
+        </div>
+        <div class="form-field">
+          <label for="business-sphere">Бизнес-сфера (bs):</label>
+          <input type="text" id="business-sphere" formControlName="bs" />
+        </div>
+      </div>
+    </div>
+  </form>
+  <button id="create-user-btn" class="create-user-btn" type="button" [disabled]="createUserForm.invalid" (click)="onSubmit()">Создать пользователя</button>
+</div>
