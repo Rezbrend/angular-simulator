@@ -18,4 +18,8 @@ export class MessageComponent {
   messageManagementService: MessageManagementService = inject(MessageManagementService);
   messages$: Observable<IMessage[]> = this.messageManagementService.messages$;
   
+  constructor() {
+    this.messages$ = this.messageManagementService.messages$;
+  }
+  
 }

@@ -1,6 +1,8 @@
 <section class="section-user-page">
   <div class="container user-page">
     <h1 class="user-page__title">Страница пользователей</h1>
+    <app-loader></app-loader>
+    <app-message></app-message>
     <app-user-create (userSubmit)="onCreateUser($event)"/>
     <div class="list-none user-card">
       @for (user of users$ | async; track user.id) {
