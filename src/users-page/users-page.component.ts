@@ -8,12 +8,10 @@ import { UserCreateComponent } from '../user-create/user-create.component';
 import { UsersFilterComponent } from '../users-filter/users-filter.component';
 import { LoaderService } from '../loader.service';
 import { MessageManagementService } from '../message-management.service';
-import { LoaderComponent } from '../loader/loader.component';
-import { MessageComponent } from '../message/message.component';
 
 @Component({
   selector: 'app-users-page',
-  imports: [AsyncPipe, UserCardComponent, UserCreateComponent, UsersFilterComponent, LoaderComponent, MessageComponent],
+  imports: [AsyncPipe, UserCardComponent, UserCreateComponent, UsersFilterComponent],
   templateUrl: './users-page.component.html',
   styleUrl: './users-page.component.scss',
   standalone: true,
