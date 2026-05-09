@@ -59,7 +59,7 @@ export class UsersPageComponent {
         if (searchTerm === null) {
           return users;
         }
-        return users.filter(user =>
+        return users.filter((user: IUser) =>
           user.name.trim()
             .toLowerCase()
             .includes(searchTerm.toLowerCase())

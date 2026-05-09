@@ -42,13 +42,8 @@ export class UserService {
   }
 
   loadUsers(): Observable<IUser[]> {
-    const usersFromStorage: IUser[] | null = this.localStorageService.getItem<IUser[]>('users');
-    if (usersFromStorage) {
-      this.usersSubject.next(usersFromStorage);
-      return of(usersFromStorage);
-    }
     return this.userApiService.getUsers().pipe(
-      tap(users => {
+      tap((users: IUser[]) => {
         this.localStorageService.setItem('users', users);
         this.usersSubject.next(users);
       })

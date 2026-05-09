@@ -1,7 +1,10 @@
 import { Component, Output, EventEmitter, inject } from '@angular/core';
-import { FormGroup, FormsModule, FormBuilder, ReactiveFormsModule, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule, Validators, FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { IUser } from '../interfaces/IUser';
-import { IUserForm } from '../interfaces/IUserForm';
+
+type ModelFormGroup<T> = {
+  [K in keyof T]: T[K] extends object ? FormGroup<ModelFormGroup<T[K]>> : FormControl<T[K]>;
+};
 
 @Component({
   selector: 'app-user-create',
@@ -13,33 +16,34 @@ export class UserCreateComponent {
   
   @Output() userSubmit: EventEmitter<IUser> = new EventEmitter<IUser>();
   
-  private fb: FormBuilder = inject(FormBuilder);
+  fb: NonNullableFormBuilder = inject(NonNullableFormBuilder)
   
-  createUserForm: FormGroup<IUserForm> = this.fb.group({
-    name: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
-    username: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
-    email: new FormControl('', [Validators.required, Validators.email, Validators.maxLength(100)]),
+  createUserForm: FormGroup<ModelFormGroup<IUser>> = new FormGroup({
+    id: this.fb.control(Date.now()),
+    name: this.fb.control('', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
+    username: this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
+    email: this.fb.control('', [Validators.required, Validators.email, Validators.maxLength(100)]),
+    phone: this.fb.control(0, [Validators.required, Validators.minLength(10), Validators.maxLength(25)]),
+    website: this.fb.control('', [Validators.maxLength(100)]),
     address: this.fb.group({
-      city: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-      street: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-      suite: new FormControl('', [Validators.maxLength(50)]),
-      zipcode: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]),
+      city: this.fb.control('', [Validators.required, Validators.maxLength(50)]),
+      street: this.fb.control('', [Validators.required, Validators.maxLength(100)]),
+      suite: this.fb.control(0, [Validators.maxLength(50)]),
+      zipcode: this.fb.control(0, [Validators.required, Validators.minLength(5), Validators.maxLength(10)]),
       geo: this.fb.group({
-        lat: new FormControl('', [Validators.required]),
-        lng: new FormControl('', [Validators.required]),
+        lat: this.fb.control(0, [Validators.required]),
+        lng: this.fb.control(0, [Validators.required]),
       }),
     }),
-    phone: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(25)]),
-    website: new FormControl('', [Validators.maxLength(100)]),
     company: this.fb.group({
-      name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-      catchPhrase: new FormControl('', [Validators.maxLength(200)]),
-      bs: new FormControl('', [Validators.maxLength(100)]),
+      name: this.fb.control('', [Validators.required, Validators.maxLength(50)]),
+      catchPhrase: this.fb.control('', [Validators.maxLength(200)]),
+      bs: this.fb.control('', [Validators.maxLength(100)]),
     }),
   });
 
   onSubmit(): void {
-    const newUser: IUser = {...this.createUserForm.value, id: Date.now()};
+    const newUser = {...this.createUserForm.getRawValue()};
     this.userSubmit.emit(newUser);
     this.createUserForm.reset();
   }
