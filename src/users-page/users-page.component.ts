@@ -26,18 +26,9 @@ export class UsersPageComponent {
   searchTerm$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
   constructor() {
-    this.loaderService.showLoader();
     this.userService.loadUsers()
       .pipe(
-        tap((users: IUser[]) => {
-          this.userService.setUsers(users);
-          this.loaderService.hideLoader();
-        }),
-        catchError((error) => {
-          this.loaderService.hideLoader();
-          this.messageService.showError(`Произошла ошибка: ${error}`);
-          return of();
-        })
+        tap( (users: IUser[]) => this.userService.setUsers(users) )
       )
     .subscribe();
   }

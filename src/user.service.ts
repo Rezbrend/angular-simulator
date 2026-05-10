@@ -42,12 +42,23 @@ export class UserService {
   }
 
   loadUsers(): Observable<IUser[]> {
-    return this.userApiService.getUsers().pipe(
-      tap((users: IUser[]) => {
-        this.localStorageService.setItem('users', users);
-        this.usersSubject.next(users);
-      })
-    );
-  }
+    this.loaderService.showLoader();
+
+    const usersFromStorage: IUser[] | null = this.localStorageService.getItem<IUser[]>('users');
+    if (usersFromStorage?.length) {
+      this.loaderService.hideLoader();
+      return of(usersFromStorage);
+    };
+
+    return this.userApiService.getUsers()
+      .pipe(
+        catchError((error: string) => {
+          this.messageService.showError('Нет пользователей для отображения');
+          console.error(error);
+          return of([]);
+        }),
+        finalize(() => this.loaderService.hideLoader()),
+      );
+    }
   
 }
