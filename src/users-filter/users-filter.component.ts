@@ -10,7 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class UsersFilterComponent {
   
-  @Output() filterChange = new EventEmitter<string | null>();
+  @Output() filterChange: EventEmitter<string | null> = new EventEmitter<string | null>();
 
   userName: FormControl<string | null> = new FormControl<string | null>('');
 
@@ -20,7 +20,7 @@ export class UsersFilterComponent {
         debounceTime(200),
         distinctUntilChanged(),
         tap((item: string | null) => {
-          const filteredItem = item?.trim() || null;
+          const filteredItem: string | null = item?.trim() || null;
           this.filterChange.emit(filteredItem);
         }),
         takeUntilDestroyed()

@@ -29,16 +29,11 @@ export class UserService {
   }
 
   addUser(newUser: IUser): void {
-    const currentUsers: IUser[] = this.usersSubject.getValue();
-    const updatedUsers: IUser[] = [...currentUsers, newUser];
-    this.setUsers(updatedUsers);
-    console.log(updatedUsers)
+    this.setUsers([...this.usersSubject.value, newUser])
   }
 
   removeUser(userId: number): void {
-    const currentUsers: IUser[] = this.usersSubject.getValue();
-    const filteredUsers: IUser[] = currentUsers.filter((currentUser: IUser) => currentUser.id !== userId);
-    this.setUsers(filteredUsers);
+    this.setUsers(this.usersSubject.getValue().filter(user => user.id !== userId));
   }
 
   loadUsers(): Observable<IUser[]> {
