@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Color } from '../enums/Color';
@@ -8,6 +8,7 @@ import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { MessageComponent } from '../message/message.component';
 import { LoaderComponent } from '../loader/loader.component';
+import { PrimeNG } from 'primeng/config';
 
 @Component({
   selector: 'app-root',
@@ -24,9 +25,15 @@ import { LoaderComponent } from '../loader/loader.component';
   styleUrl: './app.component.scss',
   standalone: true,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   
   localStorageService: LocalStorageService = inject(LocalStorageService);
+
+  constructor(private primeng: PrimeNG) {}
+
+  ngOnInit() {
+    this.primeng.ripple.set(true);
+  }
 
   isPrimaryColor(color: Color): boolean {
     const primaryColors: Color[] = [Color.RED, Color.GREEN, Color.BLUE];

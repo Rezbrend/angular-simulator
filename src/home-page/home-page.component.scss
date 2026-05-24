@@ -301,8 +301,8 @@
   margin-left: 315px;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-  background: #FDFDFD66;
-  backdrop-filter: blur(4px)
+  background: #fdfdfd66;
+  backdrop-filter: blur(4px);
 }
 
 .card-rating {
@@ -320,20 +320,20 @@
   padding: 0 32px;
   border-bottom-right-radius: 32px;
   border-bottom-left-radius: 32px;
-  background-color: #FFFFFF33;
+  background-color: #ffffff33;
   backdrop-filter: blur(6px);
   position: absolute;
   color: var(--white-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+
   &-price {
     font-weight: 700;
     font-style: Bold;
     font-size: 20px;
     line-height: 24px;
-    background-color: #FFFFFF4D;
+    background-color: #ffffff4d;
     width: 86px;
     height: 40px;
     display: flex;
@@ -364,14 +364,16 @@
   justify-content: center;
 }
 
-.travel-blog-info, .photo-report-info {
+.travel-blog-info,
+.photo-report-info {
   display: flex;
   flex-direction: column;
   gap: 50px;
   align-items: center;
 }
 
-.travel-blog-info-title, .photo-report-info-title {
+.travel-blog-info-title,
+.photo-report-info-title {
   margin-top: 85px;
   text-align: center;
 }
@@ -393,7 +395,7 @@
 }
 
 .blog-card:hover {
-  box-shadow: 0px 0px 15px 0px #18121E1F;
+  box-shadow: 0px 0px 15px 0px #18121e1f;
 }
 
 .blog-card:hover .blog-card-info-title {
@@ -416,7 +418,7 @@
   padding-top: 16px;
   padding-bottom: 16px;
   display: flex;
-	flex-direction: column;
+  flex-direction: column;
   width: 100%;
 }
 
@@ -437,7 +439,7 @@
   font-style: Bold;
   font-size: 14px;
   line-height: 20px;
-  
+
   &-date {
     color: var(--secondary-color);
   }
@@ -455,7 +457,7 @@
   color: var(--green-color);
   background-color: transparent;
   border: none;
-  cursor: pointer; 
+  cursor: pointer;
   font-weight: 700;
   font-style: Bold;
   font-size: 14px;
@@ -498,4 +500,32 @@
 .footer-section {
   height: 587px;
   background-color: var(--green-color);
+}
+
+:host ::ng-deep {
+  .fa-person-hiking {
+    width: 50px;
+    height: 50px;
+    color: var(--green-color);
+  }
+
+  .fa-building-shield {
+    width: 50px;
+    height: 50px;
+    color: #570000;
+  }
+
+  .fa-tags {
+    width: 50px;
+    height: 50px;
+    color: var(--secondary-color);
+  }
+
+  .fa-star {
+    color: var(--secondary-color);
+  }
+
+  .fa-play {
+    color: var(--green-color);
+  }
 }

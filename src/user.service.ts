@@ -47,6 +47,7 @@ export class UserService {
 
     return this.userApiService.getUsers()
       .pipe(
+        tap( (users: IUser[]) => this.setUsers(users) ),
         catchError((error: string) => {
           this.messageService.showError('Нет пользователей для отображения');
           console.error(error);

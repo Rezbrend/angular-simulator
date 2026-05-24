@@ -27,9 +27,6 @@ export class UsersPageComponent {
 
   constructor() {
     this.userService.loadUsers()
-      .pipe(
-        tap( (users: IUser[]) => this.userService.setUsers(users) )
-      )
     .subscribe();
   }
 
