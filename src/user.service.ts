@@ -47,14 +47,14 @@ export class UserService {
       return of(usersFromStorage);
     }
 
-    return this.userApiService.getUsers().pipe(
-      tap((users: IUser[]) => this.setUsers(users)),
-      catchError(() => {
-        this.messageService.showError('Нет пользователей для отображения');
-        return of([]);
-      }),
-      finalize(() => this.loaderService.hideLoader()),
-    );
+    return this.userApiService.getUsers()
+      .pipe(
+        catchError(() => {
+          this.messageService.showError('Нет пользователей для отображения');
+          return of([]);
+        }),
+        finalize(() => this.loaderService.hideLoader()),
+      );
   }
   
 }

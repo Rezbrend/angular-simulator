@@ -42,7 +42,6 @@ export class ThemeService {
   }
 
   toggleDarkMode(isDarkMode: boolean): void {
-    console.log('Сервис получил команду. isDark:', isDarkMode);
     this.isDarkSubject.next(isDarkMode);
     this.localStorage.setItem('dark-mode', isDarkMode.toString());
   }
@@ -59,7 +58,6 @@ export class ThemeService {
   }
 
   private updateHtmlClass(isDarkMode: boolean): void {
-    console.log('Добавляем класс dark-theme в <html>');
     const element: HTMLHtmlElement = document.querySelector('html')!;
     if (isDarkMode) {
       element.classList.add('dark-theme');

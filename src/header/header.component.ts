@@ -43,7 +43,6 @@ export class HeaderComponent {
   }
   
   toggleDarkMode = (event: ToggleSwitchChangeEvent): void => {
-    console.log('Кликнули по переключателю. this.themeService:', this.themeService);
     this.themeService.toggleDarkMode(event.checked);
   };
   

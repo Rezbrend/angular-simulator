@@ -17,30 +17,14 @@ import { MessageManagementService } from '../message-management.service';
   standalone: true,
 })
 export class UsersPageComponent {
+  
   loaderService: LoaderService = inject(LoaderService);
   messageService: MessageManagementService = inject(MessageManagementService);
   userService: UserService = inject(UserService);
   users$: Observable<IUser[]> = this.userService.users$;
-  filteredUsers$: Observable<IUser[]> = new Observable<IUser[]>();
   searchTerm$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
-  constructor() {
-    this.userService.loadUsers().pipe(
-      tap((users: IUser[]) => this.userService.setUsers(users))
-    ).subscribe();
-    this.onFilterChange();
-  }
-
-  onDeleteUser(userId: number): void {
-    this.userService.removeUser(userId);
-  }
-
-  onCreateUser(newUser: IUser): void {
-    this.userService.addUser(newUser);
-  }
-
-  onFilterChange(): void {
-    this.filteredUsers$ = combineLatest([this.searchTerm$, this.users$]).pipe(
+  filteredUsers$: Observable<IUser[]> = combineLatest([this.searchTerm$, this.users$])
+    .pipe(
       map(([searchTerm, users]) => {
         if (searchTerm === null) {
           return users;
@@ -50,6 +34,21 @@ export class UsersPageComponent {
         );
       }),
     );
+
+  constructor() {
+    this.userService.loadUsers().pipe(
+      tap((users: IUser[]) => {
+        this.userService.setUsers(users)
+      })
+    ).subscribe();
+  }
+
+  onDeleteUser(userId: number): void {
+    this.userService.removeUser(userId);
+  }
+
+  onCreateUser(newUser: IUser): void {
+    this.userService.addUser(newUser);
   }
 
 }
