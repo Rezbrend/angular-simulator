@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { usePreset } from '@primeuix/themes';
 import { ITheme } from './interfaces/ITheme';
 import { LocalStorageService } from './local-storage.service';
-import { ThemesName } from './enums/ThemesName';
+import { Theme } from './enums/Theme';
 import Aura from '@primeuix/themes/aura';
 import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
@@ -12,48 +12,27 @@ import Nora from '@primeuix/themes/nora';
   providedIn: 'root',
 })
 export class ThemeService {
-
+  
   localStorage: LocalStorageService = inject(LocalStorageService);
 
-  private isDarkSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.initModeFromStorage());
+  themes: ITheme[] = [
+    { name: Theme.AURA, preset: Aura },
+    { name: Theme.LARA, preset: Lara },
+    { name: Theme.NORA, preset: Nora }
+  ];
+
+  private isDarkSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isDarkMode$: Observable<boolean> = this.isDarkSubject.asObservable().pipe(
     tap((isDarkMode: boolean) => {
-      const element: HTMLHtmlElement = document.querySelector('html')!;
-      isDarkMode ? element.classList.add('dark-theme') : element.classList.remove('dark-theme');
+      this.updateHtmlClass(isDarkMode);
     })
   );
 
-    themes: ITheme[] = [
-    {
-      name: ThemesName.AURA,
-      preset: Aura
-    },
-    {
-      name: ThemesName.LARA,
-      preset: Lara
-    },
-    {
-      name: ThemesName.NORA,
-      preset: Nora
-    }
-  ];
-
-  private themeSubject: BehaviorSubject<ITheme> = new BehaviorSubject<ITheme>(this.initThemeFromStorage());
+  private themeSubject: BehaviorSubject<ITheme> = new BehaviorSubject<ITheme>(this.themes[0]);
   theme$: Observable<ITheme> = this.themeSubject.asObservable();
 
-  private initModeFromStorage(): boolean {
-    return this.localStorage.getItem('dark-mode') ?? false;
-  }
-
-  toggleDarkMode(isDarkMode: boolean): void {
-    this.isDarkSubject.next(isDarkMode);
-    this.localStorage.setItem('dark-mode', this.isDarkSubject.value);
-  }
-
-  private initThemeFromStorage(): ITheme {
-    const savedThemeName: string | null = this.localStorage.getItem('theme');
-    const foundTheme: ITheme | undefined = this.themes.find(theme => theme.name === savedThemeName);
-    return foundTheme ?? this.themes[0];
+  constructor() {
+    this.loadInitialState();
   }
 
   changeTheme(theme: ITheme): void {
@@ -62,4 +41,31 @@ export class ThemeService {
     this.localStorage.setItem('theme', theme.name);
   }
 
+  toggleDarkMode(isDarkMode: boolean): void {
+    console.log('Сервис получил команду. isDark:', isDarkMode);
+    this.isDarkSubject.next(isDarkMode);
+    this.localStorage.setItem('dark-mode', isDarkMode.toString());
+  }
+
+  loadInitialState(): void {
+    const savedThemeName = this.localStorage.getItem('theme');
+    const foundTheme = this.themes.find(theme => theme.name === savedThemeName);
+    if (foundTheme) {
+      this.changeTheme(foundTheme);
+    }
+
+    const savedDarkMode = this.localStorage.getItem('dark-mode');
+    this.toggleDarkMode(savedDarkMode === 'true');
+  }
+
+  private updateHtmlClass(isDarkMode: boolean): void {
+    console.log('Добавляем класс dark-theme в <html>');
+    const element: HTMLHtmlElement = document.querySelector('html')!;
+    if (isDarkMode) {
+      element.classList.add('dark-theme');
+    } else {
+      element.classList.remove('dark-theme');
+    }
+  }
+  
 }

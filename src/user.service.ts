@@ -10,7 +10,7 @@ import { LocalStorageService } from './local-storage.service';
   providedIn: 'root',
 })
 export class UserService {
-  
+
   loaderService: LoaderService = inject(LoaderService);
   userApiService: UsersApiService = inject(UsersApiService);
   messageService: MessageManagementService = inject(MessageManagementService);
@@ -21,40 +21,40 @@ export class UserService {
 
   setUsers(users: IUser[]): void {
     this.usersSubject.next(users);
-    this.localStorageService.setItem('users', users);
+    this.localStorageService.setItem('users', JSON.stringify(users));
   }
 
   getUsers(): IUser[] {
-    return this.usersSubject.getValue();
+    return this.usersSubject.getValue() || [];
   }
 
   addUser(newUser: IUser): void {
-    this.setUsers([...this.usersSubject.value, newUser])
+    this.setUsers([...this.usersSubject.value, newUser]);
   }
 
   removeUser(userId: number): void {
-    this.setUsers(this.usersSubject.getValue().filter(user => user.id !== userId));
+    this.setUsers(this.usersSubject.getValue().filter((user) => user.id !== userId));
   }
 
   loadUsers(): Observable<IUser[]> {
     this.loaderService.showLoader();
 
-    const usersFromStorage: IUser[] | null = this.localStorageService.getItem<IUser[]>('users');
-    if (usersFromStorage?.length) {
+    const usersFromStorage: IUser[] | null = JSON.parse(
+      this.localStorageService.getItem('users') || 'null',
+    );
+    if (usersFromStorage && usersFromStorage.length > 0) {
       this.loaderService.hideLoader();
       return of(usersFromStorage);
-    };
-
-    return this.userApiService.getUsers()
-      .pipe(
-        tap( (users: IUser[]) => this.setUsers(users) ),
-        catchError((error: string) => {
-          this.messageService.showError('Нет пользователей для отображения');
-          console.error(error);
-          return of([]);
-        }),
-        finalize(() => this.loaderService.hideLoader()),
-      );
     }
+
+    return this.userApiService.getUsers().pipe(
+      tap((users: IUser[]) => this.setUsers(users)),
+      catchError(() => {
+        this.messageService.showError('Нет пользователей для отображения');
+        return of([]);
+      }),
+      finalize(() => this.loaderService.hideLoader()),
+    );
+  }
   
 }

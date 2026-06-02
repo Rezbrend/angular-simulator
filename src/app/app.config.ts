@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
-import { ThemesName } from '../enums/ThemesName';
+import { Theme } from '../enums/Theme';
 import Aura from '@primeuix/themes/aura';
 import Nora from '@primeuix/themes/nora';
 import Lara from '@primeuix/themes/lara';
@@ -12,12 +12,12 @@ type ThemePresetType = typeof Aura | typeof Lara | typeof Nora;
 
 const initThemePreset = (): ThemePresetType => {
   const themeFromStorage: string | null = localStorage.getItem('theme');
-  const savedTheme: ThemesName = themeFromStorage ? JSON.parse(themeFromStorage) : ThemesName.AURA;
+  const savedTheme: Theme = themeFromStorage ? JSON.parse(themeFromStorage) : Theme.AURA;
 
   switch (savedTheme) {
-    case ThemesName.NORA:
+    case Theme.NORA:
       return Nora;
-    case ThemesName.LARA:
+    case Theme.LARA:
       return Lara;
     default:
       return Aura;

@@ -84,11 +84,11 @@
 }
 
 .nav-link:hover {
-  background-color: #ffffff;
+  background-color: var(--super-white-color);
 }
 
 .active {
-  background-color: #0040ff;
+  background-color: var(--secondary-color);
   text-decoration: underline;
 }
 

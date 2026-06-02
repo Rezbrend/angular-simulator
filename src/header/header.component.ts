@@ -42,8 +42,13 @@ export class HeaderComponent {
     this.widget = this.widget === 'date' ? 'clicker' : 'date';
   }
   
-  toggleDarkMode(event: ToggleSwitchChangeEvent): void {
+  toggleDarkMode = (event: ToggleSwitchChangeEvent): void => {
+    console.log('Кликнули по переключателю. this.themeService:', this.themeService);
     this.themeService.toggleDarkMode(event.checked);
+  };
+  
+  ngOnInit(): void {
+    this.themeService.loadInitialState();
   }
   
 }
