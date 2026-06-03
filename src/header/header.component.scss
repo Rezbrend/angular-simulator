@@ -87,8 +87,8 @@
   background-color: var(--super-white-color);
 }
 
-.active {
-  background-color: var(--secondary-color);
+.header-nav a.active {
+  color: var(--secondary-color);
   text-decoration: underline;
 }
 

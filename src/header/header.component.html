@@ -1,34 +1,37 @@
-  <header class="header">
-    <div class="container">
-      <div class="main-header">
-        <div class="header-logo">
-          <img src="/images/mountain-icon.svg" alt="mountain" class="logo" />
-          <span class="company-name">{{ companyName }}</span>
-        </div>
-        <nav class="header-nav">
-          @for (item of navigation; track item.link) {
-            <a
-              [routerLink]="item.link"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              class="nav-link"
-            >
-              {{ item.label }}
-            </a>
-          }
-        </nav>
-        <div class="container-toggle-theme">
-          <fa-icon [icon]="(themeService.isDarkMode$ | async) ? faMoon : faSun"/>
-          <p-toggleswitch [ngModel]="themeService.isDarkMode$ | async" (onChange)="toggleDarkMode($event)"/>
-          <p-selectbutton
-            [options]="themeService.themes"
-            [ngModel]="themeService.theme$ | async"
-            optionLabel="name"
-            (onChange)="themeService.changeTheme($event.value)"
-          />
-        </div>
+<header class="header">
+  <div class="container">
+    <div class="main-header">
+      <div class="header-logo">
+        <img src="/images/mountain-icon.svg" alt="mountain" class="logo" />
+        <span class="company-name">{{ companyName }}</span>
       </div>
-      <div class="header-date">
+      <nav class="header-nav">
+        @for (item of navigation; track item.link) {
+          <a
+            [routerLink]="item.link"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="nav-link"
+          >
+            {{ item.label }}
+          </a>
+        }
+      </nav>
+      <div class="container-toggle-theme">
+        <fa-icon [icon]="(themeService.isDarkMode$ | async) ? faMoon : faSun" />
+        <p-toggleswitch
+          [ngModel]="themeService.isDarkMode$ | async"
+          (onChange)="toggleDarkMode($event)"
+        />
+        <p-selectbutton
+          [options]="themeService.themes"
+          [ngModel]="themeService.theme$ | async"
+          optionLabel="name"
+          (onChange)="themeService.changeTheme($event.value)"
+        />
+      </div>
+    </div>
+    <div class="header-date">
         @if (widget === 'date') {
           <span>{{ currentDate }}</span>
         }
@@ -43,5 +46,5 @@
           {{ widget === 'clicker' ? 'Показать дату' : 'Показать кликер' }}
         </button>
       </div>
-    </div>
-  </header>
+  </div>
+</header>
