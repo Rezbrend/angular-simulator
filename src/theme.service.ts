@@ -7,6 +7,8 @@ import Aura from '@primeuix/themes/aura';
 import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
 
+type ThemeVariable = '--primary-color' | '--surface-color';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -17,14 +19,14 @@ export class ThemeService {
   themes: ITheme[] = [
     { name: Theme.AURA, preset: Aura },
     { name: Theme.LARA, preset: Lara },
-    { name: Theme.NORA, preset: Nora }
+    { name: Theme.NORA, preset: Nora },
   ];
 
   private isDarkSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isDarkMode$: Observable<boolean> = this.isDarkSubject.asObservable().pipe(
     tap((isDarkMode: boolean) => {
       this.updateHtmlClass(isDarkMode);
-    })
+    }),
   );
 
   private themeSubject: BehaviorSubject<ITheme> = new BehaviorSubject<ITheme>(this.themes[0]);
@@ -33,8 +35,8 @@ export class ThemeService {
   constructor() {
     this.loadInitialState();
   }
-  
-  private themeTokens: Record<Theme, Record<string, string>> = {
+
+  private themeTokens: Record<Theme, Record<ThemeVariable, string>> = {
     [Theme.AURA]: {
       '--primary-color': '#FF6347',
       '--surface-color': '#FFFFFF',
@@ -63,7 +65,7 @@ export class ThemeService {
 
   loadInitialState(): void {
     const savedThemeName = this.localStorage.getItem('theme');
-    const foundTheme = this.themes.find(theme => theme.name === savedThemeName);
+    const foundTheme = this.themes.find((theme) => theme.name === savedThemeName);
     if (foundTheme) {
       this.changeTheme(foundTheme);
     }
@@ -71,13 +73,13 @@ export class ThemeService {
     const savedDarkMode = this.localStorage.getItem('dark-mode');
     this.toggleDarkMode(savedDarkMode === 'true');
   }
-  
+
   private applyThemeTokens(themeName: Theme) {
     const tokens = this.themeTokens[themeName];
     const root = document.documentElement;
 
     Object.keys(tokens).forEach((key) => {
-      root.style.setProperty(key, tokens[key]);
+      root.style.setProperty(key, tokens[key as ThemeVariable]);
     });
   }
 
