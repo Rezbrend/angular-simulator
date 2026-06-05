@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { usePreset } from '@primeuix/themes';
 import { ITheme } from './interfaces/ITheme';
 import { LocalStorageService } from './local-storage.service';
 import { Theme } from './enums/Theme';
@@ -34,16 +33,32 @@ export class ThemeService {
   constructor() {
     this.loadInitialState();
   }
+  
+  private themeTokens: Record<Theme, Record<string, string>> = {
+    [Theme.AURA]: {
+      '--primary-color': '#FF6347',
+      '--surface-color': '#FFFFFF',
+    },
+    [Theme.LARA]: {
+      '--primary-color': '#4CAF50',
+      '--surface-color': '#F0F0F0',
+    },
+    [Theme.NORA]: {
+      '--primary-color': '#3333FF',
+      '--surface-color': '#E0E0E0',
+    },
+  };
 
   changeTheme(theme: ITheme): void {
     this.themeSubject.next(theme);
-    usePreset(theme.preset);
     this.localStorage.setItem('theme', theme.name);
+    this.applyThemeTokens(theme.name);
   }
 
   toggleDarkMode(isDarkMode: boolean): void {
     this.isDarkSubject.next(isDarkMode);
     this.localStorage.setItem('dark-mode', isDarkMode.toString());
+    this.updateHtmlClass(isDarkMode);
   }
 
   loadInitialState(): void {
@@ -55,6 +70,15 @@ export class ThemeService {
 
     const savedDarkMode = this.localStorage.getItem('dark-mode');
     this.toggleDarkMode(savedDarkMode === 'true');
+  }
+  
+  private applyThemeTokens(themeName: Theme) {
+    const tokens = this.themeTokens[themeName];
+    const root = document.documentElement;
+
+    Object.keys(tokens).forEach((key) => {
+      root.style.setProperty(key, tokens[key]);
+    });
   }
 
   private updateHtmlClass(isDarkMode: boolean): void {

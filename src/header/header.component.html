@@ -18,9 +18,10 @@
         }
       </nav>
       <div class="container-toggle-theme">
-        <fa-icon [icon]="(themeService.isDarkMode$ | async) ? faMoon : faSun" />
+        @let isDark = themeService.isDarkMode$ | async;
+        <fa-icon [icon]="isDark ? faMoon : faSun" />
         <p-toggleswitch
-          [ngModel]="themeService.isDarkMode$ | async"
+          [ngModel]="isDark"
           (onChange)="toggleDarkMode($event)"
         />
         <p-selectbutton
