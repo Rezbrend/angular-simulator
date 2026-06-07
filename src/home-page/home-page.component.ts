@@ -5,10 +5,12 @@ import { IProgram } from '../interfaces/IProgram.js';
 import { ICard } from '../interfaces/ICard.js';
 import { IBlogCard } from '../interfaces/IBlogCard.js';
 import { MessageManagementService } from '../message-management.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPersonHiking, faBuildingShield, faTags, faStar, faPlay, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home-page',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule,  FontAwesomeModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
   standalone: true
@@ -22,25 +24,30 @@ export class HomePageComponent {
     location: string = '';
     date: string = '';
     participants: string = '';
+    faPersonHiking: IconDefinition = faPersonHiking;
+    faBuildingShield: IconDefinition = faBuildingShield;
+    faTags: IconDefinition = faTags;
+    faStar: IconDefinition = faStar;
+    faPlay: IconDefinition = faPlay;
   
     programs: IProgram[] = [
       {
         id: 1,
         title: 'Опытный гид',
         description: 'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
-        icon: 'green-people-icon',
+        icon: faPersonHiking,
       },
       {
         id: 2,
         title: 'Безопасный поход',
         description: 'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
-        icon: 'blue-shield-icon',
+        icon: faBuildingShield,
       },
       {
         id: 3,
         title: 'Лояльные цены',
         description: 'Для современного мира базовый вектор развития предполагает независимые способы реализации соответствующих условий активизации.',
-        icon: 'yellow-label-icon',
+        icon: faTags,
       },
     ];
   

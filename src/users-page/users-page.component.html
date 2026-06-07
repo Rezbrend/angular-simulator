@@ -11,6 +11,6 @@
         </div>
       }
     </div>
-    <app-users-filter (filterChange)="onFilterChange()"></app-users-filter>
+    <app-users-filter (filterChange)="this.searchTerm$.next($event)"></app-users-filter>
   </div>
 </section>

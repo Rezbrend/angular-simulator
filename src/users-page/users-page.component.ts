@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { combineLatest, BehaviorSubject, Observable, tap, map, of, catchError } from 'rxjs';
+import { combineLatest, BehaviorSubject, Observable, tap, map } from 'rxjs';
 import { UserService } from '../user.service';
 import { AsyncPipe } from '@angular/common';
 import { IUser } from '../interfaces/IUser';
@@ -22,15 +22,25 @@ export class UsersPageComponent {
   messageService: MessageManagementService = inject(MessageManagementService);
   userService: UserService = inject(UserService);
   users$: Observable<IUser[]> = this.userService.users$;
-  filteredUsers$: Observable<IUser[]> = new Observable<IUser[]>();
   searchTerm$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  filteredUsers$: Observable<IUser[]> = combineLatest([this.searchTerm$, this.users$])
+    .pipe(
+      map(([searchTerm, users]) => {
+        if (searchTerm === null) {
+          return users;
+        }
+        return users.filter((user: IUser) =>
+          user.name.trim().toLowerCase().includes(searchTerm.toLowerCase()),
+        );
+      }),
+    );
 
   constructor() {
-    this.userService.loadUsers()
-      .pipe(
-        tap( (users: IUser[]) => this.userService.setUsers(users) )
-      )
-    .subscribe();
+    this.userService.loadUsers().pipe(
+      tap((users: IUser[]) => {
+        this.userService.setUsers(users)
+      })
+    ).subscribe();
   }
 
   onDeleteUser(userId: number): void {
@@ -38,25 +48,7 @@ export class UsersPageComponent {
   }
 
   onCreateUser(newUser: IUser): void {
-    this.userService.addUser(newUser)
+    this.userService.addUser(newUser);
   }
-  
-  onFilterChange(): void {
-    this.filteredUsers$ = combineLatest([
-      this.searchTerm$,
-      this.users$
-    ]).pipe(
-      map(([searchTerm, users]) => {
-        if (searchTerm === null) {
-          return users;
-        }
-        return users.filter((user: IUser) =>
-          user.name.trim()
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
-        );
-      })
-    );
-  }
-  
+
 }

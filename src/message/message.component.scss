@@ -48,3 +48,13 @@
   font-size: 14px;
   color: var(--white-color);
 }
+
+:host ::ng-deep {
+  .fa-envelope {
+    color: var(--white-color);
+  }
+  
+  .fa-circle-xmark {
+    color: var(--white-color);
+  }
+}

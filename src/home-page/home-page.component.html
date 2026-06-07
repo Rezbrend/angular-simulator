@@ -62,7 +62,7 @@
         <img src="/images/house-tour.png" alt="cabin-foreground" class="cabin-foreground" />
         <div class="play-btn-block">
           <button id="video-player-btn" class="video-player-btn">
-            <img src="/images/icons/green-play-btn-icon.svg" alt="play-btn-icon" />
+            <fa-icon [icon]="faPlay" />
           </button>
         </div>
       </div>
@@ -90,7 +90,7 @@
         @for (program of programs; track program.id) {
           <div class="programs-list-block">
             <div class="programs-list-icon">
-              <img [src]="`/images/icons/${ program.icon }.svg`" alt="icon" width="36px" height="33px" class="programs-icon"/>
+              <fa-icon [icon]="program.icon" class="programs-icon" width="36px" height="33px"/>
             </div>
             <div class="programs-list-info">
               <span class="program-features-title">{{ program.title }}</span>
@@ -118,7 +118,7 @@
         @for (card of cards; track card.id) {
           <div class="card" [style.background-image]="`url(/images/${card.image}.png)`">
             <div class="rating-container">
-              <img src="/images/icons/yellow-star-icon.svg">
+              <fa-icon [icon]="faStar" />
               <span class="card-rating">{{ card.rating }}</span>
             </div>
             <div class="card-content">
