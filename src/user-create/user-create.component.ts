@@ -1,6 +1,8 @@
 import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule, Validators, FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { IUser } from '../interfaces/IUser';
+import { BoldOnHoverDirective } from '../app/hover.directive';
+import { BorderDirective } from '../app/border.directive';
 
 type ModelFormGroup<T> = {
   [K in keyof T]: T[K] extends object ? FormGroup<ModelFormGroup<T[K]>> : FormControl<T[K]>;
@@ -8,7 +10,7 @@ type ModelFormGroup<T> = {
 
 @Component({
   selector: 'app-user-create',
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, BoldOnHoverDirective, BorderDirective],
   templateUrl: './user-create.component.html',
   styleUrl: './user-create.component.scss',
 })
@@ -23,7 +25,7 @@ export class UserCreateComponent {
     name: this.fb.control('', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
     username: this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
     email: this.fb.control('', [Validators.required, Validators.email, Validators.maxLength(100)]),
-    phone: this.fb.control(0, [Validators.required, Validators.minLength(10), Validators.maxLength(25)]),
+    phone: this.fb.control('', [Validators.required, Validators.minLength(10), Validators.maxLength(25)]),
     website: this.fb.control('', [Validators.maxLength(100)]),
     address: this.fb.group({
       city: this.fb.control('', [Validators.required, Validators.maxLength(50)]),

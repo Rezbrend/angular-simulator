@@ -1,5 +1,5 @@
-<div class="user-card__item">
-  <h2 class="user-card__title">{{ user.name }}</h2>
+<div class="user-card__item" border [GradientConfiguration]="{ delay: 1000, colors: ['#ff9900', '#0099ff'], thickness: '20px' }">
+  <h2 class="user-card__title">{{ user.name | uppercase }}</h2>
   <p class="user-card__username color-yellow">{{ user.username }}</p>
   <h3 class="user-card__subtitle">Контакты</h3>
   <div class="user-card__section">
@@ -9,7 +9,17 @@
     </div>
     <div class="user-card__wrapper">
       <span class="user-card__label">Телефон:</span>
-      <span class="user-card__value">{{ user.phone }}</span>
+      <div class="user-card__phone-list">
+        <div class="user-card__phone-item">
+          Международный: {{ user.phone | phone:'international' }}
+        </div>
+        <div class="user-card__phone-item">
+          Национальный: {{ user.phone | phone:'national' }}
+        </div>
+        <div class="user-card__phone-item">
+          Скрытый: {{ user.phone | phone:'masked' }}
+        </div>
+      </div>
     </div>
     <div class="user-card__wrapper">
       <span class="user-card__label">Веб-сайт:</span>
@@ -48,7 +58,7 @@
       <div class="user-card__label">Компания:</div>
       <div class="user-card__value">{{ user.company.name }}</div>
     </div>
-    <div class="user-card__wrapper mb26">
+    <div class="user-card__wrapper ">
       <div class="user-card__label">Миссия:</div>
       <div class="user-card__value text-italic">{{ user.company.catchPhrase || 'Неизвестно' }}</div>
     </div>
@@ -57,5 +67,5 @@
       <div class="user-card__value">{{ user.company.bs || 'Неизвестно' }}</div>
     </div>
   </div>
-  <button id="delete-user-btn" class="delete-user-btn" (click)="onDelete()">Удалить пользователя</button>
+  <button boldOnHover id="delete-user-btn" class="delete-user-btn" (click)="onDelete()">Удалить пользователя</button>
 </div>

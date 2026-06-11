@@ -3,7 +3,7 @@
     <div class="form-group">
       <div class="form-field">
         <label for="name">Имя:</label>
-        <input type="text" id="user-create-name" formControlName="name" />
+        <input type="text" id="user-create-name" formControlName="name" border [GradientConfiguration]="{ delay: 1000, colors: ['#05e194', '#4d04e0'], thickness: '10px' }"/>
       </div>
       <div class="form-field">
         <label for="username">Username:</label>
@@ -71,5 +71,5 @@
       </div>
     </div>
   </form>
-  <button id="create-user-btn" class="create-user-btn" type="button" [disabled]="createUserForm.invalid" (click)="onSubmit()">Создать пользователя</button>
+  <button boldOnHover id="create-user-btn" class="create-user-btn" type="button" [disabled]="createUserForm.invalid" (click)="onSubmit()">Создать пользователя</button>
 </div>
