@@ -3,7 +3,7 @@
     <h1 class="user-page__title">Страница пользователей</h1>
     <app-user-create (userSubmit)="onCreateUser($event)"/>
     <div class="user-count-display">
-      {{ usersCount | users:['юзер', 'юзера', 'юзеров'] }}
+      {{ usersCount | users:['пользователь', 'пользователя', 'пользователей'] }}
     </div>
     <div class="list-none user-card">
       @for (user of filteredUsers$ | async; track user.id) {
