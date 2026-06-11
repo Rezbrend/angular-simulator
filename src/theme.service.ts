@@ -3,17 +3,24 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ITheme } from './interfaces/ITheme';
 import { LocalStorageService } from './local-storage.service';
 import { Theme } from './enums/Theme';
+import { usePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
 
-type ThemeVariable = '--primary-color' | '--surface-color';
+type ThemeColors = {
+  '--primary-color': string;
+  '--surface-color': string;
+};
+
+type ThemeTokens = {
+  [key in Theme]: ThemeColors;
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  
   localStorage: LocalStorageService = inject(LocalStorageService);
 
   themes: ITheme[] = [
@@ -36,7 +43,7 @@ export class ThemeService {
     this.loadInitialState();
   }
 
-  private themeTokens: Record<Theme, Record<ThemeVariable, string>> = {
+  private themeTokens: ThemeTokens = {
     [Theme.AURA]: {
       '--primary-color': '#FF6347',
       '--surface-color': '#FFFFFF',
@@ -53,6 +60,7 @@ export class ThemeService {
 
   changeTheme(theme: ITheme): void {
     this.themeSubject.next(theme);
+    usePreset(theme.preset);
     this.localStorage.setItem('theme', theme.name);
     this.applyThemeTokens(theme.name);
   }
@@ -78,8 +86,8 @@ export class ThemeService {
     const tokens = this.themeTokens[themeName];
     const root = document.documentElement;
 
-    Object.keys(tokens).forEach((key) => {
-      root.style.setProperty(key, tokens[key as ThemeVariable]);
+    Object.entries(tokens).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
     });
   }
 
