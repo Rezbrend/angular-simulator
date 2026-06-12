@@ -1,15 +1,12 @@
 import { Directive, HostListener, HostBinding, Input } from '@angular/core';
+import { IGradientConfiguration } from '../interfaces/IGradientConfiguration';
 
 @Directive({
   selector: '[border]',
 })
 export class BorderDirective {
   
-  @Input() GradientConfiguration: {
-    delay?: number;
-    colors?: string[];
-    thickness?: string;
-  } = {
+  @Input() gradientConfiguration: IGradientConfiguration = {
     delay: 1000,
     colors: ['#ff0000', '#00ff00', '#0000ff'],
     thickness: '2px',
@@ -25,13 +22,11 @@ export class BorderDirective {
   onMouseEnter() {
     clearTimeout(this.timeoutId);
     this.timeoutId = setTimeout(() => {
-      this.borderWidth = this.GradientConfiguration.thickness ?? '2px';
+      this.borderWidth = this.gradientConfiguration.thickness ?? '2px';
       this.borderStyle = 'solid';
-      const gradientColors = this.GradientConfiguration.colors
-        ? this.GradientConfiguration.colors.join(', ')
-        : '#ff0000, #00ff00, #0000ff';
+      const gradientColors = this.gradientConfiguration.colors ? this.gradientConfiguration.colors.join(', ') : '#ff0000, #00ff00, #0000ff';
       this.borderImage = `linear-gradient(90deg, ${gradientColors}) 1`;
-    }, this.GradientConfiguration.delay ?? 1000);
+    }, this.gradientConfiguration.delay ?? 1000);
   }
 
   @HostListener('mouseleave')

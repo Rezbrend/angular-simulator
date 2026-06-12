@@ -16,4 +16,5 @@ export class BoldOnHoverDirective {
   onMouseLeave() {
     this.fontWeight = 'normal';
   }
+  
 }
