@@ -45,7 +45,7 @@ export class ThemeService {
 
   private themeTokens: ThemeTokens = {
     [Theme.AURA]: {
-      '--primary-color': '#FF6347',
+      '--primary-color': '#000000',
       '--surface-color': '#FFFFFF',
     },
     [Theme.LARA]: {
