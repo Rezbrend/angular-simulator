@@ -24,8 +24,8 @@ export class BorderDirective {
     this.timeoutId = setTimeout(() => {
       this.borderWidth = this.gradientConfiguration.thickness ?? '2px';
       this.borderStyle = 'solid';
-      const gradientColors = this.gradientConfiguration.colors ? this.gradientConfiguration.colors.join(', ') : '#ff0000, #00ff00, #0000ff';
-      this.borderImage = `linear-gradient(90deg, ${gradientColors}) 1`;
+      const gradientColors: string = this.gradientConfiguration.colors ? this.gradientConfiguration.colors.join(', ') : '#ff0000, #00ff00, #0000ff';
+      this.borderImage = `linear-gradient(90deg, ${ gradientColors }) 1`;
     }, this.gradientConfiguration.delay ?? 1000);
   }
 

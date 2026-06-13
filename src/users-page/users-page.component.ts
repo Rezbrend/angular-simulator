@@ -22,7 +22,7 @@ export class UsersPageComponent {
   loaderService: LoaderService = inject(LoaderService);
   messageService: MessageManagementService = inject(MessageManagementService);
   userService: UserService = inject(UserService);
-  usersCount = 0;
+  usersCount: number = 0;
   users$: Observable<IUser[]> = this.userService.users$;
   searchTerm$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   filteredUsers$: Observable<IUser[]> = combineLatest([this.searchTerm$, this.users$])

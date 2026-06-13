@@ -72,19 +72,19 @@ export class ThemeService {
   }
 
   loadInitialState(): void {
-    const savedThemeName = this.localStorage.getItem('theme');
-    const foundTheme = this.themes.find((theme) => theme.name === savedThemeName);
+    const savedThemeName: unknown = this.localStorage.getItem('theme');
+    const foundTheme: ITheme | undefined = this.themes.find((theme) => theme.name === savedThemeName);
     if (foundTheme) {
       this.changeTheme(foundTheme);
     }
 
-    const savedDarkMode = this.localStorage.getItem('dark-mode');
+    const savedDarkMode: unknown = this.localStorage.getItem('dark-mode');
     this.toggleDarkMode(savedDarkMode === 'true');
   }
 
   private applyThemeTokens(themeName: Theme) {
-    const tokens = this.themeTokens[themeName];
-    const root = document.documentElement;
+    const tokens: ThemeColors = this.themeTokens[themeName];
+    const root: HTMLElement = document.documentElement;
 
     Object.entries(tokens).forEach(([key, value]) => {
       root.style.setProperty(key, value);

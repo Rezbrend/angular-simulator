@@ -33,7 +33,7 @@ export class UserService {
   }
 
   removeUser(userId: number): void {
-    this.setUsers(this.usersSubject.getValue().filter((user) => user.id !== userId));
+    this.setUsers(this.usersSubject.getValue().filter((user: IUser) => user.id !== userId));
   }
 
   loadUsers(): Observable<IUser[]> {

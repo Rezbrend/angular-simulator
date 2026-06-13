@@ -7,24 +7,23 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class PhonePipe implements PipeTransform {
   
   transform(value: string, mode: string = 'international'): string {
-    const cleanNumber = value.replace(/\D/g, '');
-    const group1 = cleanNumber.substring(0, 3);
-    const group2 = cleanNumber.substring(3, 6);
-    const group3 = cleanNumber.substring(6, 8);
-    const group4 = cleanNumber.substring(8, 10);
+    const cleanNumber: string = value.replace(/\D/g, '');
+    const group1: string = cleanNumber.substring(0, 3);
+    const group2: string = cleanNumber.substring(3, 6);
+    const group3: string = cleanNumber.substring(6, 8);
+    const group4: string = cleanNumber.substring(8, 10);
 
     switch (mode) {
       case 'international':
-        return `+${group1} ${group2} ${group3} ${group4}`;
+        return `+${ group1 } ${ group2 } ${ group3 } ${ group4 }`;
       case 'national':
-        return `${group2} ${group3} ${group4}`;
+        return `${ group2 } ${ group3 } ${ group4 }`;
       case 'masked':
-        const maskedMiddle = '*'.repeat(group3.length + group4.length - 2);
-        return `+${group1} ${group2} ${maskedMiddle} ${group4}`;
-
+        const maskedMiddle: string = '*'.repeat(group3.length + group4.length - 2);
+        return `+${ group1 } ${ group2 } ${ maskedMiddle } ${ group4 }`;
       default:
         return value;
     }
   }
-  
+
 }
