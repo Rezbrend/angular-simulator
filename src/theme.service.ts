@@ -12,6 +12,7 @@ import Nora from '@primeuix/themes/nora';
   providedIn: 'root',
 })
 export class ThemeService {
+  
   localStorage: LocalStorageService = inject(LocalStorageService);
 
   themes: ITheme[] = [
@@ -38,6 +39,7 @@ export class ThemeService {
     this.themeSubject.next(theme);
     usePreset(theme.preset);
     this.localStorage.setItem('theme', theme.name);
+    this.applyThemeClass(theme.name);
   }
 
   toggleDarkMode(isDarkMode: boolean): void {
@@ -56,7 +58,12 @@ export class ThemeService {
     const savedDarkMode: string | null = this.localStorage.getItem('dark-mode');
     this.toggleDarkMode(savedDarkMode === 'true');
   }
-
+  
+  private applyThemeClass(themeName: Theme) {
+    const element: HTMLHtmlElement = document.querySelector('html')!;
+    element.classList.add(`theme-${ themeName.toLowerCase() }`);
+  }
+  
   private updateHtmlClass(isDarkMode: boolean): void {
     const element: HTMLHtmlElement = document.querySelector('html')!;
     if (isDarkMode) {

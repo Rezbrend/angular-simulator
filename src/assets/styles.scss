@@ -13,7 +13,16 @@
 }
 
 :root {
-  --primary-color: #18121e;
+  --aura-primary: #000000;
+  --aura-surface: #FFFFFF;
+  --lara-primary: #4CAF50;
+  --lara-surface: #F0F0F0;
+  --nora-primary: #3333FF;
+  --nora-surface: #E0E0E0;
+
+  --current-primary: var(--aura-primary);
+  --current-surface: var(--aura-surface);
+
   --secondary-color: #f2be22;
   --white-color: #fdfdfd;
   --super-white-color: #ffffff;
@@ -22,8 +31,24 @@
   --header-bg: #18121E80;
 }
 
+.theme-aura {
+  --current-primary: var(--aura-primary);
+  --current-surface: var(--aura-surface);
+}
+
+.theme-lara {
+  --current-primary: var(--lara-primary);
+  --current-surface: var(--lara-surface);
+}
+
+.theme-nora {
+  --current-primary: var(--nora-primary);
+  --current-surface: var(--nora-surface);
+}
+
 .dark-theme {
-  --primary-color: #e7ede1;
+  --current-primary: #e7ede1;
+  --current-surface: #020202;
   --secondary-color: #44351e;
   --white-color: #020202;
   --super-white-color: #000000;
@@ -37,7 +62,7 @@
   font-style: ExtraBold;
   font-size: 32px;
   line-height: 120%;
-  color: var(--primary-color);
+  color: var(--current-primary);
   margin-top: 8px;
 }
 
