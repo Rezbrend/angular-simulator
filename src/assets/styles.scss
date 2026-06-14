@@ -13,16 +13,8 @@
 }
 
 :root {
-  --aura-primary: #000000;
-  --aura-surface: #FFFFFF;
-  --lara-primary: #4CAF50;
-  --lara-surface: #F0F0F0;
-  --nora-primary: #3333FF;
-  --nora-surface: #E0E0E0;
-
-  --current-primary: var(--aura-primary);
-  --current-surface: var(--aura-surface);
-
+  --primary-color: #000000;
+  --surface-color: #FFFFFF;
   --secondary-color: #f2be22;
   --white-color: #fdfdfd;
   --super-white-color: #ffffff;
@@ -32,23 +24,23 @@
 }
 
 .theme-aura {
-  --current-primary: var(--aura-primary);
-  --current-surface: var(--aura-surface);
+  --primary-color: #000000;
+  --surface-color: #FFFFFF;
 }
 
 .theme-lara {
-  --current-primary: var(--lara-primary);
-  --current-surface: var(--lara-surface);
+  --primary-color: #4CAF50;
+  --surface-color: #F0F0F0;
 }
 
 .theme-nora {
-  --current-primary: var(--nora-primary);
-  --current-surface: var(--nora-surface);
+  --primary-color: #3333FF;
+  --surface-color: #E0E0E0;
 }
 
 .dark-theme {
-  --current-primary: #e7ede1;
-  --current-surface: #020202;
+  --primary-color: #e7ede1;
+  --surface-color: #020202;
   --secondary-color: #44351e;
   --white-color: #020202;
   --super-white-color: #000000;
@@ -62,7 +54,7 @@
   font-style: ExtraBold;
   font-size: 32px;
   line-height: 120%;
-  color: var(--current-primary);
+  color: var(--primary-color);
   margin-top: 8px;
 }
 
