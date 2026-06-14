@@ -8,12 +8,12 @@ export class BoldOnHoverDirective {
   @HostBinding('style.font-weight') fontWeight: string = 'normal';
 
   @HostListener('mouseenter')
-  onMouseEnter() {
+  onMouseEnter(): void {
     this.fontWeight = 'bold';
   }
 
   @HostListener('mouseleave')
-  onMouseLeave() {
+  onMouseLeave(): void {
     this.fontWeight = 'normal';
   }
   

@@ -8,15 +8,6 @@ import Aura from '@primeuix/themes/aura';
 import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
 
-type ThemeColors = {
-  '--primary-color': string;
-  '--surface-color': string;
-};
-
-type ThemeTokens = {
-  [key in Theme]: ThemeColors;
-};
-
 @Injectable({
   providedIn: 'root',
 })
@@ -43,26 +34,10 @@ export class ThemeService {
     this.loadInitialState();
   }
 
-  private themeTokens: ThemeTokens = {
-    [Theme.AURA]: {
-      '--primary-color': '#000000',
-      '--surface-color': '#FFFFFF',
-    },
-    [Theme.LARA]: {
-      '--primary-color': '#4CAF50',
-      '--surface-color': '#F0F0F0',
-    },
-    [Theme.NORA]: {
-      '--primary-color': '#3333FF',
-      '--surface-color': '#E0E0E0',
-    },
-  };
-
   changeTheme(theme: ITheme): void {
     this.themeSubject.next(theme);
     usePreset(theme.preset);
     this.localStorage.setItem('theme', theme.name);
-    this.applyThemeTokens(theme.name);
   }
 
   toggleDarkMode(isDarkMode: boolean): void {
@@ -72,23 +47,14 @@ export class ThemeService {
   }
 
   loadInitialState(): void {
-    const savedThemeName: unknown = this.localStorage.getItem('theme');
-    const foundTheme: ITheme | undefined = this.themes.find((theme) => theme.name === savedThemeName);
+    const savedThemeName: string | null = this.localStorage.getItem('theme');
+    const foundTheme: ITheme | undefined = this.themes.find((theme) => theme.name === (savedThemeName || ''));
     if (foundTheme) {
       this.changeTheme(foundTheme);
     }
 
-    const savedDarkMode: unknown = this.localStorage.getItem('dark-mode');
+    const savedDarkMode: string | null = this.localStorage.getItem('dark-mode');
     this.toggleDarkMode(savedDarkMode === 'true');
-  }
-
-  private applyThemeTokens(themeName: Theme) {
-    const tokens: ThemeColors = this.themeTokens[themeName];
-    const root: HTMLElement = document.documentElement;
-
-    Object.entries(tokens).forEach(([key, value]) => {
-      root.style.setProperty(key, value);
-    });
   }
 
   private updateHtmlClass(isDarkMode: boolean): void {

@@ -19,7 +19,7 @@ export class BorderDirective {
   private timeoutId!: number;
 
   @HostListener('mouseenter')
-  onMouseEnter() {
+  onMouseEnter(): void {
     clearTimeout(this.timeoutId);
     this.timeoutId = setTimeout(() => {
       this.borderWidth = this.gradientConfiguration.thickness ?? '2px';
@@ -30,7 +30,7 @@ export class BorderDirective {
   }
 
   @HostListener('mouseleave')
-  onMouseLeave() {
+  onMouseLeave(): void {
     clearTimeout(this.timeoutId);
     this.borderWidth = '0px';
     this.borderStyle = 'none';
