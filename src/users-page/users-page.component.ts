@@ -44,7 +44,7 @@ export class UsersPageComponent {
       })
     ).subscribe();
     
-    this.users$.subscribe((users) => {
+    this.users$.subscribe((users: IUser[]) => {
       this.usersCount = users.length;
     });
   }

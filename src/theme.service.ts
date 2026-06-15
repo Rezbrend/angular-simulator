@@ -59,7 +59,7 @@ export class ThemeService {
     this.toggleDarkMode(savedDarkMode === 'true');
   }
   
-  private applyThemeClass(themeName: Theme) {
+  private applyThemeClass(themeName: Theme): void {
     const element: HTMLHtmlElement = document.querySelector('html')!;
     element.classList.add(`theme-${ themeName.toLowerCase() }`);
   }
