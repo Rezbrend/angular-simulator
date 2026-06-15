@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
   }
 
   setVisitCount(): void {
-    const currentCount = this.localStorageService.getItem<number>('visitCount');
+    const currentCount: number | null = this.localStorageService.getItem<number>('visitCount');
     let visitCount: number = currentCount ?? 0;
     visitCount++;
     this.localStorageService.setItem<number>('visitCount', visitCount);

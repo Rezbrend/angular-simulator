@@ -1,4 +1,5 @@
 export class Collection<T> {
+  
   private items: T[] = [];
 
   constructor(items: T[]) {
@@ -24,6 +25,7 @@ export class Collection<T> {
   replaceSpecificItemCollection(index: number, newItem: T): void {
     this.items[index] = newItem;
   }
+  
 }
 
 const fruitsCollection: Collection<string> = new Collection<string>(['яблоко', 'банан', 'апельсин', 'груша']);

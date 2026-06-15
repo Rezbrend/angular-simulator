@@ -13,7 +13,8 @@
 }
 
 :root {
-  --primary-color: #18121e;
+  --primary-color: #000000;
+  --surface-color: #FFFFFF;
   --secondary-color: #f2be22;
   --white-color: #fdfdfd;
   --super-white-color: #ffffff;
@@ -22,8 +23,24 @@
   --header-bg: #18121E80;
 }
 
+.theme-aura {
+  --primary-color: #000000;
+  --surface-color: #FFFFFF;
+}
+
+.theme-lara {
+  --primary-color: #4CAF50;
+  --surface-color: #F0F0F0;
+}
+
+.theme-nora {
+  --primary-color: #3333FF;
+  --surface-color: #E0E0E0;
+}
+
 .dark-theme {
   --primary-color: #e7ede1;
+  --surface-color: #020202;
   --secondary-color: #44351e;
   --white-color: #020202;
   --super-white-color: #000000;

@@ -8,10 +8,11 @@ import { UserCreateComponent } from '../user-create/user-create.component';
 import { UsersFilterComponent } from '../users-filter/users-filter.component';
 import { LoaderService } from '../loader.service';
 import { MessageManagementService } from '../message-management.service';
+import { PluralPipe } from '../app/plural.pipe';
 
 @Component({
   selector: 'app-users-page',
-  imports: [AsyncPipe, UserCardComponent, UserCreateComponent, UsersFilterComponent],
+  imports: [AsyncPipe, UserCardComponent, UserCreateComponent, UsersFilterComponent, PluralPipe],
   templateUrl: './users-page.component.html',
   styleUrl: './users-page.component.scss',
   standalone: true,
@@ -21,6 +22,7 @@ export class UsersPageComponent {
   loaderService: LoaderService = inject(LoaderService);
   messageService: MessageManagementService = inject(MessageManagementService);
   userService: UserService = inject(UserService);
+  usersCount: number = 0;
   users$: Observable<IUser[]> = this.userService.users$;
   searchTerm$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   filteredUsers$: Observable<IUser[]> = combineLatest([this.searchTerm$, this.users$])
@@ -41,6 +43,10 @@ export class UsersPageComponent {
         this.userService.setUsers(users)
       })
     ).subscribe();
+    
+    this.users$.subscribe((users: IUser[]) => {
+      this.usersCount = users.length;
+    });
   }
 
   onDeleteUser(userId: number): void {
