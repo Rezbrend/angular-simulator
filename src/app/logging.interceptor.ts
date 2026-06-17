@@ -1,7 +1,7 @@
-import { HttpEvent, HttpInterceptorFn, HttpResponse } from '@angular/common/http';
+import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpResponse } from '@angular/common/http';
 import { tap } from 'rxjs';
 
-export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
+export const loggingInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   
   const startTime: number = Date.now();
 
