@@ -1,0 +1,11 @@
+<div class="edit-post">
+  <form id="post-edit-form" [formGroup]="postEditForm" (ngSubmit)="saveChanges()">
+    <label>Title:</label>
+    <input id="tile" type="text" formControlName='title'>
+    <label>Tags:</label>
+    <input id="tags" type="text" formControlName='tags'>
+    <label>Views:</label>
+    <input id="views" type="number" formControlName='views'>
+    <button id="edit-post" type="submit">Сохранить изменения</button>
+  </form>
+</div>

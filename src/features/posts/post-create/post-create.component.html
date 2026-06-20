@@ -1,0 +1,21 @@
+<div class="createPost">
+  <form id="post-form" [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <label>Title:</label>
+    <input id="tile" type="text" formControlName='title'>
+    <label>Body:</label>
+    <input id="body" type="text" formControlName='body'>
+    <label>Tags:</label>
+    <input id="tags" type="text" formControlName='tags'>
+    <div formGroupName="reactions">
+      <label>Likes:</label>
+      <input id="likes" type="number" formControlName='likes'>
+      <label>Dislikes:</label>
+      <input id="dislikes" type="number" formControlName='dislikes'>
+    </div>
+    <label>Views:</label>
+    <input id="views" type="number" formControlName='views'>
+    <label>User ID:</label>
+    <input id="userId" type="number" formControlName='userId'>
+    <button id="create-post" type="submit">Отправить</button>
+  </form>
+</div>

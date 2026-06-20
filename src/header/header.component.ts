@@ -24,7 +24,8 @@ export class HeaderComponent {
   
   navigation: INavigationItem[] = [
     { label: 'Главная', link: '/' },
-    { label: 'Пользователи', link: '/users' }
+    { label: 'Пользователи', link: '/users' },
+    { label: 'Посты', link: '/posts' }
   ];
 
   readonly companyName: string = 'РУМТИБЕТ';

@@ -1,0 +1,120 @@
+$primary-color: #4f46e5;
+$primary-hover: #4338ca;
+$border-color: #e5e7eb;
+$text-color: #1f2937;
+$skeleton-bg: #f3f4f6;
+
+.posts-loading-state {
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid $border-color;
+
+  .skeleton-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid $border-color;
+    gap: 1rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .sk-title {
+      flex: 2;
+    }
+
+    .sk-tags {
+      flex: 3;
+    }
+
+    .sk-views {
+      width: auto;
+      flex: 1;
+    }
+  }
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.custom-datatable {
+  .p-datatable-tbody {
+    tr {
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #f9fafb;
+      }
+
+      td {
+        padding: 1rem;
+        vertical-align: middle;
+        color: $text-color;
+        font-size: 0.95rem;
+        border-bottom: 1px solid $border-color;
+
+        &:last-child {
+          text-align: right;
+          width: 120px;
+        }
+      }
+    }
+  }
+
+  .p-datatable-thead {
+    th {
+      background-color: #f9fafb;
+      color: #6b7280;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      padding: 1rem;
+      border-bottom: 2px solid $border-color;
+    }
+  }
+
+  .p-paginator {
+    justify-content: flex-end;
+    margin-top: 1rem;
+
+    .p-paginator-current {
+      display: none;
+    }
+  }
+}
+
+.create-posts-btn {
+  align-self: flex-start;
+  background-color: $primary-color;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:hover {
+    background-color: $primary-hover;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
