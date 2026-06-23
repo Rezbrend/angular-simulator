@@ -18,6 +18,10 @@ export class PostService {
 
   private postsSubject: BehaviorSubject<IPost[]> = new BehaviorSubject<IPost[]>([]);
   posts$: Observable<IPost[]> = this.postsSubject.asObservable();
+  
+  setPosts(posts: IPost[]): void {
+    this.postsSubject.next(posts);
+  }
 
   getPosts(limit: number, skip: number): Observable<IPostResponce> {
     return this.postApiService.getPosts(limit, skip)

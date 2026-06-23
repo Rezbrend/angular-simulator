@@ -80,9 +80,11 @@ export class PostsComponent implements OnInit {
         tap({
           next: (response: IPostResponce) => {
             this.totalRecords = response.totalPosts;
+            this.postService.setPosts(response.posts);
             this.isLoading = false;
           },
           error: () => {
+            this.messageService.showError('Не удалось загрузить посты');
             this.isLoading = false;
           },
         }),
@@ -108,17 +110,19 @@ export class PostsComponent implements OnInit {
       maximizable: true,
     });
 
-    this.ref!.onClose.subscribe((result?: IPostEditDialogResult) => {
-      if (!result) {
-        return;
-      }
-      if (result.success) {
-        this.messageService.showSuccess('Пост успешно сохранён, обновляем список');
-        this.loadPosts(this.pageSize, this.first);
-      } else if (result.error) {
-        this.messageService.showError('Ошибка при сохранении поста');
-      }
-    });
+    if (this.ref) {
+      this.ref.onClose.subscribe((result?: IPostEditDialogResult) => {
+        if (!result) {
+          return;
+        } 
+        if (result.success) {
+          this.messageService.showSuccess('Пост успешно сохранён, обновляем список');
+          this.loadPosts(this.pageSize, this.first);
+        } else if (result.error) {
+          this.messageService.showError('Ошибка при сохранении поста');
+        }
+      });
+    }
   }
 
   deletePost(id: number): void {
