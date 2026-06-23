@@ -9,7 +9,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MenuItem } from 'primeng/api';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { ButtonModule } from 'primeng/button';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { IPostResponce } from '../IPostResponce';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
@@ -28,7 +28,7 @@ type IPostEditDialogResult =
 
 @Component({
   selector: 'app-posts',
-  imports: [TableModule, SkeletonModule, ContextMenuModule, ButtonModule, DynamicDialogModule, AsyncPipe],
+  imports: [TableModule, SkeletonModule, ContextMenuModule, ButtonModule, DynamicDialogModule, AsyncPipe, RouterLink],
   providers: [DialogService],
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.scss',
