@@ -3,79 +3,94 @@ import { TableModule } from 'primeng/table';
 import { SkeletonModule } from 'primeng/skeleton';
 import { PostApiService } from '../post-api.service';
 import { PostService } from '../post.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { IPost } from '../IPost';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MenuItem } from 'primeng/api';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
-import { DialogModule } from 'primeng/dialog';
-import { LoaderService } from '../../../loader.service';
 import { AsyncPipe } from '@angular/common';
 import { IPostResponce } from '../IPostResponce';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { PostEditDialogComponent } from '../post-edit-dialog/post-edit-dialog.component';
+import { MessageManagementService } from '../../../message-management.service';
+
+type IPostEditDialogResult =
+  | {
+      success: true;
+      post: IPost;
+    }
+  | {
+      success: false;
+      error?: unknown;
+    };
 
 @Component({
   selector: 'app-posts',
-  imports: [TableModule, SkeletonModule, ContextMenuModule, ButtonModule, DialogModule, AsyncPipe],
+  imports: [TableModule, SkeletonModule, ContextMenuModule, ButtonModule, DynamicDialogModule, AsyncPipe],
   providers: [DialogService],
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.scss',
   standalone: true,
 })
 export class PostsComponent implements OnInit {
-
-  router: Router = inject(Router);
-  dialogService: DialogService = inject(DialogService);
-  loaderService: LoaderService = inject(LoaderService);
-  postService: PostService = inject(PostService);
+  
+  public  dialogService: DialogService = inject(DialogService);
+  private router: Router = inject(Router);
+  private postService: PostService = inject(PostService);
   private postApiService: PostApiService = inject(PostApiService);
+  private messageService: MessageManagementService = inject(MessageManagementService);
 
-  postsSubject: BehaviorSubject<IPost[]> = new BehaviorSubject<IPost[]>([]);
-  posts$: Observable<IPost[]> = this.postsSubject.asObservable();
+  posts$: Observable<IPost[]> = this.postService.posts$;
   isLoading: boolean = false;
   totalRecords: number = 0;
   first: number = 0;
   pageSize: number = 10;
   selectedPost: IPost | null = null;
-  displayEditDialog: boolean = false;
+  ref: DynamicDialogRef<PostEditDialogComponent> | null = null;
   editPost: IPost = {} as IPost;
 
   contextMenuItems: MenuItem[] = [
     {
       label: 'View',
       icon: 'fa-eye',
-      command: () => this.viewPost(this.selectedPost!)
+      command: () => this.viewPost(this.selectedPost!),
     },
     {
       label: 'Edit',
       icon: 'fa-pencil',
-      command: () => this.editPostDialog(this.selectedPost!)
+      command: () => this.editPostDialog(this.selectedPost!),
     },
     {
       label: 'Delete',
       icon: 'fa-trash',
-      command: () => this.deletePost(this.selectedPost!.id)
-    }
+      command: () => this.deletePost(this.selectedPost!.id),
+    },
   ];
-  
+
   ngOnInit(): void {
     this.loadPosts(this.pageSize, this.first);
   }
 
   loadPosts(limit: number, skip: number): void {
-    this.postApiService.getPosts(limit, skip).subscribe({
-      next: (response: IPostResponce) => {
-        this.postsSubject.next(response.posts); 
-        this.totalRecords = response.totalPosts;
-        this.isLoading = false;
-      },
-      error: () => (this.isLoading = true)
-    });
+    this.isLoading = true;
+    this.postApiService.getPosts(limit, skip)
+      .pipe(
+        tap({
+          next: (response: IPostResponce) => {
+            this.totalRecords = response.totalPosts;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.isLoading = false;
+          },
+        }),
+      ).subscribe();
   }
 
   openPostDetailPage(id: number): void {
-    this.router.navigate([`/posts/${ id }`])
+    this.router.navigate([`/posts/${id}`]);
   }
 
   viewPost(selectedPost: IPost | null): void {
@@ -85,24 +100,37 @@ export class PostsComponent implements OnInit {
   }
 
   editPostDialog(post: IPost): void {
-    this.editPost = { ...post };
-    this.displayEditDialog = true;
-  }
+    this.ref = this.dialogService.open(PostEditDialogComponent, {
+      header: 'Редактировать пост',
+      width: '50vw',
+      data: { post: post },
+      style: { padding: 0 },
+      maximizable: true,
+    });
 
-  savePost(): void {
-    this.postApiService.editPost(this.editPost.id, this.editPost).subscribe({
-      next: () => {
-        this.displayEditDialog = false;
+    this.ref!.onClose.subscribe((result?: IPostEditDialogResult) => {
+      if (!result) {
+        return;
+      }
+      if (result.success) {
+        this.messageService.showSuccess('Пост успешно сохранён, обновляем список');
+        this.loadPosts(this.pageSize, this.first);
+      } else if (result.error) {
+        this.messageService.showError('Ошибка при сохранении поста');
       }
     });
   }
 
   deletePost(id: number): void {
-    this.postApiService.deletePost(id).subscribe({
-      next: () => {
-        this.selectedPost = null;
-      }
-    })
+    this.postApiService.deletePost(id)
+      .pipe(
+        tap({
+          next: () => {
+            this.selectedPost = null;
+            this.loadPosts(this.pageSize, this.first);
+          },
+        }),
+      ).subscribe();
   }
-  
+
 }

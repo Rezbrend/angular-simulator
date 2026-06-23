@@ -5,15 +5,16 @@ import { PostApiService } from './post-api.service';
 import { IPostResponce } from './IPostResponce';
 import { LoaderService } from '../../loader.service';
 import { MessageManagementService } from '../../message-management.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PostService {
   
-  postApiService: PostApiService = inject(PostApiService);
-  messageService: MessageManagementService = inject(MessageManagementService);
-  loaderService: LoaderService = inject(LoaderService);
+  private postApiService: PostApiService = inject(PostApiService);
+  private messageService: MessageManagementService = inject(MessageManagementService);
+  private loaderService: LoaderService = inject(LoaderService);
 
   private postsSubject: BehaviorSubject<IPost[]> = new BehaviorSubject<IPost[]>([]);
   posts$: Observable<IPost[]> = this.postsSubject.asObservable();
@@ -21,7 +22,7 @@ export class PostService {
   getPosts(limit: number, skip: number): Observable<IPostResponce> {
     return this.postApiService.getPosts(limit, skip)
       .pipe(
-        catchError((error) => {
+        catchError((error: HttpErrorResponse) => {
           this.messageService.showError('Не удалось получить посты');
           return throwError(() => error);
         }),
@@ -35,7 +36,7 @@ export class PostService {
         finalize(() => {
           this.loaderService.hideLoader();
         }),
-        catchError((error) => {
+        catchError((error: HttpErrorResponse) => {
           this.messageService.showError('Не удалось получить пост');
           return throwError(() => error);
         }),
@@ -49,7 +50,7 @@ export class PostService {
         finalize(() => {
           this.loaderService.hideLoader();
         }),
-        catchError((error) => {
+        catchError((error: HttpErrorResponse) => {
           this.messageService.showError('Редактирование не удалось');
           return throwError(() => error);
         }),
@@ -63,7 +64,7 @@ export class PostService {
         finalize(() => {
           this.loaderService.hideLoader();
         }),
-        catchError((error) => {
+        catchError((error: HttpErrorResponse) => {
           this.messageService.showError('Не удалось создать пост');
           return throwError(() => error);
         }),
@@ -77,7 +78,7 @@ export class PostService {
         finalize(() => {
           this.loaderService.hideLoader();
         }),
-        catchError((error) => {
+        catchError((error: HttpErrorResponse) => {
           this.messageService.showError('Не удалось удалить пост');
           return throwError(() => error);
         }),

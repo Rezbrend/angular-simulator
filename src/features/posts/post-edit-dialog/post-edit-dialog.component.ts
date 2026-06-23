@@ -13,19 +13,19 @@ import { PostService } from '../post.service';
 })
 export class PostEditDialogComponent implements OnInit {
 
-  dynamicDialogConfig: DynamicDialogConfig = inject(DynamicDialogConfig);
-  dynamicDialogRef: DynamicDialogRef = inject(DynamicDialogRef);
-  postService: PostService = inject(PostService);
+  private config: DynamicDialogConfig = inject(DynamicDialogConfig);
+  private ref: DynamicDialogRef = inject(DynamicDialogRef);
+  private postService: PostService = inject(PostService);
   post!: IPost;
 
   ngOnInit(): void {
-    this.post = this.dynamicDialogConfig.data;
+    this.post = this.config.data;
   }
 
   postEditForm: FormGroup = new FormGroup({
-    title: this.dynamicDialogConfig.data.title,
-    tags: this.dynamicDialogConfig.data.tags.join(', '),
-    views: this.dynamicDialogConfig.data.views,
+    title: this.config.data.title,
+    tags: this.config.data.tags.join(', '),
+    views: this.config.data.views,
   });
 
   saveChanges(): void {
@@ -34,9 +34,9 @@ export class PostEditDialogComponent implements OnInit {
       tags: this.postEditForm.value.tags.split(', '),
       views: this.postEditForm.value.views,
     }
-    this.postService.editPost(this.dynamicDialogConfig.data.id, data)
+    this.postService.editPost(this.config.data.id, data)
       .pipe(
-        tap(() => this.dynamicDialogRef.close(),
+        tap(() => this.ref.close(),
       ),
     ).subscribe();
   }

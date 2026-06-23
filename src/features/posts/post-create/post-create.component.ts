@@ -4,6 +4,7 @@ import { PostService } from '../post.service';
 import { MessageManagementService } from '../../../message-management.service';
 import { Router } from '@angular/router';
 import { catchError, switchMap, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-post-create',
@@ -35,7 +36,7 @@ export class PostCreateComponent {
     this.postService.createPost(this.postForm.getRawValue())
       .pipe(
         switchMap(() => this.router.navigate(['/posts'])),
-        catchError((error) => {
+        catchError((error: HttpErrorResponse) => {
           this.messageService.showError('Ошибка при создании поста');
           return throwError(() => error);
         })

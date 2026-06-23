@@ -6,6 +6,6 @@
     <input id="tags" type="text" formControlName='tags'>
     <label>Views:</label>
     <input id="views" type="number" formControlName='views'>
-    <button id="edit-post" type="submit">Сохранить изменения</button>
+    <button pButton label="Сохранить" (click)="saveChanges()" [disabled]="postEditForm.invalid"></button>
   </form>
 </div>
