@@ -92,7 +92,7 @@ export class PostsComponent implements OnInit {
   }
 
   openPostDetailPage(id: number): void {
-    this.router.navigate([`/posts/${id}`]);
+    this.router.navigate([`/posts/${ id }`]);
   }
 
   viewPost(selectedPost: IPost | null): void {
