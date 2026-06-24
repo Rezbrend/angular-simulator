@@ -35,7 +35,10 @@ export class PostCreateComponent {
   onSubmit(): void {
     this.postService.createPost(this.postForm.getRawValue())
       .pipe(
-        switchMap(() => this.router.navigate(['/posts'])),
+        switchMap(() => {
+          this.messageService.showSuccess('Пост успешно создан');
+          return this.router.navigate(['/posts']);
+        }),
         catchError((error: HttpErrorResponse) => {
           this.messageService.showError('Ошибка при создании поста');
           return throwError(() => error);

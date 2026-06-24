@@ -1,0 +1,49 @@
+.post-container {
+  padding-top: 120px;
+  padding-bottom: 40px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.post-card {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 32px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  color: #333;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.post-details {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+.post-details p {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.post-details p:first-of-type {
+  color: #888;
+  font-size: 14px;
+}
+
+.post-details p strong {
+  color: #2c3e50;
+}
+
+.button-wrapper {
+  margin-top: 20px;
+  text-align: center;
+}

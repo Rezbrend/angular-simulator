@@ -1,7 +1,7 @@
 <div class="createPost">
   <form id="post-form" [formGroup]="postForm" (ngSubmit)="onSubmit()">
     <label>Title:</label>
-    <input id="tile" type="text" formControlName='title'>
+    <input id="title" type="text" formControlName='title'>
     <label>Body:</label>
     <input id="body" type="text" formControlName='body'>
     <label>Tags:</label>
@@ -16,6 +16,6 @@
     <input id="views" type="number" formControlName='views'>
     <label>User ID:</label>
     <input id="userId" type="number" formControlName='userId'>
-    <button id="create-post" type="submit">Отправить</button>
+    <button id="create-post" type="submit">Создать пост</button>
   </form>
 </div>

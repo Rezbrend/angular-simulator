@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IPost } from '../IPost';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
 import { PostService } from '../post.service';
 
@@ -18,27 +18,36 @@ export class PostEditDialogComponent implements OnInit {
   private postService: PostService = inject(PostService);
   post!: IPost;
 
+  postEditForm!: FormGroup;
+
   ngOnInit(): void {
     this.post = this.config.data;
-  }
 
-  postEditForm: FormGroup = new FormGroup({
-    title: this.config.data.title,
-    tags: this.config.data.tags.join(', '),
-    views: this.config.data.views,
-  });
+    this.postEditForm = new FormGroup({
+      title: new FormControl(this.post.title, [Validators.required]),
+      tags: new FormControl(this.post.tags.join(','), [Validators.required]),
+      views: new FormControl(this.post.views, [Validators.required, Validators.min(0)])
+    });
+  }
 
   saveChanges(): void {
+    if (this.postEditForm.invalid) {
+      return;
+    }
+
     const data: Partial<IPost> = {
       title: this.postEditForm.value.title,
-      tags: this.postEditForm.value.tags.split(', '),
-      views: this.postEditForm.value.views,
-    }
-    this.postService.editPost(this.config.data.id, data)
-      .pipe(
-        tap(() => this.ref.close(),
-      ),
-    ).subscribe();
-  }
+      tags: this.postEditForm.value.tags
+        .split(',')
+        .map((t: string) => t.trim())
+        .filter((t: string) => t.length > 0),
+      views: this.postEditForm.value.views
+    };
 
+    this.postService.editPost(this.post.id, data)
+      .pipe(
+        tap(() => this.ref.close())
+      ).subscribe();
+  }
+  
 }

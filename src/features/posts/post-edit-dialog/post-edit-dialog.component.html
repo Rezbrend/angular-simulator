@@ -1,11 +1,17 @@
 <div class="edit-post">
   <form id="post-edit-form" [formGroup]="postEditForm" (ngSubmit)="saveChanges()">
     <label>Title:</label>
-    <input id="tile" type="text" formControlName='title'>
+    <input id="title" type="text" formControlName='title'>
     <label>Tags:</label>
     <input id="tags" type="text" formControlName='tags'>
     <label>Views:</label>
     <input id="views" type="number" formControlName='views'>
-    <button pButton label="Сохранить" (click)="saveChanges()" [disabled]="postEditForm.invalid"></button>
+    <button 
+      pButton 
+      label="Сохранить" 
+      type="submit" 
+      [disabled]="postEditForm.invalid || postEditForm.pending">
+      Сохранить
+    </button>
   </form>
 </div>
