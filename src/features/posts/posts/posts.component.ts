@@ -16,16 +16,6 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { PostEditDialogComponent } from '../post-edit-dialog/post-edit-dialog.component';
 import { MessageManagementService } from '../../../message-management.service';
 
-type IPostEditDialogResult =
-  | {
-      success: true;
-      post: IPost;
-    }
-  | {
-      success: false;
-      error?: unknown;
-    };
-
 @Component({
   selector: 'app-posts',
   imports: [TableModule, SkeletonModule, ContextMenuModule, ButtonModule, DynamicDialogModule, AsyncPipe, RouterLink],
@@ -49,7 +39,6 @@ export class PostsComponent implements OnInit {
   pageSize: number = 10;
   selectedPost: IPost | null = null;
   ref: DynamicDialogRef<PostEditDialogComponent> | null = null;
-  editPost: IPost = {} as IPost;
 
   contextMenuItems: MenuItem[] = [
     {
@@ -110,31 +99,30 @@ export class PostsComponent implements OnInit {
       maximizable: true,
     });
 
-    if (this.ref) {
-      this.ref.onClose.subscribe((result?: IPostEditDialogResult) => {
-        if (!result) {
-          return;
-        } 
+    this.ref!.onClose.pipe(
+      tap((result: any) => {
         if (result.success) {
           this.messageService.showSuccess('Пост успешно сохранён, обновляем список');
           this.loadPosts(this.pageSize, this.first);
-        } else if (result.error) {
+        } else {
           this.messageService.showError('Ошибка при сохранении поста');
         }
-      });
-    }
+      })
+    ).subscribe();
   }
 
   deletePost(id: number): void {
-    this.postApiService.deletePost(id)
-      .pipe(
-        tap({
-          next: () => {
-            this.selectedPost = null;
-            this.loadPosts(this.pageSize, this.first);
-          },
-        }),
-      ).subscribe();
+    this.postService.deletePost(id).pipe(
+      tap({
+        next: () => {
+          this.selectedPost = null;
+          this.loadPosts(this.pageSize, this.first);
+        },
+        error: () => {
+          this.messageService.showError('Не удалось удалить пост');
+        },
+      })
+    ).subscribe();
   }
 
 }

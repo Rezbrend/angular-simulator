@@ -6,17 +6,15 @@ export const routes: Routes = [
   {
     path: 'posts',
     loadComponent: () => import('../features/posts/posts/posts.component').then((m) => m.PostsComponent),
-    children: [
-      {
-        path: 'posts/create',
-        loadComponent: () => import('../features/posts/post-create/post-create.component').then((m) => m.PostCreateComponent),
-      },
-      {
-        path: 'posts/:id',
-        loadComponent: () => import('../features/posts/post-detail/post-detail.component').then((m) => m.PostDetailComponent),
-        resolve: { post: postResolver },
-      },
-    ]
+  },
+  {
+    path: 'posts/create',
+    loadComponent: () => import('../features/posts/post-create/post-create.component').then((m) => m.PostCreateComponent),
+  },
+  {
+    path: 'posts/:id',
+    loadComponent: () => import('../features/posts/post-detail/post-detail.component').then((m) => m.PostDetailComponent),
+    resolve: { post: postResolver },
   },
   {
     path: 'users',

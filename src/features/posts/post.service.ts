@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, map, Observable, tap, throwError } from 'rxjs';
 import { IPost } from './IPost';
 import { PostApiService } from './post-api.service';
 import { IPostResponce } from './IPostResponce';
@@ -13,9 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class PostService {
   
   private postApiService: PostApiService = inject(PostApiService);
-  private messageService: MessageManagementService = inject(MessageManagementService);
   private loaderService: LoaderService = inject(LoaderService);
-
   private postsSubject: BehaviorSubject<IPost[]> = new BehaviorSubject<IPost[]>([]);
   posts$: Observable<IPost[]> = this.postsSubject.asObservable();
   
@@ -23,14 +21,14 @@ export class PostService {
     this.postsSubject.next(posts);
   }
 
-  getPosts(limit: number, skip: number): Observable<IPostResponce> {
-    return this.postApiService.getPosts(limit, skip)
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          this.messageService.showError('Не удалось получить посты');
-          return throwError(() => error);
-        }),
-      )
+  getPosts(filter?: { authorId?: number }): Observable<IPost[]> {
+    return this.postApiService.getPosts(10, 0).pipe(
+      map((response: IPostResponce) => {
+        const posts: IPost[] = response.posts || [];
+        if (!filter?.authorId) return posts;
+        return posts.filter((post: IPost) => post.userId === filter.authorId);
+      })
+    );
   }
 
   getPost(id: number): Observable<IPost> {
@@ -41,7 +39,6 @@ export class PostService {
           this.loaderService.hideLoader();
         }),
         catchError((error: HttpErrorResponse) => {
-          this.messageService.showError('Не удалось получить пост');
           return throwError(() => error);
         }),
       );
@@ -55,38 +52,47 @@ export class PostService {
           this.loaderService.hideLoader();
         }),
         catchError((error: HttpErrorResponse) => {
-          this.messageService.showError('Редактирование не удалось');
           return throwError(() => error);
         }),
       )
+  }
+  
+  filterPost(posts: IPost[], id: number): IPost[] {
+    return posts.filter((post: IPost) => post.id !== id);
   }
   
   createPost(post: Partial<IPost>): Observable<IPost> {
     this.loaderService.showLoader();
     return this.postApiService.createPost(post)
       .pipe(
+        tap((newPost: IPost) => {
+          const currentPosts: IPost[] = this.postsSubject.getValue();
+          this.postsSubject.next([newPost, ...currentPosts]);
+        }),
         finalize(() => {
           this.loaderService.hideLoader();
         }),
         catchError((error: HttpErrorResponse) => {
-          this.messageService.showError('Не удалось создать пост');
           return throwError(() => error);
         }),
-      )
+      );
   }
 
   deletePost(id: number): Observable<IPost> {
     this.loaderService.showLoader();
     return this.postApiService.deletePost(id)
       .pipe(
+        tap(() => {
+          const currentPosts: IPost[] = this.postsSubject.getValue();
+          this.postsSubject.next(this.filterPost(currentPosts, id));
+        }),
         finalize(() => {
           this.loaderService.hideLoader();
         }),
         catchError((error: HttpErrorResponse) => {
-          this.messageService.showError('Не удалось удалить пост');
           return throwError(() => error);
         }),
-      )
+      );
   }
 
 }
