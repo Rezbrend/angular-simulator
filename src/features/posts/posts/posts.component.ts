@@ -1,9 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, DestroyRef } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { SkeletonModule } from 'primeng/skeleton';
 import { PostApiService } from '../post-api.service';
 import { PostService } from '../post.service';
-import { Observable, tap } from 'rxjs';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 import { IPost } from '../IPost';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MenuItem } from 'primeng/api';
@@ -15,6 +15,8 @@ import { IPostResponce } from '../IPostResponce';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { PostEditDialogComponent } from '../post-edit-dialog/post-edit-dialog.component';
 import { MessageManagementService } from '../../../message-management.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { IEditPostResult } from '../IEditPostResult';
 
 @Component({
   selector: 'app-posts',
@@ -31,6 +33,7 @@ export class PostsComponent implements OnInit {
   private postService: PostService = inject(PostService);
   private postApiService: PostApiService = inject(PostApiService);
   private messageService: MessageManagementService = inject(MessageManagementService);
+  private destroyRef: DestroyRef = inject(DestroyRef);
 
   posts$: Observable<IPost[]> = this.postService.posts$;
   isLoading: boolean = false;
@@ -64,19 +67,20 @@ export class PostsComponent implements OnInit {
 
   loadPosts(limit: number, skip: number): void {
     this.isLoading = true;
+
     this.postApiService.getPosts(limit, skip)
       .pipe(
-        tap({
-          next: (response: IPostResponce) => {
-            this.totalRecords = response.totalPosts;
-            this.postService.setPosts(response.posts);
-            this.isLoading = false;
-          },
-          error: () => {
-            this.messageService.showError('Не удалось загрузить посты');
-            this.isLoading = false;
-          },
+        tap((response: IPostResponce) => {
+          this.totalRecords = response.totalPosts;
+          this.postService.setPosts(response.posts);
         }),
+        catchError((error) => {
+          this.messageService.showError('Не удалось загрузить посты');
+          return throwError(() => error);
+        }),
+        finalize(() => {
+          this.isLoading = false;
+        })
       ).subscribe();
   }
 
@@ -85,9 +89,10 @@ export class PostsComponent implements OnInit {
   }
 
   viewPost(selectedPost: IPost | null): void {
-    if (selectedPost !== null) {
-      this.openPostDetailPage(selectedPost.id);
+    if (!selectedPost) {
+      return;
     }
+    this.openPostDetailPage(selectedPost.id);
   }
 
   editPostDialog(post: IPost): void {
@@ -100,7 +105,8 @@ export class PostsComponent implements OnInit {
     });
 
     this.ref!.onClose.pipe(
-      tap((result: any) => {
+      takeUntilDestroyed(this.destroyRef),
+      tap((result: IEditPostResult) => {
         if (result.success) {
           this.messageService.showSuccess('Пост успешно сохранён, обновляем список');
           this.loadPosts(this.pageSize, this.first);
@@ -113,14 +119,13 @@ export class PostsComponent implements OnInit {
 
   deletePost(id: number): void {
     this.postService.deletePost(id).pipe(
-      tap({
-        next: () => {
-          this.selectedPost = null;
-          this.loadPosts(this.pageSize, this.first);
-        },
-        error: () => {
-          this.messageService.showError('Не удалось удалить пост');
-        },
+      tap(() => {
+        this.selectedPost = null;
+        this.messageService.showSuccess('Пост успешно удалён');
+      }),
+      catchError((error) => {
+        this.messageService.showError('Не удалось удалить пост');
+        return throwError(() => error);
       })
     ).subscribe();
   }

@@ -4,7 +4,6 @@ import { IPost } from './IPost';
 import { PostApiService } from './post-api.service';
 import { IPostResponce } from './IPostResponce';
 import { LoaderService } from '../../loader.service';
-import { MessageManagementService } from '../../message-management.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
@@ -21,12 +20,16 @@ export class PostService {
     this.postsSubject.next(posts);
   }
 
-  getPosts(filter?: { authorId?: number }): Observable<IPost[]> {
-    return this.postApiService.getPosts(10, 0).pipe(
+  getPosts(limit: number, offset: number, authorId?: number): Observable<IPost[]> {
+    return this.postApiService.getPosts(limit, offset).pipe(
       map((response: IPostResponce) => {
         const posts: IPost[] = response.posts || [];
-        if (!filter?.authorId) return posts;
-        return posts.filter((post: IPost) => post.userId === filter.authorId);
+
+        if (authorId === undefined) {
+          return posts;
+        }
+
+        return posts.filter((post: IPost) => post.userId === authorId);
       })
     );
   }
@@ -43,24 +46,30 @@ export class PostService {
         }),
       );
   }
-  
+
   editPost(id: number, post: Partial<IPost>): Observable<IPost> {
     this.loaderService.showLoader();
     return this.postApiService.editPost(id, post)
       .pipe(
+        tap((updatedPost: IPost) => {
+          const currentPosts: IPost[] = this.postsSubject.getValue();
+          const index: number = currentPosts.findIndex(post => post.id === id);
+          
+          if (index !== -1) {
+            const newPosts: IPost[] = [...currentPosts];
+            newPosts[index] = updatedPost;
+            this.postsSubject.next(newPosts);
+          }
+        }),
         finalize(() => {
           this.loaderService.hideLoader();
         }),
         catchError((error: HttpErrorResponse) => {
           return throwError(() => error);
         }),
-      )
+      );
   }
-  
-  filterPost(posts: IPost[], id: number): IPost[] {
-    return posts.filter((post: IPost) => post.id !== id);
-  }
-  
+
   createPost(post: Partial<IPost>): Observable<IPost> {
     this.loaderService.showLoader();
     return this.postApiService.createPost(post)
@@ -84,7 +93,7 @@ export class PostService {
       .pipe(
         tap(() => {
           const currentPosts: IPost[] = this.postsSubject.getValue();
-          this.postsSubject.next(this.filterPost(currentPosts, id));
+          this.postsSubject.next(currentPosts.filter((post: IPost) => post.id !== id));
         }),
         finalize(() => {
           this.loaderService.hideLoader();

@@ -2,8 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IPost } from '../IPost';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { tap } from 'rxjs';
+import { catchError, finalize, tap, throwError } from 'rxjs';
 import { PostService } from '../post.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { LoaderService } from '../../../loader.service';
+import { IPostEditFormValue } from '../IPostEditFormValue';
 
 @Component({
   selector: 'app-post-edit-dialog',
@@ -12,10 +15,11 @@ import { PostService } from '../post.service';
   styleUrl: './post-edit-dialog.component.scss',
 })
 export class PostEditDialogComponent implements OnInit {
-
+  
   private config: DynamicDialogConfig = inject(DynamicDialogConfig);
   private ref: DynamicDialogRef = inject(DynamicDialogRef);
   private postService: PostService = inject(PostService);
+  private loaderService: LoaderService = inject(LoaderService);
   post!: IPost;
 
   postEditForm!: FormGroup;
@@ -26,7 +30,7 @@ export class PostEditDialogComponent implements OnInit {
     this.postEditForm = new FormGroup({
       title: new FormControl(this.post.title, [Validators.required]),
       tags: new FormControl(this.post.tags.join(','), [Validators.required]),
-      views: new FormControl(this.post.views, [Validators.required, Validators.min(0)])
+      views: new FormControl(this.post.views, [Validators.required, Validators.min(0)]),
     });
   }
 
@@ -35,19 +39,30 @@ export class PostEditDialogComponent implements OnInit {
       return;
     }
 
+    const formValue: IPostEditFormValue = this.postEditForm.value;
+
+    const tags: string[] = formValue.tags
+      .split(',')
+      .map((tags: string) => tags.trim())
+      .filter((tags: string) => tags.length > 0);
+
     const data: Partial<IPost> = {
-      title: this.postEditForm.value.title,
-      tags: this.postEditForm.value.tags
-        .split(',')
-        .map((t: string) => t.trim())
-        .filter((t: string) => t.length > 0),
-      views: this.postEditForm.value.views
+      title: formValue.title,
+      tags,
+      views: formValue.views,
     };
 
-    this.postService.editPost(this.post.id, data)
-      .pipe(
-        tap(() => this.ref.close())
-      ).subscribe();
+    this.postService
+      .editPost(this.post.id, data)
+        .pipe(
+          tap(() => this.ref.close()),
+          finalize(() => {
+            this.loaderService.hideLoader();
+          }),
+          catchError((error: HttpErrorResponse) => {
+            return throwError(() => error);
+          }),
+        ).subscribe();
   }
   
 }
