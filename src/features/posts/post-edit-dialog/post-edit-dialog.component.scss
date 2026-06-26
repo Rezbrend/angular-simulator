@@ -1,0 +1,15 @@
+.edit-post {
+  align-self: flex-start;
+  background-color: white;
+  color: rgb(144, 238, 144);
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3);
+  display: inline-flex;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding-top: calc(var(--width) * 0.5);
+}

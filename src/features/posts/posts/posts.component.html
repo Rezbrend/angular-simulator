@@ -1,0 +1,44 @@
+@if (isLoading) {
+  <div class="posts-loading-state">
+    @for (i of [1, 2, 3, 4, 5]; track i) {
+      <div class="skeleton-row">
+        <p-skeleton shape="rect" width="20%" class="sk-title" />
+        <p-skeleton shape="rect" width="30%" class="sk-tags" />
+        <p-skeleton shape="rect" width="10%" class="sk-views" />
+      </div>
+    }
+  </div>
+} @else {
+  <div class="indent-from-header"> </div>
+  <div class="table">
+    <p-contextMenu #contextMenu [model]="contextMenuItems"></p-contextMenu>
+    <p-table
+      [totalRecords]="totalRecords"
+      [paginator]="true"
+      [first]="first"
+      [rows]="pageSize"
+      [contextMenu]="contextMenu"
+      [value]="(posts$ | async) ?? []"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[10, 20, 50]"
+      [lazy]="true"
+      [(contextMenuSelection)]="selectedPost"
+    >
+      <ng-template #header>
+        <tr>
+          <th>Title</th>
+          <th>Tags</th>
+          <th>Views</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-post>
+        <tr (dblclick)="openPostDetailPage(post.id)" [pContextMenuRow]="post">
+          <td>{{ post.title }}</td>
+          <td>{{ post.tags.join(', ') }}</td>
+          <td>{{ post.views }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <button id="create-post" class="create-posts-btn" routerLink="/posts/create">Создать пост</button>
+  </div>
+}

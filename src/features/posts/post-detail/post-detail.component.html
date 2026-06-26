@@ -1,0 +1,13 @@
+<div class="post-container">
+  <div class="post-details">
+    <p> Id: {{ post.id }}</p>
+    <p> Title: {{ post.title }}</p>
+    <p> Body: {{ post.body }}</p>
+    <p> Tags: {{ post.tags }}</p>
+    <p> Likes: {{ post.reactions.likes }}</p>
+    <p> Dislikes: {{ post.reactions.dislikes }}</p>
+    <p> Views: {{ post.views }}</p>
+    <p> UserID: {{ post.userId }}</p>
+    <p-button severity="primary" (click)="goBack()">Go Back</p-button>
+  </div>
+</div>
