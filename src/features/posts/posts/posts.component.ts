@@ -1,9 +1,9 @@
-import { Component, inject, OnInit, DestroyRef } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { SkeletonModule } from 'primeng/skeleton';
 import { PostApiService } from '../post-api.service';
 import { PostService } from '../post.service';
-import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { catchError, finalize, first, Observable, tap, throwError } from 'rxjs';
 import { IPost } from '../IPost';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MenuItem } from 'primeng/api';
@@ -15,8 +15,7 @@ import { IPostResponce } from '../IPostResponce';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { PostEditDialogComponent } from '../post-edit-dialog/post-edit-dialog.component';
 import { MessageManagementService } from '../../../message-management.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { IEditPostResult } from '../IEditPostResult';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-posts',
@@ -27,13 +26,12 @@ import { IEditPostResult } from '../IEditPostResult';
   standalone: true,
 })
 export class PostsComponent implements OnInit {
-  
+
   public  dialogService: DialogService = inject(DialogService);
   private router: Router = inject(Router);
   private postService: PostService = inject(PostService);
   private postApiService: PostApiService = inject(PostApiService);
   private messageService: MessageManagementService = inject(MessageManagementService);
-  private destroyRef: DestroyRef = inject(DestroyRef);
 
   posts$: Observable<IPost[]> = this.postService.posts$;
   isLoading: boolean = false;
@@ -74,7 +72,7 @@ export class PostsComponent implements OnInit {
           this.totalRecords = response.totalPosts;
           this.postService.setPosts(response.posts);
         }),
-        catchError((error) => {
+        catchError((error: HttpErrorResponse) => {
           this.messageService.showError('Не удалось загрузить посты');
           return throwError(() => error);
         }),
@@ -105,13 +103,11 @@ export class PostsComponent implements OnInit {
     });
 
     this.ref!.onClose.pipe(
-      takeUntilDestroyed(this.destroyRef),
-      tap((result: IEditPostResult) => {
-        if (result.success) {
+      first(), 
+      tap((result: boolean | undefined) => {
+        if (result === true) {
           this.messageService.showSuccess('Пост успешно сохранён, обновляем список');
           this.loadPosts(this.pageSize, this.first);
-        } else {
-          this.messageService.showError('Ошибка при сохранении поста');
         }
       })
     ).subscribe();
@@ -123,7 +119,7 @@ export class PostsComponent implements OnInit {
         this.selectedPost = null;
         this.messageService.showSuccess('Пост успешно удалён');
       }),
-      catchError((error) => {
+      catchError((error: HttpErrorResponse) => {
         this.messageService.showError('Не удалось удалить пост');
         return throwError(() => error);
       })

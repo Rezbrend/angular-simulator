@@ -53,13 +53,11 @@ export class PostService {
       .pipe(
         tap((updatedPost: IPost) => {
           const currentPosts: IPost[] = this.postsSubject.getValue();
-          const index: number = currentPosts.findIndex(post => post.id === id);
+          const newPosts: IPost[] = currentPosts.map(post => 
+            post.id === id ? updatedPost : post
+          );
           
-          if (index !== -1) {
-            const newPosts: IPost[] = [...currentPosts];
-            newPosts[index] = updatedPost;
-            this.postsSubject.next(newPosts);
-          }
+          this.postsSubject.next(newPosts);
         }),
         finalize(() => {
           this.loaderService.hideLoader();

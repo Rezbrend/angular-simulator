@@ -40,11 +40,10 @@ export class PostEditDialogComponent implements OnInit {
     }
 
     const formValue: IPostEditFormValue = this.postEditForm.value;
-
     const tags: string[] = formValue.tags
       .split(',')
-      .map((tags: string) => tags.trim())
-      .filter((tags: string) => tags.length > 0);
+      .map((tag: string) => tag.trim())
+      .filter((tag: string) => tag.length > 0);
 
     const data: Partial<IPost> = {
       title: formValue.title,
@@ -54,15 +53,18 @@ export class PostEditDialogComponent implements OnInit {
 
     this.postService
       .editPost(this.post.id, data)
-        .pipe(
-          tap(() => this.ref.close()),
-          finalize(() => {
-            this.loaderService.hideLoader();
-          }),
-          catchError((error: HttpErrorResponse) => {
-            return throwError(() => error);
-          }),
-        ).subscribe();
+      .pipe(
+        tap(() => {
+          this.ref.close();
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => error);
+        }),
+        finalize(() => {
+          this.loaderService.hideLoader();
+        })
+      )
+      .subscribe();
   }
   
 }
