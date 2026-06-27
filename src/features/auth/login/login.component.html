@@ -1,0 +1,9 @@
+<div class="auth">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label>Логин:</label>
+    <input id="username" type="text" formControlName="username">
+    <label>Пароль:</label>
+    <input id="password" type="text" formControlName="password">
+    <button id="auth-btn" class="auth-btn" type="submit">Войти</button>
+  </form>
+</div>

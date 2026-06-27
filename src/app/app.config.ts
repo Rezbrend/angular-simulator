@@ -9,6 +9,7 @@ import Nora from '@primeuix/themes/nora';
 import Lara from '@primeuix/themes/lara';
 import { errorInterceptor } from './error.interceptor';
 import { loggingInterceptor } from './logging.interceptor';
+import { authInterceptor } from '../features/auth/auth.interceptor';
 
 type ThemePresetType = typeof Aura | typeof Lara | typeof Nora;
 
@@ -31,7 +32,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideZoneChangeDetection(),
-    provideHttpClient(withInterceptors([errorInterceptor, loggingInterceptor])),
+    provideHttpClient(withInterceptors([errorInterceptor, loggingInterceptor, authInterceptor])),
     providePrimeNG({
       theme: {
         preset: initThemePreset(),
