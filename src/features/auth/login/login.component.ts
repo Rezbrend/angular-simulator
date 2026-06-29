@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,9 @@ export class LoginComponent {
       .pipe(
         tap(() => {
           this.router.navigate(['/']);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          return throwError(() => error);
         })
       ).subscribe();
   }

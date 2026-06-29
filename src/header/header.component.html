@@ -48,7 +48,7 @@
         </button>
       </div>
       <div class="logout">
-        @if(authState$ | async) {
+        @if(authService.authState$ | async) {
           <p>Авторизован</p>
           <button id="logout" routerLink="/login" (click)="logout()">Выйти</button>
         }

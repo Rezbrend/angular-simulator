@@ -1,113 +1,126 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { LocalStorageService } from '../../local-storage.service';
-import { BehaviorSubject, catchError, EMPTY, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, Observable, switchMap, tap } from 'rxjs';
 import { MessageManagementService } from '../../message-management.service';
-import { IAuth } from './iauth';
-import { ILoginResponse } from './ILoginResponse';
-import { IRefreshResponse } from './IRefreshResponse';
+import { IAuthUser } from './IAuthUser';
+import { IAuthResponse } from './IAuthResponse';
+import { ILoginCredentials } from './ILoginCredentials';
 
-const ACCESS_KEY = 'access_token';
-const REFRESH_KEY = 'refresh_token';
+const AUTH_TOKENS_KEY = 'auth_tokens';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-
+  
   private httpClient: HttpClient = inject(HttpClient);
   private localStorageService: LocalStorageService = inject(LocalStorageService);
   private messageService: MessageManagementService = inject(MessageManagementService);
-  authStateSubject: BehaviorSubject<IAuth | null> = new BehaviorSubject<IAuth | null>(null);
-  authState$: Observable<IAuth | null> = this.authStateSubject.asObservable();
+  
+  authStateSubject: BehaviorSubject<IAuthUser | null> = new BehaviorSubject<IAuthUser | null>(null);
+  authState$: Observable<IAuthUser | null> = this.authStateSubject.asObservable();
+  
   private API_URL: string = 'https://dummyjson.com';
 
-  constructor() {
+  initialize(): void {
     this.restoreSession();
   }
 
-  login(credentials: { username: string; password: string }): Observable<ILoginResponse> {
+  login(credentials: ILoginCredentials): Observable<IAuthResponse> {
     return this.httpClient
-      .post<ILoginResponse>(`${ this.API_URL }/auth/login`, credentials)
+      .post<IAuthResponse>(`${ this.API_URL }/auth/login`, credentials)
       .pipe(
-        tap((response: ILoginResponse) => {
+        tap((response: IAuthResponse) => {
           this.setSession(response);
           this.messageService.showSuccess('Вы вошли в систему');
         }),
-        catchError((error: HttpErrorResponse) => {
-          return throwError(() => error);
+        catchError(() => {
+          return EMPTY;
         })
       );
   }
 
   logout(): void {
-    this.localStorageService.removeItem(ACCESS_KEY);
-    this.localStorageService.removeItem(REFRESH_KEY);
+    this.localStorageService.removeItem(AUTH_TOKENS_KEY);
     this.authStateSubject.next(null);
     this.messageService.showInfo('Вы вышли из системы');
   }
 
   isAuthenticated(): boolean {
-    return !!this.localStorageService.getItem(ACCESS_KEY);
+    return this.authStateSubject.getValue() !== null;
   }
 
-  getCurrentUser(): IAuth | null {
+  getCurrentUser(): IAuthUser | null {
     return this.authStateSubject.getValue();
   }
 
   getAccessToken(): string | null {
-    return this.localStorageService.getItem(ACCESS_KEY);
+    return this.localStorageService.getItem<{ accessToken?: string }>(AUTH_TOKENS_KEY)?.accessToken ?? null;
   }
 
   getRefreshToken(): string | null {
-    return this.localStorageService.getItem(REFRESH_KEY);
+    return this.localStorageService.getItem<{ refreshToken?: string }>(AUTH_TOKENS_KEY)?.refreshToken ?? null;
   }
 
-  refreshToken(): Observable<IRefreshResponse> {
+  refreshToken(): Observable<IAuthResponse> {
     const token: string | null = this.getRefreshToken();
     if (!token) return EMPTY;
 
-    return this.httpClient
-      .post<IRefreshResponse>(`${ this.API_URL }/auth/refresh`, { refreshToken: token })
+    return this.httpClient.post<IAuthResponse>(`${ this.API_URL }/auth/refresh`, { refreshToken: token })
       .pipe(
-        tap((response: IRefreshResponse) => {
-          if (response.accessToken) {
-            this.localStorageService.setItem(ACCESS_KEY, response.accessToken);
-          }
-          if (response.refreshToken) {
-            this.localStorageService.setItem(REFRESH_KEY, response.refreshToken);
-          }
-          if (response.user) {
-            this.authStateSubject.next(response.user);
-          }
+        tap((response: IAuthResponse) => {
+          this.setSession(response);
         }),
         catchError(() => EMPTY)
       );
   }
 
   private restoreSession(): void {
-    const access: unknown = this.localStorageService.getItem(ACCESS_KEY);
-    const refresh: unknown = this.localStorageService.getItem(REFRESH_KEY);
+    const tokens: IAuthResponse | null = this.localStorageService.getItem<IAuthResponse>(AUTH_TOKENS_KEY);
 
-    if (access && refresh) {
-      this.httpClient.get<IAuth>(`${ this.API_URL }/auth/me`)
-        .pipe(
-          tap((user: IAuth) => {
-            this.authStateSubject.next(user);
-          }),
-          catchError(() => {
-            this.logout();
-            return EMPTY;
-          })
-        ).subscribe();
+    if (tokens?.accessToken && tokens?.refreshToken) {
+      this.tryGetUserWithAccessToken().subscribe();
     } else {
       this.authStateSubject.next(null);
     }
   }
 
-  private setSession(data: ILoginResponse): void {
-    this.localStorageService.setItem(ACCESS_KEY, data.accessToken);
-    this.localStorageService.setItem(REFRESH_KEY, data.refreshToken);
-    this.authStateSubject.next(data.user);
+  private tryGetUserWithAccessToken(): Observable<IAuthUser> {
+    return this.httpClient.get<IAuthUser>(`${ this.API_URL }/auth/me`)
+      .pipe(
+        tap((user: IAuthUser) => {
+          this.authStateSubject.next(user);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            return this.handleUnauthorizedError();
+          }
+
+          this.logout();
+          return EMPTY;
+        })
+      );
   }
+
+  private handleUnauthorizedError(): Observable<IAuthUser> {
+    return this.refreshToken().pipe(
+      switchMap(() => {
+        return this.tryGetUserWithAccessToken();
+      }),
+      catchError(() => {
+        this.logout();
+        return EMPTY;
+      })
+    );
+  }
+
+  private setSession(data: IAuthResponse): void {
+    this.localStorageService.setItem(AUTH_TOKENS_KEY, {
+      accessToken: data.accessToken,
+      refreshToken: data.refreshToken,
+    });
+    this.authStateSubject.next(data.user ?? null);
+  }
+  
 }

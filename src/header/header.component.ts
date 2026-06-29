@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { INavigationItem } from '../interfaces/INavigationItem';
 import { ToggleSwitchChangeEvent, ToggleSwitchModule } from 'primeng/toggleswitch';
@@ -8,8 +8,6 @@ import { faSun, faMoon, IconDefinition } from '@fortawesome/free-solid-svg-icons
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ThemeService } from '../theme.service'
 import { AsyncPipe } from '@angular/common';
-import { Observable } from 'rxjs';
-import { IAuth } from '../features/auth/iauth';
 import { AuthService } from '../features/auth/auth.service';
 
 @Component({
@@ -19,12 +17,11 @@ import { AuthService } from '../features/auth/auth.service';
   styleUrl: './header.component.scss',
   standalone: true
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   
   themeService: ThemeService = inject(ThemeService);
-  private authService: AuthService = inject(AuthService)
+  authService: AuthService = inject(AuthService)
   private router: Router = inject(Router)
-  authState$!: Observable<IAuth | null>;
   faSun: IconDefinition = faSun;
   faMoon: IconDefinition = faMoon;
   
@@ -51,10 +48,6 @@ export class HeaderComponent implements OnInit {
   
   toggleDarkMode(event: ToggleSwitchChangeEvent): void {
     this.themeService.toggleDarkMode(event.checked);
-  }
-  
-  ngOnInit() {
-    this.authState$ = this.authService.authState$;
   }
 
   logout() {
