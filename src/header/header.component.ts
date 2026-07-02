@@ -9,6 +9,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { ThemeService } from '../theme.service'
 import { AsyncPipe } from '@angular/common';
 import { AuthService } from '../features/auth/auth.service';
+import { MessageManagementService } from '../message-management.service';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent {
   
   themeService: ThemeService = inject(ThemeService);
   authService: AuthService = inject(AuthService)
+  private messageService: MessageManagementService = inject(MessageManagementService);
   private router: Router = inject(Router)
   faSun: IconDefinition = faSun;
   faMoon: IconDefinition = faMoon;
@@ -52,6 +54,7 @@ export class HeaderComponent {
 
   logout() {
     this.authService.logout();
+    this.messageService.showInfo('Вы вышли из системы');
     this.router.navigate(['/login']);
   }
   

@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { catchError, tap, throwError } from 'rxjs';
+import { catchError, EMPTY, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
+import { MessageManagementService } from '../../../message-management.service';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +16,7 @@ export class LoginComponent {
   fb: FormBuilder = inject(FormBuilder);
   authService: AuthService = inject(AuthService);
   router: Router = inject(Router);
+  private messageService: MessageManagementService = inject(MessageManagementService);
 
   form: FormGroup = this.fb.group({
     username: ['', [Validators.required]],
@@ -26,10 +27,12 @@ export class LoginComponent {
     this.authService.login(this.form.value)
       .pipe(
         tap(() => {
+          this.messageService.showSuccess('Вы вошли в систему');
           this.router.navigate(['/']);
         }),
-        catchError((error: HttpErrorResponse) => {
-          return throwError(() => error);
+        catchError(() => {
+          this.messageService.showError('Неверный логин или пароль');
+          return EMPTY;
         })
       ).subscribe();
   }

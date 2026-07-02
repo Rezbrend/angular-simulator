@@ -7,8 +7,6 @@ import { IAuthUser } from './IAuthUser';
 import { IAuthResponse } from './IAuthResponse';
 import { ILoginCredentials } from './ILoginCredentials';
 
-const AUTH_TOKENS_KEY = 'auth_tokens';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -21,7 +19,8 @@ export class AuthService {
   authStateSubject: BehaviorSubject<IAuthUser | null> = new BehaviorSubject<IAuthUser | null>(null);
   authState$: Observable<IAuthUser | null> = this.authStateSubject.asObservable();
   
-  private API_URL: string = 'https://dummyjson.com';
+  private authTokensKey: string = 'auth-tokens';
+  private API_URL: string = 'https://dummyjson.com/auth';
 
   initialize(): void {
     this.restoreSession();
@@ -29,11 +28,10 @@ export class AuthService {
 
   login(credentials: ILoginCredentials): Observable<IAuthResponse> {
     return this.httpClient
-      .post<IAuthResponse>(`${ this.API_URL }/auth/login`, credentials)
+      .post<IAuthResponse>(`${ this.API_URL }/login`, credentials)
       .pipe(
         tap((response: IAuthResponse) => {
           this.setSession(response);
-          this.messageService.showSuccess('Вы вошли в систему');
         }),
         catchError(() => {
           return EMPTY;
@@ -42,9 +40,8 @@ export class AuthService {
   }
 
   logout(): void {
-    this.localStorageService.removeItem(AUTH_TOKENS_KEY);
+    this.localStorageService.removeItem(this.authTokensKey);
     this.authStateSubject.next(null);
-    this.messageService.showInfo('Вы вышли из системы');
   }
 
   isAuthenticated(): boolean {
@@ -56,18 +53,18 @@ export class AuthService {
   }
 
   getAccessToken(): string | null {
-    return this.localStorageService.getItem<{ accessToken?: string }>(AUTH_TOKENS_KEY)?.accessToken ?? null;
+    return this.localStorageService.getItem<{ accessToken?: string }>(this.authTokensKey)?.accessToken ?? null;
   }
 
   getRefreshToken(): string | null {
-    return this.localStorageService.getItem<{ refreshToken?: string }>(AUTH_TOKENS_KEY)?.refreshToken ?? null;
+    return this.localStorageService.getItem<{ refreshToken?: string }>(this.authTokensKey)?.refreshToken ?? null;
   }
 
   refreshToken(): Observable<IAuthResponse> {
     const token: string | null = this.getRefreshToken();
     if (!token) return EMPTY;
 
-    return this.httpClient.post<IAuthResponse>(`${ this.API_URL }/auth/refresh`, { refreshToken: token })
+    return this.httpClient.post<IAuthResponse>(`${ this.API_URL }/refresh`, { refreshToken: token })
       .pipe(
         tap((response: IAuthResponse) => {
           this.setSession(response);
@@ -77,7 +74,7 @@ export class AuthService {
   }
 
   private restoreSession(): void {
-    const tokens: IAuthResponse | null = this.localStorageService.getItem<IAuthResponse>(AUTH_TOKENS_KEY);
+    const tokens: IAuthResponse | null = this.localStorageService.getItem<IAuthResponse>(this.authTokensKey);
 
     if (tokens?.accessToken && tokens?.refreshToken) {
       this.tryGetUserWithAccessToken().subscribe();
@@ -87,7 +84,7 @@ export class AuthService {
   }
 
   private tryGetUserWithAccessToken(): Observable<IAuthUser> {
-    return this.httpClient.get<IAuthUser>(`${ this.API_URL }/auth/me`)
+    return this.httpClient.get<IAuthUser>(`${ this.API_URL }/me`)
       .pipe(
         tap((user: IAuthUser) => {
           this.authStateSubject.next(user);
@@ -116,11 +113,11 @@ export class AuthService {
   }
 
   private setSession(data: IAuthResponse): void {
-    this.localStorageService.setItem(AUTH_TOKENS_KEY, {
+    this.localStorageService.setItem(this.authTokensKey, {
       accessToken: data.accessToken,
       refreshToken: data.refreshToken,
     });
-    this.authStateSubject.next(data.user ?? null);
+    this.authStateSubject.next(data);
   }
   
 }
