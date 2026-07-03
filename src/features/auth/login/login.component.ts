@@ -13,9 +13,9 @@ import { MessageManagementService } from '../../../message-management.service';
 })
 export class LoginComponent {
 
-  fb: FormBuilder = inject(FormBuilder);
-  authService: AuthService = inject(AuthService);
-  router: Router = inject(Router);
+  private fb: FormBuilder = inject(FormBuilder);
+  private authService: AuthService = inject(AuthService);
+  private router: Router = inject(Router);
   private messageService: MessageManagementService = inject(MessageManagementService);
 
   form: FormGroup = this.fb.group({
