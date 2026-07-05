@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { INavigationItem } from '../interfaces/INavigationItem';
 import { ToggleSwitchChangeEvent, ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
@@ -8,6 +8,8 @@ import { faSun, faMoon, IconDefinition } from '@fortawesome/free-solid-svg-icons
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ThemeService } from '../theme.service'
 import { AsyncPipe } from '@angular/common';
+import { AuthService } from '../features/auth/auth.service';
+import { MessageManagementService } from '../message-management.service';
 
 @Component({
   selector: 'app-header',
@@ -19,6 +21,9 @@ import { AsyncPipe } from '@angular/common';
 export class HeaderComponent {
   
   themeService: ThemeService = inject(ThemeService);
+  authService: AuthService = inject(AuthService)
+  private messageService: MessageManagementService = inject(MessageManagementService);
+  private router: Router = inject(Router)
   faSun: IconDefinition = faSun;
   faMoon: IconDefinition = faMoon;
   
@@ -45,6 +50,12 @@ export class HeaderComponent {
   
   toggleDarkMode(event: ToggleSwitchChangeEvent): void {
     this.themeService.toggleDarkMode(event.checked);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.messageService.showInfo('Вы вышли из системы');
+    this.router.navigate(['/login']);
   }
   
 }
