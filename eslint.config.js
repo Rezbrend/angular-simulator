@@ -1,20 +1,18 @@
+// @ts-check
+
+const eslint = require('@eslint/js');
 const { defineConfig } = require('eslint/config');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
-const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
-const angularTemplatePlugin = require('@angular-eslint/eslint-plugin-template');
-const angularPlugin = require('@angular-eslint/eslint-plugin');
 
 module.exports = defineConfig([
   {
     files: ['**/*.ts'],
     extends: [
-      tseslint.configs.stylistic,
-      eslintPluginPrettierRecommended,
+      eslint.configs.recommended,
+      tseslint.configs.recommended,
+      angular.configs.tsRecommended,
     ],
-    plugins: {
-      '@angular-eslint': angularPlugin,
-    },
     processor: angular.processInlineTemplates,
     rules: {
       'no-console': [
@@ -23,22 +21,38 @@ module.exports = defineConfig([
           allow: ['warn', 'error'],
         },
       ],
+
       'padded-blocks': [
         'error',
         {
           classes: 'always',
         },
       ],
+
       quotes: [
         'warn',
         'single',
         {
+          avoidEscape: true,
           allowTemplateLiterals: true,
         },
       ],
-      'object-curly-spacing': ['warn', 'always'],
-      'template-curly-spacing': ['warn', 'always'],
-      semi: ['warn', 'always'],
+
+      'object-curly-spacing': [
+        'warn',
+        'always',
+      ],
+
+      'template-curly-spacing': [
+        'warn',
+        'always',
+      ],
+
+      semi: [
+        'warn',
+        'always',
+      ],
+
       'lines-between-class-members': [
         'error',
         'always',
@@ -46,60 +60,50 @@ module.exports = defineConfig([
           exceptAfterSingleLine: true,
         },
       ],
+
       '@typescript-eslint/explicit-member-accessibility': [
         'error',
         {
           accessibility: 'no-public',
         },
       ],
+
       '@typescript-eslint/naming-convention': [
         'error',
+
         {
           selector: 'enumMember',
           format: ['UPPER_CASE'],
           leadingUnderscore: 'forbid',
         },
+
         {
           selector: 'interface',
           format: ['PascalCase'],
-          prefix: ['I'],
+          custom: {
+            regex: '^I[A-Z]',
+            match: true,
+          },
         },
-      ],
-      '@angular-eslint/component-selector': [
-        'error',
+
         {
-          type: 'element',
-          prefix: 'app',
-          style: 'kebab-case',
+          selector: 'default',
+          format: null,
         },
       ],
-      'prettier/prettier': [
-        'off'
-      ],
     },
   },
+
   {
     files: ['**/*.html'],
-    extends: [],
-    languageOptions: {
-      parser: angular.templateParser,
-    },
-    plugins: {
-      '@angular-eslint/template': angularTemplatePlugin,
-    },
+    extends: [
+      angular.configs.templateRecommended,
+      angular.configs.templateAccessibility,
+    ],
+
     rules: {
-      '@angular-eslint/template/banana-in-box': ['error'],
-      '@angular-eslint/template/eqeqeq': ['warn'],
-      '@angular-eslint/template/no-nested-tags': ['error'],
-    },
-  },
-  {
-    files: ['**/*.html'],
-    extends: [eslintPluginPrettierRecommended],
-    rules: {
-      'prettier/prettier': [
-        'off'
-      ],
+      '@angular-eslint/template/banana-in-box': 'error',
+      '@angular-eslint/template/eqeqeq': 'warn',
     },
   },
 ]);

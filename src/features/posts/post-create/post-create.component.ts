@@ -17,7 +17,7 @@ export class PostCreateComponent {
   router: Router = inject(Router);
   private postService: PostService = inject(PostService);
   private messageService: MessageManagementService = inject(MessageManagementService);
-  private fb: NonNullableFormBuilder = inject(NonNullableFormBuilder)
+  private fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
   
   postForm: FormGroup = new FormGroup({
     id: this.fb.control(0, [Validators.required]),
@@ -30,7 +30,7 @@ export class PostCreateComponent {
     }),
     views: this.fb.control(0, [Validators.required]),
     userId: this.fb.control(0, [Validators.required]),
-  })
+  });
 
   onSubmit(): void {
     this.postService.createPost(this.postForm.getRawValue())
