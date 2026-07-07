@@ -12,9 +12,9 @@ export class BorderDirective {
     thickness: '2px',
   };
 
-  @HostBinding('style.border-width') borderWidth: string = '0px';
-  @HostBinding('style.border-style') borderStyle: string = 'none';
-  @HostBinding('style.border-image') borderImage: string = '';
+  @HostBinding('style.border-width') borderWidth = '0px';
+  @HostBinding('style.border-style') borderStyle = 'none';
+  @HostBinding('style.border-image') borderImage = '';
 
   private timeoutId!: number;
 

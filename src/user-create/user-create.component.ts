@@ -18,9 +18,9 @@ export class UserCreateComponent {
   
   @Output() userSubmit: EventEmitter<IUser> = new EventEmitter<IUser>();
   
-  fb: NonNullableFormBuilder = inject(NonNullableFormBuilder)
+  fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
   
-  createUserForm: FormGroup<ModelFormGroup<IUser>> = new FormGroup({
+  createUserForm = new FormGroup<ModelFormGroup<IUser>>({
     id: this.fb.control(Date.now()),
     name: this.fb.control('', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
     username: this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
@@ -45,7 +45,7 @@ export class UserCreateComponent {
   });
 
   onSubmit(): void {
-    const newUser: IUser = {...this.createUserForm.getRawValue()};
+    const newUser: IUser = { ...this.createUserForm.getRawValue() };
     this.userSubmit.emit(newUser);
     this.createUserForm.reset();
   }

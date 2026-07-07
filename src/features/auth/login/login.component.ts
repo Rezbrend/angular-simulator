@@ -21,7 +21,7 @@ export class LoginComponent {
   form: FormGroup = this.fb.group({
     username: ['', [Validators.required]],
     password: ['', [Validators.required]],
-  })
+  });
 
   onSubmit(): void {
     this.authService.login(this.form.value)

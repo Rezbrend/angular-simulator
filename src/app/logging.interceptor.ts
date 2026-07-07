@@ -21,4 +21,4 @@ export const loggingInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>,
     }),
   );
   
-}
+};

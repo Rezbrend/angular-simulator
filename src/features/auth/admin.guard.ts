@@ -6,8 +6,8 @@ import { UserRole } from './UserRole';
 
 export const adminGuard: CanActivateFn = () => {
 
-  const router: Router = inject(Router)
-  const authService: AuthService = inject(AuthService)
+  const router: Router = inject(Router);
+  const authService: AuthService = inject(AuthService);
   const user: IAuthUser | null = authService.getCurrentUser();
 
   const isAdmin: boolean = user!.role === UserRole.ADMIN;
@@ -19,4 +19,4 @@ export const adminGuard: CanActivateFn = () => {
   
   return true;
   
-}
+};

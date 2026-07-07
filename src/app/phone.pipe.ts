@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class PhonePipe implements PipeTransform {
   
-  transform(value: string, mode: string = 'international'): string {
+  transform(value: string, mode = 'international'): string {
     const cleanNumber: string = value.replace(/\D/g, '');
     const group1: string = cleanNumber.substring(0, 3);
     const group2: string = cleanNumber.substring(3, 6);

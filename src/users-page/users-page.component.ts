@@ -22,7 +22,7 @@ export class UsersPageComponent {
   loaderService: LoaderService = inject(LoaderService);
   messageService: MessageManagementService = inject(MessageManagementService);
   userService: UserService = inject(UserService);
-  usersCount: number = 0;
+  usersCount = 0;
   users$: Observable<IUser[]> = this.userService.users$;
   searchTerm$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   filteredUsers$: Observable<IUser[]> = combineLatest([this.searchTerm$, this.users$])
@@ -40,7 +40,7 @@ export class UsersPageComponent {
   constructor() {
     this.userService.loadUsers().pipe(
       tap((users: IUser[]) => {
-        this.userService.setUsers(users)
+        this.userService.setUsers(users);
       })
     ).subscribe();
     

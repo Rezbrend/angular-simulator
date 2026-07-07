@@ -18,7 +18,7 @@ export class AuthService {
   authState$: Observable<IAuthUser | null> = this.authStateSubject.asObservable();
   
   private readonly LOCAL_STORAGE_KEY: string = 'auth-tokens';
-  private API_URL: string = 'https://dummyjson.com/auth';
+  private API_URL = 'https://dummyjson.com/auth';
 
   initialize(): void {
     this.initAuthState();

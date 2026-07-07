@@ -9,7 +9,7 @@ export const errorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, n
     catchError((error: HttpErrorResponse) => {
       if (error.status >= 500) {
         const messageService: MessageManagementService = inject(MessageManagementService);
-        const errorMessage: string = `Ошибка, код: ${ error.status }`;
+        const errorMessage = `Ошибка, код: ${ error.status }`;
         messageService.showError(errorMessage);
       }
       return throwError(() => error);

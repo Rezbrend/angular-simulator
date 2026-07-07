@@ -20,6 +20,6 @@ export const postResolver: ResolveFn<Observable<IPost>> = (route: ActivatedRoute
         return EMPTY;
       }),
       finalize(() => loaderService.hideLoader())
-    )
+    );
   
-}
+};

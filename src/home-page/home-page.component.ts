@@ -19,11 +19,11 @@ export class HomePageComponent {
   
     messageManagementService: MessageManagementService = inject(MessageManagementService);
 
-    isLoading: boolean = true;
-    inputValue: string = '';
-    location: string = '';
-    date: string = '';
-    participants: string = '';
+    isLoading = true;
+    inputValue = '';
+    location = '';
+    date = '';
+    participants = '';
     faPersonHiking: IconDefinition = faPersonHiking;
     faBuildingShield: IconDefinition = faBuildingShield;
     faTags: IconDefinition = faTags;

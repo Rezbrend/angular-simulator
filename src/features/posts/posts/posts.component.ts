@@ -27,17 +27,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class PostsComponent implements OnInit {
 
-  public  dialogService: DialogService = inject(DialogService);
+  dialogService: DialogService = inject(DialogService);
   private router: Router = inject(Router);
   private postService: PostService = inject(PostService);
   private postApiService: PostApiService = inject(PostApiService);
   private messageService: MessageManagementService = inject(MessageManagementService);
 
   posts$: Observable<IPost[]> = this.postService.posts$;
-  isLoading: boolean = false;
-  totalRecords: number = 0;
-  first: number = 0;
-  pageSize: number = 10;
+  isLoading = false;
+  totalRecords = 0;
+  first = 0;
+  pageSize = 10;
   selectedPost: IPost | null = null;
   ref: DynamicDialogRef<PostEditDialogComponent> | null = null;
 
