@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { PostService } from '../post.service';
 import { MessageManagementService } from '../../../message-management.service';
@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   selector: 'app-post-create',
   imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './post-create.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './post-create.component.scss',
 })
 export class PostCreateComponent {

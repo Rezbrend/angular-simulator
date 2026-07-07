@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { combineLatest, BehaviorSubject, Observable, tap, map } from 'rxjs';
 import { UserService } from '../user.service';
 import { AsyncPipe } from '@angular/common';
@@ -15,6 +15,7 @@ import { PluralPipe } from '../app/plural.pipe';
   imports: [AsyncPipe, UserCardComponent, UserCreateComponent, UsersFilterComponent, PluralPipe],
   templateUrl: './users-page.component.html',
   styleUrl: './users-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class UsersPageComponent {

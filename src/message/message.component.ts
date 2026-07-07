@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MessageManagementService } from '../message-management.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +14,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   imports: [FormsModule, CommonModule, AsyncPipe, FontAwesomeModule],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class MessageComponent {

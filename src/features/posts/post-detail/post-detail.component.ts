@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IPost } from '../IPost';
 import { Location } from '@angular/common';
@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-post-detail',
   imports: [ButtonModule],
   templateUrl: './post-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './post-detail.component.scss',
 })
 export class PostDetailComponent implements OnInit {

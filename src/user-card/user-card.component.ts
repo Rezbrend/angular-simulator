@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { IUser } from '../interfaces/IUser';
 import { UpperCasePipe } from '@angular/common';
 import { PhonePipe } from '../app/phone.pipe';
@@ -9,6 +9,7 @@ import { BorderDirective } from '../app/border.directive';
   selector: 'app-user-card',
   imports: [UpperCasePipe, PhonePipe, BoldOnHoverDirective, BorderDirective],
   templateUrl: './user-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './user-card.component.scss',
 })
 export class UserCardComponent {

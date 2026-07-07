@@ -1,3 +1,5 @@
+import { UserRole } from "./UserRole";
+
 export interface IAuthResponse {
   id: number;
   username: string;
@@ -6,6 +8,7 @@ export interface IAuthResponse {
   lastName: string;
   gender: string;
   image: string;
+  role: UserRole; 
   accessToken: string;
   refreshToken: string;
 }

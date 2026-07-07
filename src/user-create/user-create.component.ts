@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Output, EventEmitter, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule, Validators, FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { IUser } from '../interfaces/IUser';
 import { BoldOnHoverDirective } from '../app/hover.directive';
@@ -12,6 +12,7 @@ type ModelFormGroup<T> = {
   selector: 'app-user-create',
   imports: [FormsModule, ReactiveFormsModule, BoldOnHoverDirective, BorderDirective],
   templateUrl: './user-create.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './user-create.component.scss',
 })
 export class UserCreateComponent {

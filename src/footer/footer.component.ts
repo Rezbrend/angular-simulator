@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTelegram, IconDefinition, faVk, faPinterest, faSkype } from '@fortawesome/free-brands-svg-icons';
 
@@ -7,6 +7,7 @@ import { faTelegram, IconDefinition, faVk, faPinterest, faSkype } from '@fortawe
   imports: [FontAwesomeModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class FooterComponent {

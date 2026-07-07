@@ -2,7 +2,7 @@ import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalE
 import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withXhr } from '@angular/common/http';
 import { Theme } from '../enums/Theme';
 import Aura from '@primeuix/themes/aura';
 import Nora from '@primeuix/themes/nora';
@@ -34,7 +34,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideZoneChangeDetection(),
-    provideHttpClient(withInterceptors([errorInterceptor, loggingInterceptor, authInterceptor])),
+    provideHttpClient(withXhr(), withInterceptors([errorInterceptor, loggingInterceptor, authInterceptor])),
     providePrimeNG({
       theme: {
         preset: initThemePreset(),

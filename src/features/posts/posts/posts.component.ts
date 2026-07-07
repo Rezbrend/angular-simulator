@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { SkeletonModule } from 'primeng/skeleton';
 import { PostApiService } from '../post-api.service';
@@ -23,6 +23,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   providers: [DialogService],
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class PostsComponent implements OnInit {

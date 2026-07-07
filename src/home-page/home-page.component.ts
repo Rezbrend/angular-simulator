@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IProgram } from '../interfaces/IProgram.js';
@@ -13,6 +13,7 @@ import { faPersonHiking, faBuildingShield, faTags, faStar, faPlay, IconDefinitio
   imports: [FormsModule, CommonModule,  FontAwesomeModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class HomePageComponent {

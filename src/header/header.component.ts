@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { INavigationItem } from '../interfaces/INavigationItem';
 import { ToggleSwitchChangeEvent, ToggleSwitchModule } from 'primeng/toggleswitch';
@@ -16,6 +16,7 @@ import { MessageManagementService } from '../message-management.service';
   imports: [RouterLink, RouterLinkActive, ToggleSwitchModule, FormsModule, FontAwesomeModule, SelectButtonModule, AsyncPipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true
 })
 export class HeaderComponent {

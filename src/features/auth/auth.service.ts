@@ -5,6 +5,7 @@ import { BehaviorSubject, catchError, EMPTY, Observable, tap } from 'rxjs';
 import { IAuthUser } from './IAuthUser';
 import { IAuthResponse } from './IAuthResponse';
 import { ILoginCredentials } from './ILoginCredentials';
+import { UserRole } from './UserRole';
 
 @Injectable({
   providedIn: 'root',

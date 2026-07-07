@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IPost } from '../IPost';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,6 +12,7 @@ import { IPostEditFormValue } from '../IPostEditFormValue';
   selector: 'app-post-edit-dialog',
   imports: [DynamicDialogModule, ReactiveFormsModule],
   templateUrl: './post-edit-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './post-edit-dialog.component.scss',
 })
 export class PostEditDialogComponent implements OnInit {
