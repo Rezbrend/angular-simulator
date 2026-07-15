@@ -27,7 +27,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class PostsComponent implements OnInit {
 
-  public  dialogService: DialogService = inject(DialogService);
+  dialogService: DialogService = inject(DialogService);
   private router: Router = inject(Router);
   private postService: PostService = inject(PostService);
   private postApiService: PostApiService = inject(PostApiService);

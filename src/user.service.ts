@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, Observable, of } from 'rxjs';
 import { MessageManagementService } from './message-management.service';
 import { LoaderService } from './loader.service';
 import { IUser } from './interfaces/IUser';
