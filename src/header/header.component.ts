@@ -7,13 +7,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSun, faMoon, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ThemeService } from '../theme.service';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
 import { AuthService } from '../features/auth/auth.service';
 import { MessageManagementService } from '../message-management.service';
+import { APP_CONFIG } from '../app/app.config';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, ToggleSwitchModule, FormsModule, FontAwesomeModule, SelectButtonModule, AsyncPipe],
+  imports: [RouterLink, RouterLinkActive, ToggleSwitchModule, FormsModule, FontAwesomeModule, SelectButtonModule, AsyncPipe, DatePipe, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   standalone: true
@@ -33,14 +34,14 @@ export class HeaderComponent {
     { label: 'Посты', link: '/posts' }
   ];
 
-  readonly companyName: string = 'РУМТИБЕТ';
+  readonly companyName: string = inject(APP_CONFIG).companyName;
   widget: string = 'date';
-  currentDate: string = '';
+  currentDate: Date = new Date(); 
   count: number = 0;
   
   constructor() {
     setInterval(() => {
-      this.currentDate = new Date().toLocaleString();
+      this.currentDate = new Date();
     }, 1000);
   }
   

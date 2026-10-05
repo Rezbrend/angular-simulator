@@ -5,6 +5,8 @@ import { BehaviorSubject, catchError, EMPTY, Observable, tap } from 'rxjs';
 import { IAuthUser } from './IAuthUser';
 import { IAuthResponse } from './IAuthResponse';
 import { ILoginCredentials } from './ILoginCredentials';
+import { APP_CONFIG } from '../../app/app.config';
+import { IAppConfig } from '../../interfaces/IAppConfig';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +15,7 @@ export class AuthService {
   
   private httpClient: HttpClient = inject(HttpClient);
   private localStorageService: LocalStorageService = inject(LocalStorageService);
+  private config: IAppConfig = inject(APP_CONFIG);
   
   authStateSubject: BehaviorSubject<IAuthUser | null> = new BehaviorSubject<IAuthUser | null>(null);
   authState$: Observable<IAuthUser | null> = this.authStateSubject.asObservable();
@@ -26,7 +29,10 @@ export class AuthService {
 
   login(credentials: ILoginCredentials): Observable<IAuthResponse> {
     return this.httpClient
-      .post<IAuthResponse>(`${ this.API_URL }/login`, credentials)
+      .post<IAuthResponse>(`${ this.API_URL }/login`, {
+        ...credentials,
+        sessionTimeout: this.config.sessionTimeout,
+      })
       .pipe(
         tap((response: IAuthResponse) => {
           this.storeAuthTokens(response);
@@ -62,7 +68,10 @@ export class AuthService {
     const token: string | null = this.getRefreshToken();
     if (!token) return EMPTY;
 
-    return this.httpClient.post<IAuthResponse>(`${ this.API_URL }/refresh`, { refreshToken: token })
+    return this.httpClient.post<IAuthResponse>(`${ this.API_URL }/refresh`, {
+      refreshToken: token,
+      sessionTimeout: this.config.sessionTimeout,
+    })
       .pipe(
         tap((response: IAuthResponse) => {
           this.storeAuthTokens(response);

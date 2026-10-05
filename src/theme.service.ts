@@ -7,6 +7,8 @@ import { usePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import Lara from '@primeuix/themes/lara';
 import Nora from '@primeuix/themes/nora';
+import { APP_CONFIG } from './app/app.config';
+import { IAppConfig } from './interfaces/IAppConfig';
 
 @Injectable({
   providedIn: 'root',
@@ -14,13 +16,16 @@ import Nora from '@primeuix/themes/nora';
 export class ThemeService {
   
   localStorage: LocalStorageService = inject(LocalStorageService);
+  config: IAppConfig = inject(APP_CONFIG);
 
   themes: ITheme[] = [
     { name: Theme.AURA, preset: Aura },
     { name: Theme.LARA, preset: Lara },
     { name: Theme.NORA, preset: Nora },
   ];
-
+  
+  private defaultTheme: ITheme = this.themes[0];
+  
   private isDarkSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isDarkMode$: Observable<boolean> = this.isDarkSubject.asObservable().pipe(
     tap((isDarkMode: boolean) => {
@@ -36,6 +41,9 @@ export class ThemeService {
   }
 
   changeTheme(theme: ITheme): void {
+    if (!this.config.enableTheming) {
+      return;
+    }
     this.themeSubject.next(theme);
     usePreset(theme.preset);
     this.localStorage.setItem('theme', theme.name);
@@ -43,12 +51,23 @@ export class ThemeService {
   }
 
   toggleDarkMode(isDarkMode: boolean): void {
+    if (!this.config.enableTheming) {
+      return;
+    }
     this.isDarkSubject.next(isDarkMode);
     this.localStorage.setItem('dark-mode', isDarkMode.toString());
     this.updateHtmlClass(isDarkMode);
   }
 
   loadInitialState(): void {
+    if (!this.config.enableTheming) {
+      this.themeSubject.next(this.defaultTheme);
+      usePreset(this.defaultTheme.preset);
+      this.applyThemeClass(this.defaultTheme.name);
+      this.isDarkSubject.next(false);
+      this.updateHtmlClass(false);
+      return;
+    }
     const savedThemeName: string | null = this.localStorage.getItem('theme');
     const foundTheme: ITheme | undefined = this.themes.find((theme) => theme.name === (savedThemeName || ''));
     if (foundTheme) {

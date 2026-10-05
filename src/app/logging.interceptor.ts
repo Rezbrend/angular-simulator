@@ -1,7 +1,16 @@
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { tap } from 'rxjs';
+import { APP_CONFIG } from './app.config';
+import { IAppConfig } from '../interfaces/IAppConfig';
 
 export const loggingInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
+  
+  const config: IAppConfig = inject(APP_CONFIG);
+
+  if (!config.enableLogs) {
+    return next(req);
+  }
   
   const startTime: number = Date.now();
 
