@@ -11,11 +11,16 @@ import { errorInterceptor } from './error.interceptor';
 import { loggingInterceptor } from './logging.interceptor';
 import { authInterceptor } from '../features/auth/auth.interceptor';
 import { AuthService } from '../features/auth/auth.service';
+import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
+import { InjectionToken } from '@angular/core';
+import { IAppConfig } from '../interfaces/IAppConfig';
 
 type ThemePresetType = typeof Aura | typeof Lara | typeof Nora;
 
+export const APP_CONFIG: InjectionToken<IAppConfig> = new InjectionToken<IAppConfig>('app.config');
+
 const initThemePreset = (): ThemePresetType => {
-  
+
   const themeFromStorage: string | null = localStorage.getItem('theme');
   const savedTheme: Theme = themeFromStorage ? JSON.parse(themeFromStorage) : Theme.AURA;
 
@@ -29,6 +34,19 @@ const initThemePreset = (): ThemePresetType => {
   }
 };
 
+export const appConfigProviders = [
+  {
+    provide: APP_CONFIG,
+    useValue: {
+      companyName: 'РУМТИБЕТ',
+      enableLogs: true,
+      enableNotifications: true,
+      enableTheming: true,
+      sessionTimeout: 900,
+    },
+  },
+];
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -41,6 +59,10 @@ export const appConfig: ApplicationConfig = {
         options: { darkModeSelector: '.dark-mode' },
       },
     }),
+    {
+      provide: DATE_PIPE_DEFAULT_OPTIONS,
+      useValue: { dateFormat: 'shortDate' },
+    },
     provideAppInitializer(() => {
       const authService: AuthService = inject(AuthService);
       authService.initialize();
