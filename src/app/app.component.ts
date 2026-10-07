@@ -28,8 +28,7 @@ import { PrimeNG } from 'primeng/config';
 export class AppComponent implements OnInit {
   
   localStorageService: LocalStorageService = inject(LocalStorageService);
-
-  constructor(private primeng: PrimeNG) {}
+  private primeng: PrimeNG = inject(PrimeNG);
 
   ngOnInit() {
     this.primeng.ripple.set(true);
