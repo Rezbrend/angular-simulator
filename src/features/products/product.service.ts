@@ -27,8 +27,8 @@ export class ProductService {
   isLoadingProduct: Signal<boolean> = computed(() => this.productsResource.isLoading());
   
   products: Signal<IProduct[]> = computed(() => {
-    const value: IProductResponse | undefined = this.productsResource.value();
-    return value?.products?[]:[];
+    const value: IProductResponse = this.productsResource.value();
+    return value?.products??[];
   });
 
   private debouncedSearchQuery: Signal<string> = toSignal(
@@ -39,7 +39,7 @@ export class ProductService {
     { initialValue: '' }
   );
 
-  productsResource: ResourceRef<IProductResponse | undefined> = rxResource({
+  productsResource: ResourceRef<IProductResponse> = rxResource({
     params: () => ({
       page: this.currentPage(),
       pageSize: this.pageSize(),
@@ -63,7 +63,7 @@ export class ProductService {
         return this.productApi.getProductsByCategory(params.category, queryParams);
       }
       return this.productApi.getProducts(queryParams);
-    }
+    }, defaultValue: { products: [], total: 0, limit: 0, skip: 0 }
   });
 
   constructor() {
