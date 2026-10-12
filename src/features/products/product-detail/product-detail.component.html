@@ -1,0 +1,61 @@
+@if (product) {
+  <p-card [header]="product.title">
+    <ng-template pTemplate="title">
+      <div class="p-flex p-align-center">
+        <img
+          [src]="product.thumbnail"
+          style="max-width: 200px; margin-right: 20px; border-radius: 8px"
+          alt="{{ product.title }}"
+        />
+        <div>
+          <h2>{{ product.title }}</h2>
+          <p class="p-text-muted">Категория: {{ product.category }} | Бренд: {{ product.brand }}</p>
+        </div>
+      </div>
+    </ng-template>
+
+    <div class="p-grid">
+      <div class="p-col-12 p-md-6">
+        <p class="p-text-large p-mb-2">Описание</p>
+        <p>{{ product.description }}</p>
+
+        <div class="p-mt-4 p-grid">
+          <div class="p-col-6"><strong>Цена:</strong> {{ product.price }}</div>
+          <div class="p-col-6"><strong>Скидка:</strong> {{ product.discountPercentage }}%</div>
+          <div class="p-col-6"><strong>Рейтинг:</strong> {{ product.rating }}/5</div>
+          <div class="p-col-6"><strong>Наличие:</strong> {{ product.stock }} шт.</div>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-6">
+        <p-card header="Добавить в корзину">
+          <p-inputNumber 
+            [step]="1" 
+            [showButtons]="true" 
+            [disabled]="product.stock === 0"
+          ></p-inputNumber>
+        </p-card>
+
+        <p-card header="Характеристики" class="p-mt-2">
+          <ul class="p-list-unstyled">
+            <li>
+              <strong>Габариты:</strong> {{ product.dimensions.width }} x
+              {{ product.dimensions.height }} {{ product.dimensions.unit }}
+            </li>
+            <li><strong>Гарантия:</strong> {{ product.warranty }}</li>
+            <li>
+              <strong>Срок доставки:</strong> {{ product.shipping.delivery.time.min }}-{{ product.shipping.delivery.time.max }}
+              {{ product.shipping.delivery.time.unit }}
+            </li>
+            <li>
+              <strong>Международная доставка:</strong>
+              {{ product.shipping.delivery.international ? 'Да' : 'Нет' }}
+            </li>
+          </ul>
+        </p-card>
+      </div>
+    </div>
+  </p-card>
+} @else {
+  <p-skeleton p-skeleton-custom height="400px"></p-skeleton>
+}
