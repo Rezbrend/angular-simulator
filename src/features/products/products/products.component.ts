@@ -13,6 +13,7 @@ import { ProductSortField } from '../enums/product-sort-field';
 import { ProductSortOrder } from '../enums/product-sort-order';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { LanguageService } from '../language.service';
 
 @Component({
   selector: 'app-products',
@@ -25,6 +26,7 @@ export class ProductsComponent {
   private router: Router = inject(Router);
   private cartService: CartService = inject(CartService);
   productService: ProductService = inject(ProductService);
+  languageService: LanguageService = inject(LanguageService);
 
   sortFieldOptions: ISelectOption[] = [
     {
