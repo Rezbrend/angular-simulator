@@ -75,10 +75,8 @@ export class ProductService {
       this.sortField();
       this.sortOrder();
       this.selectedCategory();
+      this.currentPage.set(0);
 
-      allowSignalWrites(() => {
-        this.currentPage.set(0);
-      });
     }, { allowSignalWrites: true });
   }
   
@@ -116,8 +114,4 @@ export class ProductService {
     this.selectedCategory.set(category);
   }
 
-}
-
-function allowSignalWrites(_arg0: () => void) {
-  throw new Error('Function not implemented.');
 }
