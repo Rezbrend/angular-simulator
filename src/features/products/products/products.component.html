@@ -1,10 +1,10 @@
 <div class="product-container">
-  <h2>{{ 'PRODUCTS_PAGE.TITLE' }}</h2>
+  <h2>{{ 'PRODUCTS_PAGE.TITLE' | translate }}</h2>
   <div class="input-wrapper">
     <input
       pInputText
       type="text"
-      [placeholder]="'PRODUCTS_PAGE.SEARCH_PLACEHOLDER'"
+      [placeholder]="'PRODUCTS_PAGE.SEARCH_PLACEHOLDER' | translate"
       [ngModel]="productService.searchQuery()"
       (ngModelChange)="productService.setSearchQuery($event)"
       id="input-search"
@@ -15,7 +15,7 @@
       optionValue="value"
       [ngModel]="productService.sortField()"
       (ngModelChange)="productService.setSortField($event)"
-      [placeholder]="'PRODUCTS_PAGE.SORT_BY'"
+      [placeholder]="'PRODUCTS_PAGE.SORT_BY' | translate"
       id="input-sort-field"
     >
       <ng-template #selectedItem let-option>{{ option.label }}</ng-template>
@@ -27,7 +27,7 @@
       optionLabel="label"
       [ngModel]="productService.sortOrder()"
       (ngModelChange)="productService.setSortOrder($event)"
-      [placeholder]="'PRODUCTS_PAGE.SORT_ORDER'"
+      [placeholder]="'PRODUCTS_PAGE.SORT_ORDER' | translate"
       id="input-sort-order"
     >
       <ng-template #selectedItem let-option>{{ option.label }}</ng-template>
@@ -40,10 +40,10 @@
       optionValue="slug"
       [ngModel]="productService.selectedCategory()"
       (ngModelChange)="productService.resetSort($event)"
-      [placeholder]="'PRODUCTS_PAGE.CATEGORY'"
+      [placeholder]="'PRODUCTS_PAGE.CATEGORY' | translate"
       id="input-sort-select"
     />
-    <button class="button button-filter" id="show-categories-button"(click)="productService.resetSort('')">{{ 'PRODUCTS_PAGE.RESET_PRODUCTS' }}</button>
+    <button class="button button-filter" id="show-categories-button"(click)="productService.resetSort('')">{{ 'PRODUCTS_PAGE.RESET_PRODUCTS' | translate }}</button>
   </div>
     @if (productService.isLoadingProduct()) {
       @for (item of [1,2,3,4,5,6]; track item) {
@@ -64,25 +64,25 @@
           </ng-template>
           <h3>{{ product.title }}</h3>
           <div class="product-card-description">
-            <p>{{ 'PRODUCTS_PAGE.CARD.CATEGORY' }}</p>
+            <p>{{ 'PRODUCTS_PAGE.CARD.CATEGORY' | translate }}</p>
             <p class="bold">{{ product.category }}</p>
           </div>
           <div class="product-card-description">
-            <p>{{ 'PRODUCTS_PAGE.CARD.PRICE' }}</p>
+            <p>{{ 'PRODUCTS_PAGE.CARD.PRICE' | translate }}</p>
             <p class="bold">${{ product.price }}</p>
           </div>
           <div class="product-card-description">
-            <p>{{ 'PRODUCTS_PAGE.CARD.RATING' }}</p>
+            <p>{{ 'PRODUCTS_PAGE.CARD.RATING' | translate }}</p>
             <p class="bold">{{  product.rating  }}</p>
           </div>
           <div class="product-card-description">
-            <p>{{ 'PRODUCTS_PAGE.CARD.STOCK' }}</p>
+            <p>{{ 'PRODUCTS_PAGE.CARD.STOCK' | translate }}</p>
             <p class="bold">{{  product.stock  }}</p>
           </div>
           <ng-template #footer>
             <div class="products-button-wrapper">
-              <button class="button" id="button-detail" (click)="onProductClick(product.id)">{{ 'PRODUCTS_PAGE.CARD.DETAIL_PRODUCT' }}</button>
-              <button class="button button-product" id="button-cart" (click)="onAddToCart($event, product)">{{ 'PRODUCTS_PAGE.CARD.ADD_TO_CART' }}</button>
+              <button class="button" id="button-detail" (click)="onProductClick(product.id)">{{ 'PRODUCTS_PAGE.CARD.DETAIL_PRODUCT' | translate }}</button>
+              <button class="button button-product" id="button-cart" (click)="onAddToCart($event, product)">{{ 'PRODUCTS_PAGE.CARD.ADD_TO_CART' | translate }}</button>
             </div>
           </ng-template>
         </p-card>

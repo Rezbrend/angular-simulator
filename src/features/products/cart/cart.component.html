@@ -1,6 +1,6 @@
 <div class="cart-container">
   <div class="cart-header">
-    <h1>{{ 'CART_PAGE.TITLE' }}</h1>
+    <h1>{{ 'CART_PAGE.TITLE' | translate }}</h1>
     <span class="badge">{{ cartService.itemsCount() }} товаров</span>
   </div>
 
@@ -13,7 +13,7 @@
 
             <div class="item-details">
               <h3 class="item-title">{{ item.product.title }}</h3>
-              <span class="item-price">{{ item.product.price }}</span>
+              <span class="item-price">${{ item.product.price }}</span>
             </div>
 
             <div class="quantity-controls">
@@ -22,7 +22,7 @@
               <button  class="btn-quantity" id="button-increase" (click)="cartService.updateQuantity(item.product.id, item.quantity + 1)">+</button>
             </div>
 
-            <div class="item-total">{{ item.product.price * item.quantity }}</div>
+            <div class="item-total">${{ item.product.price * item.quantity }}</div>
 
             <button class="btn-remove" (click)="cartService.removeItem(item.product.id)">✕</button>
           </div>
@@ -30,25 +30,25 @@
       </div>
 
       <div class="order-summary">
-        <h2>{{ 'CART_PAGE.ORDER_SUMMARY' }}</h2>
+        <h2>{{ 'CART_PAGE.ORDER_SUMMARY' | translate }}</h2>
         <div class="summary-row">
-          <span>{{ 'CART_PAGE.SUBTOTAL' }}</span>
-          <span>{{ cartService.subtotal() }}</span>
+          <span>{{ 'CART_PAGE.SUBTOTAL' | translate }}</span>
+          <span>${{ cartService.subtotal() }}</span>
         </div>
         <div class="summary-row">
-          <span>{{ 'CART_PAGE.TAX' }} ({{ cartService.TAX_RATE * 100 }}%)</span>
-          <span>{{ cartService.tax() }}</span>
+          <span>{{ 'CART_PAGE.TAX' | translate }} ({{ cartService.TAX_RATE * 100 }}%)</span>
+          <span>${{ cartService.tax() }}</span>
         </div>
         <div class="summary-divider"></div>
         <div class="summary-row total-row">
-          <span>{{ 'CART_PAGE.TOTAL' }}</span>
-          <span class="total-amount">{{ cartService.total() }}</span>
+          <span>{{ 'CART_PAGE.TOTAL' | translate }}</span>
+          <span class="total-amount">${{ cartService.total() }}</span>
         </div>
       </div>
     </div>
   } @else {
     <div class="empty-cart">
-      <h2>{{ 'CART_PAGE.EMPTY_TITLE' }}</h2>
+      <h2>{{ 'CART_PAGE.EMPTY_TITLE' | translate }}</h2>
       <a routerLink="/products" class="button">К каталогу</a>
     </div>
   }

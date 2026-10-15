@@ -31,7 +31,8 @@ export class HeaderComponent {
   navigation: INavigationItem[] = [
     { label: 'Главная', link: '/' },
     { label: 'Пользователи', link: '/users' },
-    { label: 'Посты', link: '/posts' }
+    { label: 'Посты', link: '/posts' },
+    { label: 'Продукты', link: '/products' }
   ];
 
   readonly companyName: string = inject(APP_CONFIG).companyName;

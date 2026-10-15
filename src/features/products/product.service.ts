@@ -1,4 +1,4 @@
-import { Injectable, inject, WritableSignal, signal, computed, Signal } from '@angular/core';
+import { Injectable, inject, WritableSignal, signal, computed, Signal, effect } from '@angular/core';
 import { ProductApiService } from './product-api.service';
 import { IProduct } from './interfaces/IProduct';
 import { IProductResponse } from './interfaces/IProductResponse';
@@ -68,32 +68,20 @@ export class ProductService {
 
   constructor() {
     this.loadCategories();
-  }
+    
+    effect(() => {
+      this.pageSize();
+      this.searchQuery();
+      this.sortField();
+      this.sortOrder();
+      this.selectedCategory();
 
-  setPage(page: number): void {
-    this.currentPage.set(page);
+      allowSignalWrites(() => {
+        this.currentPage.set(0);
+      });
+    }, { allowSignalWrites: true });
   }
-
-  setPageSize(size: number): void {
-   this.pageSize.set(size);
-   this.currentPage.set(0);
-  }
-
-  setSearchQuery(query: string): void {
-    this.searchQuery.set(query);
-    this.currentPage.set(0);
-  }
-
-  setSortField(field: string): void {
-    this.sortField.set(field);
-    this.currentPage.set(0);
-  }
-
-  setSortOrder(order: string): void {
-    this.sortOrder.set(order);
-    this.currentPage.set(0);
-  }
-
+  
   loadCategories(): void {
     this.productApi.getCategories().pipe(
       tap((response: ICategory[]) => {
@@ -102,9 +90,34 @@ export class ProductService {
     ).subscribe();
   }
 
-  resetSort(category: string): void {
-    this.selectedCategory.set(category);
-    this.currentPage.set(0);
+  setPage(page: number): void {
+    this.currentPage.set(page);
   }
 
+  setPageSize(size: number): void {
+    if (size > 0) {
+      this.pageSize.set(size);
+    }
+  }
+
+  setSearchQuery(query: string): void {
+    this.searchQuery.set(query);
+  }
+
+  setSortField(field: string): void {
+    this.sortField.set(field);
+  }
+
+  setSortOrder(order: string): void {
+    this.sortOrder.set(order);
+  }
+
+  resetSort(category: string): void {
+    this.selectedCategory.set(category);
+  }
+
+}
+
+function allowSignalWrites(_arg0: () => void) {
+  throw new Error('Function not implemented.');
 }

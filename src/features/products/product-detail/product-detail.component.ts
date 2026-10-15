@@ -9,11 +9,12 @@ import { FormsModule } from '@angular/forms';
 import { CartService } from '../cart.service';
 import { Skeleton } from 'primeng/skeleton';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CardModule, TagModule, RatingModule, GalleriaModule, FormsModule, Skeleton, InputNumberModule],
+  imports: [CardModule, TagModule, RatingModule, GalleriaModule, FormsModule, Skeleton, InputNumberModule, TranslatePipe],
   templateUrl: './product-detail.component.html'
 })
 export class ProductDetailComponent implements OnInit {
@@ -22,11 +23,11 @@ export class ProductDetailComponent implements OnInit {
   private route: ActivatedRoute = inject(ActivatedRoute);
   product: IProduct = this.route.snapshot.data['product'];
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.product = this.route.snapshot.data['product'];
   }
 
-  addToCart() {
+  addToCart(): void {
     this.cartService.addItem(this.product);
   }
   

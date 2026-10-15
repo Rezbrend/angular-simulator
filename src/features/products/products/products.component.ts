@@ -6,14 +6,17 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { Router } from '@angular/router';
 import { CartService } from '../cart.service';
 import { IProduct } from '../interfaces/IProduct';
 import { ISelectOption } from '../interfaces/ISelectOption';
+import { ProductSortField } from '../enums/product-sort-field';
+import { ProductSortOrder } from '../enums/product-sort-order';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
-  imports: [CardModule, PaginatorModule, SkeletonModule, FormsModule, InputTextModule, SelectModule],
+  imports: [CardModule, PaginatorModule, SkeletonModule, FormsModule, InputTextModule, SelectModule, TranslatePipe],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
@@ -26,42 +29,40 @@ export class ProductsComponent {
   sortFieldOptions: ISelectOption[] = [
     {
       label: 'PRODUCTS_PAGE.SORT_FIELD.TITLE',
-      value: 'title'
+      value: ProductSortField.TITLE,
     },
     {
       label: 'PRODUCTS_PAGE.SORT_FIELD.PRICE',
-      value: 'price'
+      value: ProductSortField.PRICE,
     },
     {
       label: 'PRODUCTS_PAGE.SORT_FIELD.RATING',
-      value: 'rating'
+      value: ProductSortField.RATING,
     },
     {
       label: 'PRODUCTS_PAGE.SORT_FIELD.STOCK',
-      value: 'stock'
+      value: ProductSortField.STOCK,
     },
   ];
 
   sortOrderOptions: ISelectOption[] = [
     {
       label: 'PRODUCTS_PAGE.SORT_ORDER_OPTION.ASC',
-      value: 'asc'
+      value: ProductSortOrder.ASC,
     },
     {
       label: 'PRODUCTS_PAGE.SORT_ORDER_OPTION.DESC',
-      value: 'desc'
+      value: ProductSortOrder.DESC,
     },
   ];
 
   onPageChange(event: PaginatorState): void {
     const newPageSize: number = event.rows ?? this.productService.pageSize();
-    const newPage: number = (event.first ?? 0) / newPageSize;
-
     if (newPageSize !== this.productService.pageSize()) {
-      this.productService.setPageSize(newPageSize);
-    } else {
-      this.productService.setPage(newPage);
+      return this.productService.setPageSize(newPageSize);
     }
+    const newPage: number = Math.floor((event.first ?? 0) / newPageSize);
+    this.productService.setPage(newPage);
   }
 
   onProductClick(id: number): void {

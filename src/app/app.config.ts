@@ -14,13 +14,14 @@ import { AuthService } from '../features/auth/auth.service';
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 import { InjectionToken } from '@angular/core';
 import { IAppConfig } from '../interfaces/IAppConfig';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
 
 type ThemePresetType = typeof Aura | typeof Lara | typeof Nora;
 
 export const APP_CONFIG: InjectionToken<IAppConfig> = new InjectionToken<IAppConfig>('app.config');
 
 const initThemePreset = (): ThemePresetType => {
-
   const themeFromStorage: string | null = localStorage.getItem('theme');
   const savedTheme: Theme = themeFromStorage ? JSON.parse(themeFromStorage) : Theme.AURA;
 
@@ -68,6 +69,13 @@ export const appConfig: ApplicationConfig = {
       authService.initialize();
       return Promise.resolve();
     }),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: '/i18n/',
+        suffix: '.json',
+      }),
+      fallbackLang: 'en',
+    }),
   ],
-  
 };
+
