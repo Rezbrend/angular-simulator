@@ -2,9 +2,25 @@ import { Routes } from '@angular/router';
 import { postResolver } from '../features/posts/post.resolver';
 import { authGuard } from '../features/auth/auth.guard';
 import { adminGuard } from '../features/auth/admin.guard';
+import { productResolver } from '../features/products/product.resolver';
 
 export const routes: Routes = [
 
+  {
+    path: 'products',
+    loadComponent: () => import('../features/products/products/products.component').then((c) => c.ProductsComponent),
+    children: [
+      {
+        path: ':id',
+        loadComponent: () => import('../features/products/product-detail/product-detail.component').then((c) => c.ProductDetailComponent),
+        resolve: { product: productResolver },
+      }
+    ]
+  },
+  {
+    path: 'cart',
+    loadComponent: () => import('../features/products/cart/cart.component').then((c) => c.CartComponent)
+  },
   {
     path: 'login',
     loadComponent: () => import('../features/auth/login/login.component').then((m) => m.LoginComponent),
