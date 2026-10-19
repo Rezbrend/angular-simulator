@@ -14,9 +14,8 @@ import { AuthService } from '../features/auth/auth.service';
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 import { InjectionToken } from '@angular/core';
 import { IAppConfig } from '../interfaces/IAppConfig';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { provideTranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../features/products/language.service';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 type ThemePresetType = typeof Aura | typeof Lara | typeof Nora;
 
@@ -51,8 +50,9 @@ export const appConfigProviders = [
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
+     ...appConfigProviders,
     provideRouter(routes),
+    provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection(),
     provideHttpClient(withInterceptors([errorInterceptor, loggingInterceptor, authInterceptor])),
     providePrimeNG({
@@ -67,18 +67,16 @@ export const appConfig: ApplicationConfig = {
     },
     provideAppInitializer(() => {
       const authService: AuthService = inject(AuthService);
-      const languageService: LanguageService = inject(LanguageService);
-      languageService.initializeLanguage();
       authService.initialize();
       return Promise.resolve();
     }),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
-        prefix: '/i18n/',
+        prefix: '/assets/i18n/', 
         suffix: '.json',
       }),
-      fallbackLang: 'en',
+      fallbackLang: 'ru',
+      lang: 'ru',
     }),
   ],
 };
-

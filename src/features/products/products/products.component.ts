@@ -17,6 +17,7 @@ import { LanguageService } from '../language.service';
 
 @Component({
   selector: 'app-products',
+  standalone: true,
   imports: [CardModule, PaginatorModule, SkeletonModule, FormsModule, InputTextModule, SelectModule, TranslatePipe],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',

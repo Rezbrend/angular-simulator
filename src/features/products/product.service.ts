@@ -77,7 +77,7 @@ export class ProductService {
       this.selectedCategory();
       this.currentPage.set(0);
 
-    }, { allowSignalWrites: true });
+    });
   }
   
   loadCategories(): void {

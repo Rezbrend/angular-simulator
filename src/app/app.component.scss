@@ -4,15 +4,14 @@
   min-height: 100vh;
 }
 
-app-header {
-  flex-shrink: 0;
-}
-
 router-outlet {
   flex-grow: 1;
   display: block;
 }
 
-app-footer {
-  flex-shrink: 0;
+.wrapper {
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  color: var(--primary-color);
 }

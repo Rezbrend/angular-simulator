@@ -1,5 +1,5 @@
 <div class="product-container">
-  <h2>{{ 'PRODUCTS_PAGE.TITLE' | translate }}</h2>
+  <h2 class="catalog-header">{{ 'PRODUCTS_PAGE.TITLE' | translate }}</h2>
   <div class="input-wrapper">
     <input
       pInputText
@@ -43,7 +43,7 @@
       [placeholder]="'PRODUCTS_PAGE.CATEGORY' | translate"
       id="input-sort-select"
     />
-    <button class="button button-filter" id="show-categories-button"(click)="productService.resetSort('')">{{ 'PRODUCTS_PAGE.RESET_PRODUCTS' | translate }}</button>
+    <button class="button-filter" id="show-categories-button"(click)="productService.resetSort('')">{{ 'PRODUCTS_PAGE.RESET_PRODUCTS' | translate }}</button>
   </div>
     @if (productService.isLoadingProduct()) {
       @for (item of [1,2,3,4,5,6]; track item) {
@@ -81,8 +81,8 @@
           </div>
           <ng-template #footer>
             <div class="products-button-wrapper">
-              <button class="button" id="button-detail" (click)="onProductClick(product.id)">{{ 'PRODUCTS_PAGE.CARD.DETAIL_PRODUCT' | translate }}</button>
-              <button class="button button-product" id="button-cart" (click)="onAddToCart($event, product)">{{ 'PRODUCTS_PAGE.CARD.ADD_TO_CART' | translate }}</button>
+              <button class="button-detail" id="button-detail" (click)="onProductClick(product.id)">{{ 'PRODUCTS_PAGE.CARD.DETAIL_PRODUCT' | translate }}</button>
+              <button class="button-cart" id="button-cart" (click)="onAddToCart($event, product)">{{ 'PRODUCTS_PAGE.CARD.ADD_TO_CART' | translate }}</button>
             </div>
           </ng-template>
         </p-card>
