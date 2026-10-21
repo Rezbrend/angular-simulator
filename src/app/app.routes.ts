@@ -6,17 +6,13 @@ import { productResolver } from '../features/products/product.resolver';
 
 export const routes: Routes = [
   {
-    path: 'login',
-    loadComponent: () => import('../features/auth/login/login.component').then((m) => m.LoginComponent),
-  },
-  {
     path: '',
     loadComponent: () => import('../main-layout/main-layout.component').then((m) => m.MainLayoutComponent),
+    canActivateChild: [authGuard],
     children: [
       {
         path: '',
         loadComponent: () => import('../home-page/home-page.component').then((m) => m.HomePageComponent),
-        canActivate: [authGuard],
       },
       {
         path: 'products',
@@ -54,11 +50,14 @@ export const routes: Routes = [
         loadComponent: () => import('../users-page/users-page.component').then((m) => m.UsersPageComponent),
         canActivate: [adminGuard],
       },
-      {
-        path: '**',
-        loadComponent: () => import('../not-found-page/not-found-page.component').then((m) => m.NotFoundPageComponent),
-        canActivate: [authGuard],
-      },
     ],
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('../features/auth/login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: '**',
+    loadComponent: () => import('../not-found-page/not-found-page.component').then((m) => m.NotFoundPageComponent),
   },
 ];

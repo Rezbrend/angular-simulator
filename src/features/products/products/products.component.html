@@ -13,25 +13,27 @@
     <p-select
       [options]="sortFieldOptions"
       optionValue="value"
+      optionLabel="label"
       [ngModel]="productService.sortField()"
       (ngModelChange)="productService.setSortField($event)"
       [placeholder]="'PRODUCTS_PAGE.SORT_BY' | translate"
       id="input-sort-field"
     >
-      <ng-template #selectedItem let-option>{{ option.label }}</ng-template>
-      <ng-template #item let-option>{{ option.label }}</ng-template>
+      <ng-template #selectedItem let-option>{{ option.label | translate }}</ng-template>
+      <ng-template #item let-option>{{ option.label | translate }}</ng-template>
     </p-select>
 
     <p-select
       [options]="sortOrderOptions"
       optionLabel="label"
+      optionValue="value"
       [ngModel]="productService.sortOrder()"
       (ngModelChange)="productService.setSortOrder($event)"
       [placeholder]="'PRODUCTS_PAGE.SORT_ORDER' | translate"
       id="input-sort-order"
     >
-      <ng-template #selectedItem let-option>{{ option.label }}</ng-template>
-      <ng-template #item let-option>{{ option.label }}</ng-template>
+      <ng-template #selectedItem let-option>{{ option.label | translate }}</ng-template>
+      <ng-template #item let-option>{{ option.label | translate }}</ng-template>
     </p-select>
 
     <p-select

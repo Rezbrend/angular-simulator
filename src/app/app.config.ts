@@ -35,22 +35,8 @@ const initThemePreset = (): ThemePresetType => {
   }
 };
 
-export const appConfigProviders = [
-  {
-    provide: APP_CONFIG,
-    useValue: {
-      companyName: 'РУМТИБЕТ',
-      enableLogs: true,
-      enableNotifications: true,
-      enableTheming: true,
-      sessionTimeout: 900,
-    },
-  },
-];
-
 export const appConfig: ApplicationConfig = {
   providers: [
-     ...appConfigProviders,
     provideRouter(routes),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection(),
@@ -65,9 +51,19 @@ export const appConfig: ApplicationConfig = {
       provide: DATE_PIPE_DEFAULT_OPTIONS,
       useValue: { dateFormat: 'shortDate' },
     },
+    {
+      provide: APP_CONFIG,
+      useValue: {
+        companyName: 'РУМТИБЕТ',
+        enableLogs: true,
+        enableNotifications: true,
+        enableTheming: true,
+        sessionTimeout: 3600,
+      },
+    },
     provideAppInitializer(() => {
       const authService: AuthService = inject(AuthService);
-      authService.initialize();
+      authService.initAuthState();
       return Promise.resolve();
     }),
     provideTranslateService({
