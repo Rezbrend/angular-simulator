@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '../../local-storage.service';
-import { BehaviorSubject, catchError, EMPTY, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, Observable, switchMap, tap } from 'rxjs';
 import { IAuthUser } from './IAuthUser';
 import { IAuthResponse } from './IAuthResponse';
 import { ILoginCredentials } from './ILoginCredentials';
@@ -22,12 +22,8 @@ export class AuthService {
   
   private readonly LOCAL_STORAGE_KEY: string = 'auth-tokens';
   private API_URL: string = 'https://dummyjson.com/auth';
-
-  initialize(): void {
-    this.initAuthState();
-  }
-
-  login(credentials: ILoginCredentials): Observable<IAuthResponse> {
+  
+  login(credentials: ILoginCredentials): Observable<IAuthUser> {
     return this.httpClient
       .post<IAuthResponse>(`${ this.API_URL }/login`, {
         ...credentials,
@@ -37,6 +33,7 @@ export class AuthService {
         tap((response: IAuthResponse) => {
           this.storeAuthTokens(response);
         }),
+        switchMap(() => this.getUserWithAccessToken()),
         catchError(() => {
           return EMPTY;
         })
@@ -80,13 +77,11 @@ export class AuthService {
       );
   }
 
-  private initAuthState(): void {
+  initAuthState(): void {
     const tokens: IAuthResponse | null = this.localStorageService.getItem<IAuthResponse>(this.LOCAL_STORAGE_KEY);
 
     if (tokens?.accessToken && tokens?.refreshToken) {
       this.getUserWithAccessToken().subscribe();
-    } else {
-      this.authStateSubject.next(null);
     }
   }
 
@@ -104,7 +99,6 @@ export class AuthService {
       accessToken: data.accessToken,
       refreshToken: data.refreshToken,
     });
-    this.authStateSubject.next(data);
   }
   
 }

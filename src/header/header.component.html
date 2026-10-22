@@ -17,19 +17,44 @@
           </a>
         }
       </nav>
-      <div class="container-toggle-theme">
-        @let isDark = themeService.isDarkMode$ | async;
-        <fa-icon [icon]="isDark ? faMoon : faSun" />
-        <p-toggleswitch
-          [ngModel]="isDark"
-          (onChange)="toggleDarkMode($event)"
-        />
-        <p-selectbutton
-          [options]="themeService.themes"
-          [ngModel]="themeService.theme$ | async"
-          optionLabel="name"
-          (onChange)="themeService.changeTheme($event.value)"
-        />
+      <div class="header-actions">
+        <div class="cart-wrapper">
+          <button
+            id="cart-link"
+            routerLink="/cart"
+            routerLinkActive="cart-active"
+            type="button"
+            aria-label="Перейти в корзину"
+            class="button-cart"
+          >
+            <fa-icon [icon]="faShoppingBasket" class="cart-icon"></fa-icon>
+          </button>
+        </div>
+        <div class="logout">
+          @if (authService.authState$ | async) {
+            <button
+              id="logout"
+              routerLink="/login"
+              (click)="logout()"
+              type="button"
+              aria-label="Выйти из системы"
+              class="logout-btn"
+            >
+              <fa-icon [icon]="faSignOutAlt" />
+            </button>
+          }
+        </div>
+        <div class="container-toggle-theme">
+          @let isDark = themeService.isDarkMode$ | async;
+          <fa-icon [icon]="isDark ? faMoon : faSun" />
+          <p-toggleswitch [ngModel]="isDark" (onChange)="toggleDarkMode($event)" />
+          <p-selectbutton
+            [options]="themeService.themes"
+            [ngModel]="themeService.theme$ | async"
+            optionLabel="name"
+            (onChange)="themeService.changeTheme($event.value)"
+          />
+        </div>
       </div>
     </div>
     <div class="header-date">
@@ -38,7 +63,14 @@
       }
       @if (widget === 'clicker') {
         <div>
-          <button id="decrement-btn" class="count-btns" (click)="count -= 1" [disabled]="count <= 0">-</button>
+          <button
+            id="decrement-btn"
+            class="count-btns"
+            (click)="count -= 1"
+            [disabled]="count <= 0"
+          >
+            -
+          </button>
           <span class="count">{{ count }}</span>
           <button id="increment-btn" class="count-btns" (click)="count += 1">+</button>
         </div>
@@ -46,12 +78,6 @@
       <button (click)="toggleWidget()" id="show-date-btn" class="show-date-btn">
         {{ widget === 'clicker' ? 'Показать дату' : 'Показать кликер' }}
       </button>
-    </div>
-    <div class="logout">
-      @if (authService.authState$ | async) {
-        <p>Авторизован</p>
-        <button id="logout" routerLink="/login" (click)="logout()">Выйти</button>
-      }
     </div>
   </div>
 </header>
