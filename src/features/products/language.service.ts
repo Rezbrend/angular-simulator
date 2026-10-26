@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { TranslateService, Translation } from '@ngx-translate/core';
 import { PrimeNG } from 'primeng/config';
-import { LocalStorageService } from '../../local-storage.service';
-import { Language } from '../../enums/Language';
+import { LocalStorageService } from '../../app/core/services/local-storage.service';
+import { Language } from '../../app/core/enums/Language';
 import { ILanguage } from './interfaces/ILanguage';
 
 @Injectable({

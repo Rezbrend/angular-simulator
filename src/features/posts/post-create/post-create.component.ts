@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { PostService } from '../post.service';
-import { MessageManagementService } from '../../../message-management.service';
 import { Router } from '@angular/router';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MessageManagementService } from '../../../app/core/services/message-management.service';
 
 @Component({
   selector: 'app-post-create',

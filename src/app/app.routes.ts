@@ -1,18 +1,18 @@
 import { Routes } from '@angular/router';
 import { postResolver } from '../features/posts/post.resolver';
-import { authGuard } from '../features/auth/auth.guard';
-import { adminGuard } from '../features/auth/admin.guard';
 import { productResolver } from '../features/products/product.resolver';
+import { adminGuard } from './core/guards/admin.guard';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('../main-layout/main-layout.component').then((m) => m.MainLayoutComponent),
+    loadComponent: () => import('./core/components/main-layout/main-layout.component').then((m) => m.MainLayoutComponent),
     canActivateChild: [authGuard],
     children: [
       {
         path: '',
-        loadComponent: () => import('../home-page/home-page.component').then((m) => m.HomePageComponent),
+        loadComponent: () => import('../features/home/home-page/home-page.component').then((m) => m.HomePageComponent),
       },
       {
         path: 'products',
@@ -47,7 +47,7 @@ export const routes: Routes = [
       },
       {
         path: 'users',
-        loadComponent: () => import('../users-page/users-page.component').then((m) => m.UsersPageComponent),
+        loadComponent: () => import('../features/users/users-page/users-page.component').then((m) => m.UsersPageComponent),
         canActivate: [adminGuard],
       },
     ],
@@ -58,6 +58,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    loadComponent: () => import('../not-found-page/not-found-page.component').then((m) => m.NotFoundPageComponent),
+    loadComponent: () => import('./core/components/not-found-page/not-found-page.component').then((m) => m.NotFoundPageComponent),
   },
 ];

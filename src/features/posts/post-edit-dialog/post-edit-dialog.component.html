@@ -1,10 +1,10 @@
 <div class="edit-post">
   <form id="post-edit-form" [formGroup]="postEditForm" (ngSubmit)="saveChanges()">
-    <label>Title:</label>
+    <label for="title">Title:</label>
     <input id="title" type="text" formControlName='title'>
-    <label>Tags:</label>
+    <label for="tags">Tags:</label>
     <input id="tags" type="text" formControlName='tags'>
-    <label>Views:</label>
+    <label for="views">Views:</label>
     <input id="views" type="number" formControlName='views'>
     <button 
       pButton 

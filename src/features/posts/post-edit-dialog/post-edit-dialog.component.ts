@@ -5,7 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { catchError, finalize, tap, throwError } from 'rxjs';
 import { PostService } from '../post.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { LoaderService } from '../../../loader.service';
+import { LoaderService } from '../../../app/core/services/loader.service';
 import { IPostEditFormValue } from '../IPostEditFormValue';
 
 @Component({

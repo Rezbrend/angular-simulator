@@ -1,14 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Color } from '../enums/Color';
-import { LocalStorageService } from '../local-storage.service';
+import { Color } from './shared/enums/Color';
+import { LocalStorageService } from './core/services/local-storage.service';
 import { RouterOutlet } from '@angular/router';
-import { MessageComponent } from '../message/message.component';
-import { LoaderComponent } from '../loader/loader.component';
+import { MessageComponent } from './core/components/message/message.component';
 import { PrimeNG } from 'primeng/config';
 import { APP_CONFIG } from './app.config';
-import { IAppConfig } from '../interfaces/IAppConfig';
+import { IAppConfig } from './core/interfaces/IAppConfig';
+import { LoaderComponent } from './core/components/loader/loader.component';
 
 @Component({
   selector: 'app-root',
