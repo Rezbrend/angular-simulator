@@ -85,8 +85,8 @@ export class AuthService {
     }
     return new Promise(resolve =>
       this.getUserWithAccessToken().subscribe({
-        next: () => { 
-          resolve(); 
+        next: () => {
+          resolve();
         },
         error: () => {
           this.authStateSubject.next(null);
