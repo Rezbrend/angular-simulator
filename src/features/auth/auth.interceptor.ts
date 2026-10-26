@@ -22,12 +22,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
     return EMPTY;
   };
 
-  const handleUnauthorized = (
-    error: HttpErrorResponse,
-    authService: AuthService,
-    router: Router,
-    next: HttpHandlerFn
-  ): Observable<HttpEvent<unknown>> => {
+  const handleUnauthorized = (): Observable<HttpEvent<unknown>> => {
     if (!authService.getRefreshToken()) {
       return logoutAndRedirect();
     }
@@ -43,7 +38,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
   return next(finalRequest).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
-        return handleUnauthorized(error, authService, router, next);
+        return handleUnauthorized();
       }
       return throwError(() => error);
     })
