@@ -76,13 +76,24 @@ export class AuthService {
         catchError(() => EMPTY)
       );
   }
-
-  initAuthState(): void {
+  
+  async initAuthState(): Promise<void> {
     const tokens: IAuthResponse | null = this.localStorageService.getItem<IAuthResponse>(this.LOCAL_STORAGE_KEY);
-
-    if (tokens?.accessToken && tokens?.refreshToken) {
-      this.getUserWithAccessToken().subscribe();
+    if (!tokens?.accessToken || !tokens?.refreshToken) {
+      this.authStateSubject.next(null);
+      return;
     }
+    return new Promise(resolve =>
+      this.getUserWithAccessToken().subscribe({
+        next: () => { 
+          resolve(); 
+        },
+        error: () => {
+          this.authStateSubject.next(null);
+          resolve();
+        }
+      })
+    );
   }
 
   private getUserWithAccessToken(): Observable<IAuthUser> {

@@ -63,8 +63,7 @@ export const appConfig: ApplicationConfig = {
     },
     provideAppInitializer(() => {
       const authService: AuthService = inject(AuthService);
-      authService.initAuthState();
-      return Promise.resolve();
+      return authService.initAuthState();
     }),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
