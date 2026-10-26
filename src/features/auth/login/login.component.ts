@@ -22,19 +22,37 @@ export class LoginComponent {
     username: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
+  
+  isLoading: boolean = false;
 
   onSubmit(): void {
-    this.authService.login(this.form.value)
-      .pipe(
-        tap(() => {
-          this.messageService.showSuccess('Вы вошли в систему');
-          this.router.navigate(['/']);
-        }),
-        catchError(() => {
-          this.messageService.showError('Неверный логин или пароль');
-          return EMPTY;
-        })
-      ).subscribe();
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.authService.login(this.form.value).pipe(
+      tap(() => {
+        this.messageService.showSuccess('Вы вошли в систему');
+        this.form.reset();
+        this.router.navigate(['/']);
+      }),
+      catchError((error) => {
+        let message: string = 'Произошла ошибка соединения';
+        
+        if (error.status === 401 || error.status === 403) {
+          message = 'Неверный логин или пароль';
+        } else if (error.status === 0) {
+          message = 'Нет соединения с сервером';
+        }
+
+        this.messageService.showError(message);
+        this.form.reset();
+        this.isLoading = false;
+        return EMPTY;
+      })
+    ).subscribe();
   }
 
 }

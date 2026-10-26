@@ -4,7 +4,7 @@ import { INavigationItem } from '../interfaces/INavigationItem';
 import { ToggleSwitchChangeEvent, ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faSun, faMoon, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faSun, faMoon, IconDefinition, faSignOutAlt, faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ThemeService } from '../theme.service';
 import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
@@ -27,11 +27,14 @@ export class HeaderComponent {
   private router: Router = inject(Router);
   faSun: IconDefinition = faSun;
   faMoon: IconDefinition = faMoon;
-  
+  faSignOutAlt: IconDefinition = faSignOutAlt;
+  faShoppingBasket: IconDefinition = faShoppingBasket;
+
   navigation: INavigationItem[] = [
     { label: 'Главная', link: '/' },
     { label: 'Пользователи', link: '/users' },
-    { label: 'Посты', link: '/posts' }
+    { label: 'Посты', link: '/posts' },
+    { label: 'Продукты', link: '/products' }
   ];
 
   readonly companyName: string = inject(APP_CONFIG).companyName;

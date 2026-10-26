@@ -1,0 +1,95 @@
+<div class="product-card-wrapper">
+  @if (product) {
+    <p-card class="product-card-header">
+      <ng-template pTemplate="title">
+        <div class="product-title-container flex items-center gap-4">
+          <div class="product-thumbnail-wrapper">
+            <img
+              [src]="product.thumbnail"
+              [alt]="product.title"
+              style="max-width: 200px; border-radius: 8px"
+            />
+          </div>
+          <div>
+            <h2 class="m-0">{{ product.title }}</h2>
+            <p class="m-0">
+              {{ 'PRODUCT_DETAIL.CATEGORY' | translate }}: {{ product.category }} |
+              {{ 'PRODUCT_DETAIL.BRAND' | translate }}: {{ product.brand }}
+            </p>
+          </div>
+        </div>
+      </ng-template>
+
+      <div class="product-details-grid grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <div class="product-description">
+            <p class="text-xl font-bold mb-4">
+              {{ 'PRODUCT_DETAIL.DESCRIPTION' | translate }}
+            </p>
+            <p class="line-height-16 color-333">{{ product.description }}</p>
+          </div>
+
+          <div class="product-stats-row flex flex-wrap gap-4 mt-6">
+            <div class="product-stat-item flex-1 min-w-[120px]">
+              <strong>{{ 'PRODUCT_DETAIL.PRICE' | translate }}:</strong> {{ product.price }}
+            </div>
+            <div class="product-stat-item flex-1 min-w-[120px]">
+              <strong>{{ 'PRODUCT_DETAIL.DISCOUNT' | translate }}:</strong>
+              {{ product.discountPercentage }}%
+            </div>
+            <div class="product-stat-item flex-1 min-w-[120px]">
+              <strong>{{ 'PRODUCT_DETAIL.RATING' | translate }}:</strong> {{ product.rating }}/5
+            </div>
+            <div class="product-stat-item flex-1 min-w-[120px]">
+              <strong>{{ 'PRODUCT_DETAIL.STOCK' | translate }}:</strong> {{ product.stock }} шт.
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-4">
+          <div class="cart-section">
+            <p-card
+              [header]="'PRODUCT_DETAIL.ADD_TO_CART' | translate"
+              class="border-none shadow-none p-0"
+            >
+              <p-inputNumber
+                [step]="1"
+                [showButtons]="true"
+                [disabled]="product.stock === 0"
+                [style]="{ width: '100%' }"
+              ></p-inputNumber>
+            </p-card>
+          </div>
+          <div class="specs-section">
+            <p-card
+              [header]="'PRODUCT_DETAIL.DIMENSIONS' | translate"
+              class="border-none shadow-none p-0"
+            >
+              <ul class="list-none p-0 m-0">
+                <li class="mb-3">
+                  <strong>{{ 'PRODUCT_DETAIL.DIMENSIONS' | translate }}:</strong>
+                  {{ product.dimensions.width }} x {{ product.dimensions.height }}
+                  {{ product.dimensions.unit }}
+                </li>
+                <li class="mb-3">
+                  <strong>{{ 'PRODUCT_DETAIL.WARRANTY' | translate }}:</strong>
+                  {{ product.warranty }}
+                </li>
+                <li class="mb-3">
+                  <strong>{{ 'PRODUCT_DETAIL.DELIVERY_TIME' | translate }}:</strong>
+                  {{ product.shipping.delivery.time.min }}-{{ product.shipping.delivery.time.max }}
+                  {{ product.shipping.delivery.time.unit }}
+                </li>
+                <li>
+                  <strong>{{ 'PRODUCT_DETAIL.INTERNATIONAL_DELIVERY' | translate }}:</strong>
+                  {{ product.shipping.delivery.international ? 'Да' : 'Нет' }}
+                </li>
+              </ul>
+            </p-card>
+          </div>
+        </div>
+      </div>
+    </p-card>
+  } @else {
+    <p-skeleton p-skeleton-custom height="400px"></p-skeleton>
+  }
+</div>

@@ -14,13 +14,15 @@ import { AuthService } from '../features/auth/auth.service';
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 import { InjectionToken } from '@angular/core';
 import { IAppConfig } from '../interfaces/IAppConfig';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { firstValueFrom } from 'rxjs';
 
 type ThemePresetType = typeof Aura | typeof Lara | typeof Nora;
 
 export const APP_CONFIG: InjectionToken<IAppConfig> = new InjectionToken<IAppConfig>('app.config');
 
 const initThemePreset = (): ThemePresetType => {
-
   const themeFromStorage: string | null = localStorage.getItem('theme');
   const savedTheme: Theme = themeFromStorage ? JSON.parse(themeFromStorage) : Theme.AURA;
 
@@ -34,23 +36,10 @@ const initThemePreset = (): ThemePresetType => {
   }
 };
 
-export const appConfigProviders = [
-  {
-    provide: APP_CONFIG,
-    useValue: {
-      companyName: 'РУМТИБЕТ',
-      enableLogs: true,
-      enableNotifications: true,
-      enableTheming: true,
-      sessionTimeout: 900,
-    },
-  },
-];
-
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
+    provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection(),
     provideHttpClient(withInterceptors([errorInterceptor, loggingInterceptor, authInterceptor])),
     providePrimeNG({
@@ -63,11 +52,27 @@ export const appConfig: ApplicationConfig = {
       provide: DATE_PIPE_DEFAULT_OPTIONS,
       useValue: { dateFormat: 'shortDate' },
     },
+    {
+      provide: APP_CONFIG,
+      useValue: {
+        companyName: 'РУМТИБЕТ',
+        enableLogs: true,
+        enableNotifications: true,
+        enableTheming: true,
+        sessionTimeout: 3600,
+      },
+    },
     provideAppInitializer(() => {
       const authService: AuthService = inject(AuthService);
-      authService.initialize();
-      return Promise.resolve();
+      return firstValueFrom(authService.initAuthState());
+    }),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: '/assets/i18n/', 
+        suffix: '.json',
+      }),
+      fallbackLang: 'ru',
+      lang: 'ru',
     }),
   ],
-  
 };
