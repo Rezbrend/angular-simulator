@@ -16,6 +16,7 @@ import { InjectionToken } from '@angular/core';
 import { IAppConfig } from '../interfaces/IAppConfig';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { firstValueFrom } from 'rxjs';
 
 type ThemePresetType = typeof Aura | typeof Lara | typeof Nora;
 
@@ -63,7 +64,7 @@ export const appConfig: ApplicationConfig = {
     },
     provideAppInitializer(() => {
       const authService: AuthService = inject(AuthService);
-      return authService.initAuthState();
+      return firstValueFrom(authService.initAuthState());
     }),
     provideTranslateService({
       loader: provideTranslateHttpLoader({
