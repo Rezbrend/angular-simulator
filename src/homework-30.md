@@ -41,3 +41,180 @@ Redux / NgRx: для текущего приложения такой подхо
 DDD: предметная область приложения не отличается высокой сложностью, бизнес‑правила минимальны. Основная функциональность сводится к CRUD‑операциям, поэтому внедрение DDD привело бы к созданию избыточных слоёв без практической пользы.
 TDD: данная методология ориентирована на разработку новых функций, а не на реорганизацию структуры файлов. Рефакторинг предполагает перемещение существующего кода без изменения его поведения, поэтому написание новых тестов целесообразно выделить в отдельную задачу.
 Дополнительные Facade‑классы поверх каждого сервиса: сервисы data‑access уже реализуют эту функцию. Добавление ещё одного слоя абстракции привело бы к избыточности (YAGNI).
+
+
+ДЕРЕВО ПРОЕКТА
+
+angular-simulator/
+├── .editorconfig
+├── .gitignore
+├── .prettierrc.json
+├── angular.json
+├── eslint.config.js
+├── homework-27.md
+├── homework-30.md
+├── index.html
+├── main.ts
+├── package-lock.json
+└── src/
+    └── app/
+        ├── app.component.html
+        ├── app.component.scss
+        ├── app.component.ts
+        ├── app.config.ts
+        ├── app.routes.ts
+        ├── assets/
+        ├── core/
+        │   ├── components/
+        │   │   ├── footer/
+        │   │   │   ├── footer.component.html
+        │   │   │   ├── footer.component.scss
+        │   │   │   └── footer.component.ts
+        │   │   ├── header/
+        │   │   │   ├── header.component.html
+        │   │   │   ├── header.component.scss
+        │   │   │   └── header.component.ts
+        │   │   ├── loader/
+        │   │   │   ├── loader.component.html
+        │   │   │   ├── loader.component.scss
+        │   │   │   └── loader.component.ts
+        │   │   ├── main-layout/
+        │   │   │   ├── main-layout.component.html
+        │   │   │   ├── main-layout.component.scss
+        │   │   │   └── main-layout.component.ts
+        │   │   ├── message/
+        │   │   │   ├── message.component.html
+        │   │   │   ├── message.component.scss
+        │   │   │   └── message.component.ts
+        │   │   └── not-found-page/
+        │   │       ├── not-found-page.component.html
+        │   │       ├── not-found-page.component.scss
+        │   │       └── not-found-page.component.ts
+        │   ├── enums/
+        │   │   ├── Language.ts
+        │   │   ├── MessageType.ts
+        │   │   ├── Theme.ts
+        │   │   └── UserRole.ts
+        │   ├── guards/
+        │   │   ├── admin.guard.ts
+        │   │   └── auth.guard.ts
+        │   ├── interceptors/
+        │   │   ├── auth.interceptor.ts
+        │   │   ├── error.interceptor.ts
+        │   │   └── logging.interceptor.ts
+        │   ├── interfaces/
+        │   │   ├── IAppConfig.ts
+        │   │   ├── IAuthResponse.ts
+        │   │   ├── IAuthUser.ts
+        │   │   ├── ILoginCredentials.ts
+        │   │   ├── IMessage.ts
+        │   │   ├── INavigationItem.ts
+        │   │   └── ITheme.ts
+        │   └── services/
+        │       ├── loader.service.ts
+        │       ├── local-storage.service.ts
+        │       ├── message-management.service.ts
+        │       └── theme.service.ts
+        ├── features/
+        │   ├── auth/
+        │   │   ├── login/
+        │   │   │   ├── login.component.html
+        │   │   │   ├── login.component.scss
+        │   │   │   └── login.component.ts
+        │   │   └── auth.service.ts
+        │   ├── home/
+        │   │   ├── home-page/
+        │   │   │   ├── home-page.component.html
+        │   │   │   ├── home-page.component.scss
+        │   │   │   └── home-page.component.ts
+        │   │   └── interfaces/
+        │   │       ├── IBlogCard.ts
+        │   │       ├── ICard.ts
+        │   │       └── IProgram.ts
+        │   ├── posts/
+        │   │   ├── post-create/
+        │   │   │   ├── post-create.component.html
+        │   │   │   ├── post-create.component.scss
+        │   │   │   └── post-create.component.ts
+        │   │   ├── post-detail/
+        │   │   │   ├── post-detail.component.html
+        │   │   │   ├── post-detail.component.scss
+        │   │   │   └── post-detail.component.ts
+        │   │   ├── post-edit-dialog/
+        │   │   │   ├── post-edit-dialog.component.html
+        │   │   │   ├── post-edit-dialog.component.scss
+        │   │   │   └── post-edit-dialog.component.ts
+        │   │   ├── posts/
+        │   │   │   ├── posts.component.html
+        │   │   │   ├── posts.component.scss
+        │   │   │   └── posts.component.ts
+        │   │   ├── interfaces/
+        │   │   │   ├── IPost.ts
+        │   │   │   ├── IPostEditFormValue.ts
+        │   │   │   └── IPostResponse.ts
+        │   │   ├── post-api.service.ts
+        │   │   ├── post.resolver.ts
+        │   │   └── post.service.ts
+        │   ├── products/
+        │   │   ├── cart/
+        │   │   │   ├── cart.component.html
+        │   │   │   ├── cart.component.scss
+        │   │   │   └── cart.component.ts
+        │   │   ├── enums/
+        │   │   │   ├── language.ts
+        │   │   │   ├── product-sort-field.ts
+        │   │   │   └── product-sort-order.ts
+        │   │   ├── interfaces/
+        │   │   │   ├── ICartItem.ts
+        │   │   │   ├── ICartResponse.ts
+        │   │   │   ├── ICategory.ts
+        │   │   │   ├── ILanguage.ts
+        │   │   │   ├── IProduct.ts
+        │   │   │   ├── IProductQueryParams.ts
+        │   │   │   ├── IProductResponse.ts
+        │   │   │   └── ISelectOption.ts
+        │   │   ├── product-detail/
+        │   │   │   ├── product-detail.component.html
+        │   │   │   ├── product-detail.component.scss
+        │   │   │   └── product-detail.component.ts
+        │   │   ├── products/
+        │   │   │   ├── products.component.html
+        │   │   │   ├── products.component.scss
+        │   │   │   └── products.component.ts
+        │   │   ├── cart.service.ts
+        │   │   ├── language.service.ts
+        │   │   ├── product-api.service.ts
+        │   │   ├── product.resolver.ts
+        │   │   └── product.service.ts
+        │   └── users/
+        │       ├── interfaces/
+        │       │   └── IUser.ts
+        │       ├── user-card/
+        │       │   ├── user-card.component.html
+        │       │   ├── user-card.component.scss
+        │       │   └── user-card.component.ts
+        │       ├── user-create/
+        │       │   ├── user-create.component.html
+        │       │   ├── user-create.component.scss
+        │       │   └── user-create.component.ts
+        │       ├── users-filter/
+        │       │   ├── users-filter.component.html
+        │       │   ├── users-filter.component.scss
+        │       │   └── users-filter.component.ts
+        │       ├── users-page/
+        │       │   ├── users-page.component.html
+        │       │   ├── users-page.component.scss
+        │       │   └── users-page.component.ts
+        │       ├── user-api.service.ts
+        │       └── user.service.ts
+        └── shared/
+            ├── directives/
+            │   ├── border.directive.ts
+            │   └── hover.directive.ts
+            ├── enums/
+            │   └── Color.ts
+            ├── interfaces/
+            │   └── IGradientConfiguration.ts
+            └── pipes/
+                ├── phone.pipe.ts
+                └── plural.pipe.ts
