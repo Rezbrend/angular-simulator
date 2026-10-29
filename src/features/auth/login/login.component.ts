@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../auth.service';
 import { catchError, EMPTY, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { MessageManagementService } from '../../../message-management.service';
+import { MessageManagementService } from '../../../app/core/services/message-management.service';
 
 @Component({
   selector: 'app-login',

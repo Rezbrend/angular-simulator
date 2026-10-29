@@ -3,7 +3,7 @@ import { BehaviorSubject, catchError, finalize, map, Observable, tap, throwError
 import { IPost } from './IPost';
 import { PostApiService } from './post-api.service';
 import { IPostResponce } from './IPostResponce';
-import { LoaderService } from '../../loader.service';
+import { LoaderService } from '../../app/core/services/loader.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({

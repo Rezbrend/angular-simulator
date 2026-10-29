@@ -14,8 +14,8 @@ import { AsyncPipe } from '@angular/common';
 import { IPostResponce } from '../IPostResponce';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { PostEditDialogComponent } from '../post-edit-dialog/post-edit-dialog.component';
-import { MessageManagementService } from '../../../message-management.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MessageManagementService } from '../../../app/core/services/message-management.service';
 
 @Component({
   selector: 'app-posts',

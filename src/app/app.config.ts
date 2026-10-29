@@ -3,20 +3,20 @@ import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { Theme } from '../enums/Theme';
+import { Theme } from './core/enums/Theme';
 import Aura from '@primeuix/themes/aura';
 import Nora from '@primeuix/themes/nora';
 import Lara from '@primeuix/themes/lara';
-import { errorInterceptor } from './error.interceptor';
-import { loggingInterceptor } from './logging.interceptor';
-import { authInterceptor } from '../features/auth/auth.interceptor';
+import { errorInterceptor } from './core/interceptors/error.interceptor';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { AuthService } from '../features/auth/auth.service';
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 import { InjectionToken } from '@angular/core';
-import { IAppConfig } from '../interfaces/IAppConfig';
+import { IAppConfig } from './core/interfaces/IAppConfig';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { firstValueFrom } from 'rxjs';
+import { loggingInterceptor } from './core/interceptors/logging.interceptor';
 
 type ThemePresetType = typeof Aura | typeof Lara | typeof Nora;
 

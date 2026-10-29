@@ -1,4 +1,4 @@
-import { Language } from '../../../enums/Language';
+import { Language } from '../../../app/core/enums/Language';
 
 export interface ILanguage {
   name: string;
