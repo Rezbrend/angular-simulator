@@ -17,6 +17,10 @@ import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { firstValueFrom } from 'rxjs';
 import { loggingInterceptor } from './core/interceptors/logging.interceptor';
+import { provideStore } from '@ngrx/store';
+import { RecipesEffect } from '../features/recipes/state/recipes.effect';
+import { recipesReducer } from '../features/recipes/state/recipes.reducer';
+import { provideEffects } from '@ngrx/effects';
 
 type ThemePresetType = typeof Aura | typeof Lara | typeof Nora;
 
@@ -74,5 +78,9 @@ export const appConfig: ApplicationConfig = {
       fallbackLang: 'ru',
       lang: 'ru',
     }),
+    provideStore({
+      recipes: recipesReducer,
+    }),
+    provideEffects([RecipesEffect]),
   ],
 };
