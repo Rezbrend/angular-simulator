@@ -24,11 +24,7 @@ export class RecipeComponent implements OnInit {
     this.loadRecipes();
   }
 
-  reloadRecipes(): void {
-    this.loadRecipes();
-  }
-
-  private loadRecipes(): void {
+  loadRecipes(): void {
     this.store.dispatch(recipeActions.loadRecipes());
   }
 

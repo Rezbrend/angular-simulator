@@ -1,7 +1,7 @@
 <div class="recipes-container">
   <div class="recipes-header">
     <h2 class="recipes-title">Рецепты</h2>
-    <button type="button" class="reload-button" (click)="reloadRecipes()" [disabled]="isLoading$ | async">Reload recipes</button>
+    <button type="button" class="reload-button" (click)="loadRecipes()" [disabled]="isLoading$ | async">Reload recipes</button>
   </div>
 
   @if (isLoading$ | async) {
