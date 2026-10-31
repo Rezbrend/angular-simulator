@@ -1,0 +1,47 @@
+<div class="recipes-container">
+  <div class="recipes-header">
+    <h2 class="recipes-title">Рецепты</h2>
+    <button type="button" class="reload-button" (click)="loadRecipes()" [disabled]="isLoading$ | async">Reload recipes</button>
+  </div>
+
+  @if (isLoading$ | async) {
+    <div class="status-message loading">Загрузка рецептов...</div>
+  }
+
+  @if (error$ | async) {
+    <div class="status-message error">Ошибка загрузки</div>
+  }
+
+  @if (recipes$ | async; as recipes) {
+    <div class="recipes-grid">
+      @for (recipe of recipes; track recipe.id) {
+        <article class="recipe-card">
+          @if (recipe.image) {
+            <img class="recipe-image" [src]="recipe.image" [alt]="recipe.name" loading="lazy" />
+          }
+          <div class="recipe-content">
+            <h3 class="recipe-name">{{ recipe.name }}</h3>
+            <div class="recipe-meta">
+              <div class="meta-row">
+                <span class="meta-label">Кухня:</span>
+                <span class="meta-value">{{ recipe.cuisine }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">Время приготовления:</span>
+                <span class="meta-value">{{ recipe.prepTimeMinutes }} мин.</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">Рейтинг:</span>
+                <span class="meta-value rating">★ {{ recipe.rating }}</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      } @empty {
+        @if ((isLoading$ | async) === false) {
+          <div class="status-message empty">Рецепты не найдены</div>
+        }
+      }
+    </div>
+  }
+</div>
